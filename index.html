@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Family Budget Tracker — Atur keuangan keluarga, datanya tetap milik Anda</title>
-<meta name="description" content="Catat keuangan keluarga otomatis dari notifikasi GoPay, OVO, DANA & bank. Data tersimpan di Google Sheets milik Anda sendiri — bukan server kami. Gratis, privat, offline-first.">
+<title>Family Budget Tracker — Uang masuk, langsung tercatat. Datanya tetap milikmu</title>
+<meta name="description" content="Catat pengeluaran keluarga secara otomatis dari notifikasi bank & e-wallet (GoPay, OVO, DANA, BCA). Semua data tersimpan aman di Google Sheets milikmu sendiri. Gratis selamanya, privat, offline.">
 <meta name="theme-color" content="#6541E8">
 <meta name="author" content="Family Budget Tracker">
 <link rel="canonical" href="https://benedict-erwin.github.io/fbt-web/">
@@ -13,19 +13,21 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Family Budget Tracker">
 <meta property="og:locale" content="id_ID">
-<meta property="og:title" content="Family Budget Tracker — Atur keuangan keluarga, datanya tetap milik Anda">
-<meta property="og:description" content="Catat keuangan keluarga otomatis dari notifikasi e-wallet & bank. Data di Google Sheets milik Anda sendiri. Gratis, privat, offline-first.">
+<meta property="og:title" content="Family Budget Tracker — Uang masuk, langsung tercatat. Datanya tetap milikmu">
+<meta property="og:description" content="Catat pengeluaran keluarga otomatis dari notifikasi bank & e-wallet. Semua data aman di Google Sheets milikmu sendiri. Gratis selamanya.">
 <meta property="og:url" content="https://benedict-erwin.github.io/fbt-web/">
 <meta property="og:image" content="https://benedict-erwin.github.io/fbt-web/screenshots/guide_07_home_dashboard_phone_large_light.png">
 <meta property="og:image:alt" content="Tampilan Beranda Family Budget Tracker">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Family Budget Tracker — datanya tetap milik Anda">
-<meta name="twitter:description" content="Catat keuangan keluarga otomatis dari notifikasi e-wallet & bank. Data di Google Sheets milik Anda sendiri. Gratis & privat.">
+<meta name="twitter:title" content="Family Budget Tracker — datanya tetap milikmu">
+<meta name="twitter:description" content="Catat pengeluaran keluarga otomatis dari notifikasi bank & e-wallet. Data aman di Google Sheets milikmu sendiri. Gratis selamanya.">
 <meta name="twitter:image" content="https://benedict-erwin.github.io/fbt-web/screenshots/guide_07_home_dashboard_phone_large_light.png">
 
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%236541E8'/%3E%3Ctext x='50' y='68' font-size='56' text-anchor='middle'%3E%F0%9F%92%B0%3C/text%3E%3C/svg%3E">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"MobileApplication","name":"Family Budget Tracker","operatingSystem":"Android","applicationCategory":"FinanceApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"IDR"},"description":"Aplikasi pencatatan keuangan keluarga privacy-first. Data di Google Sheets milik pengguna.","inLanguage":["id","en"]}
@@ -67,7 +69,7 @@ h1,h2,h3{line-height:1.15;letter-spacing:-.02em;font-weight:800}
 header{position:sticky;top:0;z-index:100;background:rgba(250,249,245,.85);backdrop-filter:saturate(180%) blur(12px);border-bottom:1px solid var(--line)}
 .nav{display:flex;align-items:center;justify-content:space-between;height:64px}
 .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;color:var(--text)}
-.brand .logo{width:34px;height:34px;border-radius:10px;background:var(--primary);display:grid;place-items:center;font-size:18px}
+.brand .logo{width:34px;height:34px;border-radius:9px;object-fit:cover;flex:0 0 auto}
 .nav-links{display:flex;align-items:center;gap:26px;list-style:none}
 .nav-links a{color:var(--text);font-weight:600;font-size:15px;opacity:.85}
 .nav-links a:hover{opacity:1;color:var(--primary)}
@@ -205,7 +207,7 @@ footer{background:#16132a;color:#cfcae6;padding:54px 0 30px;margin-top:60px}
 
 <header>
   <nav class="wrap nav">
-    <a class="brand" href="#top"><span class="logo">💰</span> Family Budget Tracker</a>
+    <a class="brand" href="#top"><img class="logo" src="icon-512.png" width="34" height="34" alt="Logo Family Budget Tracker"> Family Budget Tracker</a>
     <input type="checkbox" id="nav-toggle" hidden>
     <ul class="nav-links">
       <li><a href="#fitur">Fitur</a></li>
@@ -230,17 +232,16 @@ footer{background:#16132a;color:#cfcae6;padding:54px 0 30px;margin-top:60px}
 <section class="hero">
   <div class="wrap hero-grid">
     <div class="hero-text">
-      <h1>Notifikasi masuk, <span class="accent">transaksi tercatat.</span></h1>
-      <p class="lead">Catat keuangan keluarga otomatis dari notifikasi GoPay, OVO, DANA & bank. Tersimpan aman di Google Sheets milik Anda sendiri — bukan di server kami. Gratis, tanpa langganan.</p>
+      <h1>Uang masuk. <span class="accent">Langsung tercatat.</span> Tanpa ribet.</h1>
+      <p class="lead">Catat pengeluaran keluarga secara otomatis dari notifikasi bank dan e-wallet. Semua data tersimpan aman di Google Sheets milikmu sendiri. <b>Gratis selamanya.</b></p>
       <div class="hero-cta">
         <a class="btn btn-primary btn-lg" href="https://play.google.com/store/apps/details?id=com.familybudget.app" rel="noopener">▶ Download di Play Store</a>
         <a class="btn btn-ghost btn-lg" href="#fitur">Lihat fitur</a>
       </div>
       <div class="trust">
-        <span>🔒 Privacy-first</span>
-        <span>📴 Bisa offline</span>
-        <span>🇮🇩 Indonesia &amp; English</span>
-        <span>🆓 Gratis</span>
+        <span>🔒 Privasi terjaga</span>
+        <span>📴 Offline support</span>
+        <span>🆓 Tanpa iklan &amp; langganan</span>
       </div>
     </div>
     <div class="hero-media">
@@ -257,14 +258,14 @@ footer{background:#16132a;color:#cfcae6;padding:54px 0 30px;margin-top:60px}
   <div class="wrap">
     <div class="center">
       <p class="eyebrow">Mengapa aplikasi ini</p>
-      <h2 class="section-title">Dirancang untuk Anda yang lelah dengan pencatatan rumit</h2>
-      <p class="section-sub center">Bukan aplikasi keuangan "pro" yang rumit. Fokus pada satu hal: membantu Anda dan keluarga konsisten mencatat — hingga menjadi kebiasaan.</p>
+      <h2 class="section-title">Dirancang untuk keluarga biasa</h2>
+      <p class="section-sub center">Tiap hari notifikasi transaksi datang, tapi mencatatnya masih manual dan sering terlewat. App ini hadir untuk mengubah itu jadi jauh lebih mudah.</p>
     </div>
     <div class="cards">
-      <div class="card"><div class="ic">😮‍💨</div><h3>Malas mencatat, sering lupa</h3><p>Pencatatan otomatis dari notifikasi — Anda tidak perlu mengetik.</p></div>
-      <div class="card"><div class="ic">🛡️</div><h3>Khawatir data bocor</h3><p>Data sepenuhnya di Google Sheets milik Anda sendiri. Kami tidak menyimpan apa pun.</p></div>
-      <div class="card"><div class="ic">👨‍👩‍👧</div><h3>Sulit mengatur bersama keluarga</h3><p>Satu budget untuk sekeluarga — semua tersinkronisasi.</p></div>
-      <div class="card"><div class="ic">🎮</div><h3>Mencatat terasa membosankan</h3><p>Runtutan harian, pencapaian, dan rekap tahunan membuatnya menyenangkan.</p></div>
+      <div class="card"><div class="ic">😮‍💨</div><h3>Malas catat manual?</h3><p>Notifikasi masuk, transaksi otomatis tercatat. Kamu tinggal lihat sekilas saja.</p></div>
+      <div class="card"><div class="ic">🛡️</div><h3>Ingin privasi terjaga?</h3><p>Semua data disimpan di Google Sheets punya kamu sendiri. Tidak ada server luar yang menyimpan informasi keuanganmu.</p></div>
+      <div class="card"><div class="ic">👨‍👩‍👧</div><h3>Mau catat bareng keluarga?</h3><p>Satu budget untuk semua anggota keluarga. Bisa undang pasangan atau anak lewat link, masing-masing punya akses sesuai perannya.</p></div>
+      <div class="card"><div class="ic">🎮</div><h3>Mencatat terasa membosankan?</h3><p>Dibuat lebih ringan dengan gamifikasi sederhana: streak harian, level, papan peringkat keluarga, dan rekap seru di akhir tahun.</p></div>
     </div>
   </div>
 </section>
@@ -272,18 +273,13 @@ footer{background:#16132a;color:#cfcae6;padding:54px 0 30px;margin-top:60px}
 <!-- MARQUEE FEATURES -->
 <section class="section" id="fitur" style="padding-top:20px">
   <div class="wrap">
-    <div class="center"><p class="eyebrow">Fitur unggulan</p><h2 class="section-title">Semua yang Anda butuhkan untuk disiplin keuangan</h2></div>
+    <div class="center"><p class="eyebrow">Fitur utama</p><h2 class="section-title">Semua yang kamu butuhkan untuk disiplin keuangan</h2></div>
 
     <div class="feature-row">
       <div class="feat-text">
         <span class="tag">🔔 Otomatis</span>
-        <h3>Catat otomatis dari notifikasi</h3>
-        <p>Notifikasi pembayaran masuk, transaksi langsung tercatat. Tidak perlu lagi mengetik manual.</p>
-        <ul class="feat-list">
-          <li>Baca notif e-wallet &amp; bank (GoPay, OVO, DANA, ShopeePay, BCA, BRI, Mandiri…)</li>
-          <li>Pintar bedakan transaksi vs promo — iklan/diskon otomatis diabaikan</li>
-          <li>Yang belum pasti masuk ke daftar "Tertunda" untuk ditinjau dengan sekali usap</li>
-        </ul>
+        <h3>Catatan otomatis dari notifikasi</h3>
+        <p>Mendukung GoPay, OVO, DANA, ShopeePay, BCA, BRI, Mandiri, dan banyak bank lainnya. Transaksi promo otomatis dibedakan, yang kurang jelas masuk ke daftar "Tertunda" supaya mudah dicek.</p>
       </div>
       <div class="feat-media"><div class="phone phone-tilt"><img src="screenshots/guide_19_pending_list_phone_large_light.png" width="1080" height="2340" alt="Notifikasi pembayaran terdeteksi jadi transaksi pending" loading="lazy"></div></div>
     </div>
@@ -291,13 +287,12 @@ footer{background:#16132a;color:#cfcae6;padding:54px 0 30px;margin-top:60px}
     <div class="feature-row">
       <div class="feat-text">
         <span class="tag">🔒 Privasi</span>
-        <h3>Data keuangan = milik Anda sepenuhnya</h3>
-        <p>Privacy-first. Tersimpan di Google Sheets milik Anda, bukan server kami.</p>
+        <h3>Privasi jadi prioritas</h3>
         <ul class="feat-list">
-          <li>Tidak ada server developer yang menyimpan keuangan Anda</li>
-          <li>Database di HP dienkripsi (AES-256)</li>
-          <li>Izin Google seminimal mungkin (hanya file yang dibuat app)</li>
-          <li>Buka spreadsheet-nya kapan saja dari Google Drive</li>
+          <li>Data hanya ada di Google Sheets milikmu</li>
+          <li>Enkripsi di perangkat</li>
+          <li>Bisa dibuka kapan saja lewat Google Drive</li>
+          <li>Akses minimal ke Google</li>
         </ul>
       </div>
       <div class="feat-media"><div class="phone phone-tilt"><img src="screenshots/guide_44_about_phone_large_light.png" width="1080" height="2340" alt="Halaman tentang &amp; privasi aplikasi" loading="lazy"></div></div>
@@ -306,14 +301,8 @@ footer{background:#16132a;color:#cfcae6;padding:54px 0 30px;margin-top:60px}
     <div class="feature-row">
       <div class="feat-text">
         <span class="tag">👨‍👩‍👧 Keluarga</span>
-        <h3>Satu budget, sekeluarga</h3>
-        <p>Suami, istri, anak — catat bersama, lihat bersama.</p>
-        <ul class="feat-list">
-          <li>Mode Keluarga, Personal, atau Grup</li>
-          <li>Undang anggota cukup bagikan link</li>
-          <li>Peran berbeda: orang tua akses penuh, anak terbatas</li>
-          <li>Semua tersinkronisasi otomatis melalui satu spreadsheet</li>
-        </ul>
+        <h3>Budget keluarga yang sinkron</h3>
+        <p>Undang keluarga, atur budget bersama, dan pantau realisasi secara real-time.</p>
       </div>
       <div class="feat-media"><div class="phone phone-tilt"><img src="screenshots/guide_26_family_invite_phone_large_light.png" width="1080" height="2340" alt="Undang anggota keluarga via link" loading="lazy"></div></div>
     </div>
@@ -321,13 +310,12 @@ footer{background:#16132a;color:#cfcae6;padding:54px 0 30px;margin-top:60px}
     <div class="feature-row">
       <div class="feat-text">
         <span class="tag">🎮 Kebiasaan</span>
-        <h3>Mencatat keuangan jadi kebiasaan menyenangkan</h3>
-        <p>Membangun kebiasaan melalui gamifikasi yang benar-benar menyenangkan.</p>
+        <h3>Mencatat jadi lebih menyenangkan</h3>
         <ul class="feat-list">
-          <li>Runtutan harian (streak) dengan toleransi 1 hari, agar tidak mudah terputus</li>
-          <li>29 pencapaian + level (Budget Beginner → Budget Legend)</li>
-          <li>Papan peringkat keluarga — siapa yang paling rajin?</li>
-          <li>Budget Wrap akhir tahun — rekap ala Spotify Wrapped, 14 slide</li>
+          <li>Streak harian dengan toleransi</li>
+          <li>Level dan pencapaian</li>
+          <li>Leaderboard antar anggota keluarga</li>
+          <li>Budget Wrapped akhir tahun</li>
         </ul>
       </div>
       <div class="feat-media"><div class="phone phone-tilt"><img src="screenshots/guide_37_streak_phone_large_light.png" width="1080" height="2340" alt="Streak dan progres gamifikasi di Beranda" loading="lazy"></div></div>
@@ -335,33 +323,11 @@ footer{background:#16132a;color:#cfcae6;padding:54px 0 30px;margin-top:60px}
 
     <div class="feature-row">
       <div class="feat-text">
-        <span class="tag">🎯 All-in-one</span>
-        <h3>Semua keuangan dalam satu app</h3>
-        <p>Lebih dari sekadar catat — kelola seluruhnya.</p>
-        <ul class="feat-list">
-          <li>Budget per kategori dengan peringatan saat hampir terlampaui</li>
-          <li>Target Tabungan dengan progress &amp; deadline</li>
-          <li>Dompet &amp; saldo e-wallet yang diperbarui otomatis</li>
-          <li>Utang/piutang &amp; cicilan dengan pengingat jatuh tempo</li>
-          <li>Transaksi rutin (gaji, tagihan) — otomatis atau diingatkan</li>
-        </ul>
+        <span class="tag">🎯 Lengkap</span>
+        <h3>Kelola keuangan lengkap</h3>
+        <p>Budget bulanan, target tabungan, utang-piutang, cicilan, saldo e-wallet, laporan grafik, dan transaksi rutin — semuanya dalam satu tempat.</p>
       </div>
       <div class="feat-media"><div class="phone phone-tilt"><img src="screenshots/guide_28_budget_list_phone_large_light.png" width="1080" height="2340" alt="Budget per kategori dengan progress bar" loading="lazy"></div></div>
-    </div>
-
-    <div class="feature-row">
-      <div class="feat-text">
-        <span class="tag">📊 Laporan</span>
-        <h3>Pahami ke mana uang Anda mengalir</h3>
-        <p>Laporan visual yang mudah dimengerti.</p>
-        <ul class="feat-list">
-          <li>Grafik kategori (pie), tren bulanan, perbandingan bulan</li>
-          <li>Budget vs realisasi</li>
-          <li>Multi-currency (IDR, USD, SGD, dll)</li>
-          <li>Export ke CSV kapan pun butuh</li>
-        </ul>
-      </div>
-      <div class="feat-media"><div class="phone phone-tilt"><img src="screenshots/guide_23_reports_overview_phone_large_light.png" width="1080" height="2340" alt="Laporan keuangan dengan grafik" loading="lazy"></div></div>
     </div>
   </div>
 </section>
@@ -369,18 +335,14 @@ footer{background:#16132a;color:#cfcae6;padding:54px 0 30px;margin-top:60px}
 <!-- FEATURE GRID -->
 <section class="section" style="padding-top:0">
   <div class="wrap">
-    <div class="center"><h2 class="section-title">Detail kecil yang membuat nyaman</h2></div>
+    <div class="center"><h2 class="section-title">Yang bikin nyaman dipakai sehari-hari</h2></div>
     <div class="grid-feats">
-      <div class="gf"><span class="ic">📴</span><div><b>Offline-first</b><span>Catat tanpa internet, sinkronisasi otomatis saat daring</span></div></div>
-      <div class="gf"><span class="ic">🌗</span><div><b>Tema terang/gelap</b><span>Atau ikuti sistem</span></div></div>
-      <div class="gf"><span class="ic">🇮🇩</span><div><b>Bilingual</b><span>Indonesia &amp; English</span></div></div>
-      <div class="gf"><span class="ic">⏰</span><div><b>Pengingat harian</b><span>Agar tidak lupa mencatat</span></div></div>
-      <div class="gf"><span class="ic">♻️</span><div><b>Recovery otomatis</b><span>Ganti HP, data balik dari Sheets</span></div></div>
-      <div class="gf"><span class="ic">🗂️</span><div><b>Kategori custom</b><span>Parent + sub-kategori &amp; emoji</span></div></div>
-      <div class="gf"><span class="ic">🔁</span><div><b>Transaksi rutin</b><span>Mode auto / reminder</span></div></div>
-      <div class="gf"><span class="ic">🔎</span><div><b>Riwayat &amp; filter</b><span>Search + filter canggih</span></div></div>
-      <div class="gf"><span class="ic">🧾</span><div><b>Audit log</b><span>Semua perubahan tercatat</span></div></div>
-      <div class="gf"><span class="ic">💸</span><div><b>Multi-currency</b><span>20 mata uang</span></div></div>
+      <div class="gf"><span class="ic">📴</span><div><b>Bisa offline</b><span>Sinkron otomatis saat online</span></div></div>
+      <div class="gf"><span class="ic">🌗</span><div><b>Dua mode tampilan</b><span>Terang &amp; gelap</span></div></div>
+      <div class="gf"><span class="ic">🇮🇩</span><div><b>Bilingual</b><span>Bahasa Indonesia &amp; Inggris</span></div></div>
+      <div class="gf"><span class="ic">📱</span><div><b>Mudah ganti HP</b><span>Tanpa kehilangan data</span></div></div>
+      <div class="gf"><span class="ic">🗂️</span><div><b>Kategori bebas</b><span>Lengkap dengan emoji</span></div></div>
+      <div class="gf"><span class="ic">🔎</span><div><b>Filter &amp; pencarian</b><span>Lengkap dan cepat</span></div></div>
     </div>
   </div>
 </section>
@@ -390,11 +352,11 @@ footer{background:#16132a;color:#cfcae6;padding:54px 0 30px;margin-top:60px}
   <div class="wrap">
     <div class="security">
       <p class="eyebrow" style="color:#c9b8ff">Aman &amp; privat</p>
-      <h2 class="section-title">Keuangan Anda terlalu penting untuk dititipkan ke server pihak lain</h2>
+      <h2 class="section-title">Keuanganmu terlalu penting untuk dititipkan ke server pihak lain</h2>
       <p class="section-sub">Privasi bukan sekadar fitur tambahan — ini fondasi aplikasi kami.</p>
       <div class="sec-grid">
         <div class="sec-item"><b>🔐 Database terenkripsi</b><span>AES-256 (SQLCipher), kunci di Android Keystore</span></div>
-        <div class="sec-item"><b>☁️ Data di Drive Anda</b><span>Google Sheets milik Anda — bukan server developer</span></div>
+        <div class="sec-item"><b>☁️ Data di Drive-mu</b><span>Google Sheets milikmu — bukan server developer</span></div>
         <div class="sec-item"><b>🎫 Izin Google minimal</b><span>Hanya file yang dibuat app ini (drive.file)</span></div>
         <div class="sec-item"><b>🚫 Tanpa iklan &amp; tracking</b><span>Tidak ada analytics, tidak jual data</span></div>
         <div class="sec-item"><b>🧹 Sign-out = hapus tuntas</b><span>Semua data lokal dibersihkan saat keluar</span></div>
@@ -410,7 +372,7 @@ footer{background:#16132a;color:#cfcae6;padding:54px 0 30px;margin-top:60px}
     <div class="center"><h2 class="section-title">Mengapa memilih kami?</h2></div>
     <div class="badges">
       <div class="badge"><div class="ic">🆓</div><b>Gratis</b><span>Tanpa langganan, tanpa biaya tersembunyi</span></div>
-      <div class="badge"><div class="ic">🗄️</div><b>Tanpa server</b><span>Data Anda di Google Sheets milik Anda sendiri</span></div>
+      <div class="badge"><div class="ic">🗄️</div><b>Tanpa server</b><span>Datamu di Google Sheets milikmu sendiri</span></div>
       <div class="badge"><div class="ic">🔔</div><b>Otomatis</b><span>Dari notifikasi, tanpa perlu mengetik</span></div>
       <div class="badge"><div class="ic">👨‍👩‍👧</div><b>Untuk keluarga</b><span>Multi-peran, satu budget bersama</span></div>
       <div class="badge"><div class="ic">🔒</div><b>Privat &amp; aman</b><span>Terenkripsi, scope minimal</span></div>
@@ -454,7 +416,7 @@ footer{background:#16132a;color:#cfcae6;padding:54px 0 30px;margin-top:60px}
 <section class="wrap">
   <div class="cta-band">
     <h2>Mulai mencatat hari ini.</h2>
-    <p>Gratis, privat, dan menyenangkan. Keuangan keluarga Anda — datanya tetap milik Anda.</p>
+    <p>App ini dibuat supaya mencatat keuangan keluarga jadi lebih mudah, lebih aman, dan lebih konsisten — tanpa biaya, tanpa iklan, dan tanpa khawatir data dipakai orang lain.<br><b>Gratis. Privasi terjaga. Cocok buat keluarga.</b></p>
     <a class="btn btn-primary btn-lg" href="https://play.google.com/store/apps/details?id=com.familybudget.app" rel="noopener">▶ Download di Play Store</a>
   </div>
 </section>
@@ -536,7 +498,7 @@ footer{background:#16132a;color:#cfcae6;padding:54px 0 30px;margin-top:60px}
 <footer>
   <div class="wrap foot-grid">
     <div class="foot-brand">
-      <a class="brand" href="#top" style="color:#fff"><span class="logo">💰</span> Family Budget Tracker</a>
+      <a class="brand" href="#top" style="color:#fff"><img class="logo" src="icon-512.png" width="34" height="34" alt="Logo Family Budget Tracker"> Family Budget Tracker</a>
       <p>Aplikasi pencatatan keuangan keluarga yang mengutamakan privasi. Data Anda disimpan di Google Sheets milik Anda sendiri.</p>
     </div>
     <div>

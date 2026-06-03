@@ -76,6 +76,7 @@ img { max-width: 100%; height: auto; }
 
 .navbar-logo:hover { text-decoration: none; }
 .navbar-logo span { font-size: 22px; }
+.navbar-logo img { width: 28px; height: 28px; border-radius: 7px; }
 
 .navbar-links {
     display: flex;
