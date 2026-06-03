@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kebijakan Privasi — Family Budget Tracker</title>
+    <meta name="theme-color" content="#6B4DFF">
+    <meta name="description" content="Kebijakan privasi Family Budget Tracker. Data keuangan Anda disimpan di Google Sheets milik Anda sendiri, bukan di server kami.">
+    <meta name="keywords" content="privacy policy, kebijakan privasi, family budget tracker, google sheets, data privacy">
+    <link rel="canonical" href="https://benedict-erwin.github.io/fbt-web/privacy-policy.html">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Privacy Policy — Family Budget Tracker">
+    <meta property="og:description" content="Your financial data is stored in your own Google Sheets, not on our servers.">
+    <meta property="og:url" content="https://benedict-erwin.github.io/fbt-web/privacy-policy.html">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Privacy Policy — Family Budget Tracker">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💰</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/common.css">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+    <a href="index.html" class="navbar-logo"><span>💰</span> Family Budget Tracker</a>
+    <ul class="navbar-links">
+        <li><a href="index.html" data-i18n="nav_home">Beranda</a></li>
+        <li><a href="user-guide.html" data-i18n="nav_guide">Panduan</a></li>
+        <li><a href="privacy-policy.html" class="active" data-i18n="nav_privacy">Privasi</a></li>
+        <li><a href="terms-of-service.html" data-i18n="nav_tos">Ketentuan</a></li>
+        <li><a href="support.html" data-i18n="nav_support">Bantuan</a></li>
+    </ul>
+    <div class="navbar-actions">
+        <button class="lang-toggle" id="langToggle" onclick="toggleLanguage()">EN</button>
+    </div>
+    <button class="navbar-burger" onclick="toggleNav()" aria-label="Menu">&#9776;</button>
+</nav>
+
+<main class="main-content">
+
+    <div class="page-header">
+        <h1 data-i18n="pp_title">Kebijakan Privasi</h1>
+        <p data-i18n="pp_updated">Terakhir diperbarui: Januari 2026</p>
+    </div>
+
+    <div class="container">
+        <div class="card prose">
+
+            <h2 data-i18n="pp_summary_h">Ringkasan</h2>
+            <p data-i18n="pp_summary">Family Budget Tracker adalah aplikasi pencatatan keuangan yang mengutamakan privasi. Data keuangan Anda disimpan di Google Sheets milik Anda sendiri, bukan di server kami.</p>
+
+            <h2 data-i18n="pp_data_h">Data yang Kami Akses</h2>
+
+            <h3 data-i18n="pp_data1_h">1. Google Account</h3>
+            <ul>
+                <li data-i18n="pp_data1_1">Kami menggunakan Google Sign-In untuk autentikasi</li>
+                <li data-i18n="pp_data1_2">Kami hanya mengakses: nama, email, dan foto profil</li>
+                <li data-i18n="pp_data1_3">Akses ini diperlukan untuk mengidentifikasi pengguna dan mengelola Google Sheets</li>
+            </ul>
+
+            <h3 data-i18n="pp_data2_h">2. Google Sheets</h3>
+            <ul>
+                <li data-i18n="pp_data2_1">Aplikasi membuat dan mengakses spreadsheet di Google Drive Anda</li>
+                <li data-i18n="pp_data2_2">Spreadsheet berisi data transaksi, kategori, dan pengaturan budget</li>
+                <li data-i18n="pp_data2_3">Data ini sepenuhnya milik Anda dan tersimpan di akun Google Anda</li>
+            </ul>
+
+            <h3 data-i18n="pp_data3_h">3. Notifikasi Perangkat</h3>
+            <ul>
+                <li data-i18n="pp_data3_1">Jika diizinkan, aplikasi membaca notifikasi dari aplikasi pembayaran (GoPay, OVO, dll)</li>
+                <li data-i18n="pp_data3_2">Notifikasi diproses secara lokal di perangkat untuk mendeteksi transaksi</li>
+                <li data-i18n="pp_data3_3">Data notifikasi TIDAK dikirim ke server manapun</li>
+            </ul>
+
+            <h2 data-i18n="pp_not_h">Data yang Kami TIDAK Kumpulkan</h2>
+            <ul>
+                <li data-i18n="pp_not_1">Kami tidak memiliki server yang menyimpan data keuangan Anda</li>
+                <li data-i18n="pp_not_2">Kami tidak menggunakan analytics atau tracking</li>
+                <li data-i18n="pp_not_3">Kami tidak menampilkan iklan</li>
+                <li data-i18n="pp_not_4">Kami tidak menjual data Anda kepada pihak ketiga</li>
+            </ul>
+
+            <h2 data-i18n="pp_bug_h">Laporan Bug (Opsional)</h2>
+            <p data-i18n="pp_bug_intro">Jika Anda mengirim laporan bug melalui fitur "Laporkan Bug":</p>
+            <ul>
+                <li data-i18n="pp_bug_1">Deskripsi masalah yang Anda tulis</li>
+                <li data-i18n="pp_bug_2">Informasi perangkat (model, versi Android)</li>
+                <li data-i18n="pp_bug_3">Screenshot (jika Anda lampirkan)</li>
+                <li data-i18n="pp_bug_4">Log aplikasi (jika Anda centang opsinya)</li>
+            </ul>
+            <p data-i18n="pp_bug_note">Laporan dikirim ke Discord developer dan hanya digunakan untuk memperbaiki bug.</p>
+
+            <h2 data-i18n="pp_security_h">Keamanan Data</h2>
+            <ul>
+                <li data-i18n="pp_security_1">Data tersimpan di infrastruktur Google yang aman</li>
+                <li data-i18n="pp_security_2">Akses ke spreadsheet dikontrol oleh pengaturan berbagi Google Drive Anda</li>
+                <li data-i18n="pp_security_3">Kami tidak dapat mengakses data Anda tanpa izin eksplisit dari Anda</li>
+            </ul>
+
+            <h2 data-i18n="pp_rights_h">Hak Anda</h2>
+            <ul>
+                <li data-i18n="pp_rights_1">Anda dapat menghapus data kapan saja dengan menghapus spreadsheet dari Google Drive</li>
+                <li data-i18n="pp_rights_2">Anda dapat mencabut akses aplikasi melalui pengaturan Google Account</li>
+                <li data-i18n="pp_rights_3">Anda dapat menghapus aplikasi tanpa kehilangan data (data tetap di Google Sheets)</li>
+            </ul>
+
+            <h2 data-i18n="pp_contact_h">Kontak</h2>
+            <p data-i18n="pp_contact">Jika ada pertanyaan tentang kebijakan privasi ini, hubungi developer melalui fitur "Laporkan Bug" di aplikasi.</p>
+
+        </div>
+    </div>
+
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-content">
+        <div>
+            <h3>Family Budget Tracker</h3>
+            <p data-i18n="footer_desc">Aplikasi pencatatan keuangan keluarga yang mengutamakan privasi. Data Anda disimpan di Google Sheets milik Anda sendiri.</p>
+        </div>
+        <div>
+            <h3 data-i18n="footer_links">Tautan</h3>
+            <ul class="footer-links">
+                <li><a href="user-guide.html" data-i18n="nav_guide">Panduan</a></li>
+                <li><a href="privacy-policy.html" data-i18n="nav_privacy">Privasi</a></li>
+                <li><a href="terms-of-service.html" data-i18n="nav_tos">Ketentuan</a></li>
+                <li><a href="support.html" data-i18n="nav_support">Bantuan</a></li>
+            </ul>
+        </div>
+        <div>
+            <h3 data-i18n="footer_download">Unduh</h3>
+            <ul class="footer-links">
+                <li><a href="https://play.google.com/store/apps/details?id=com.familybudget.app">Google Play Store</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        &copy; 2026 Family Budget Tracker. All rights reserved.
+    </div>
+</footer>
+
+<!-- i18n Data -->
+<script>
+window.i18n = {
+    id: {
+        nav_home: 'Beranda', nav_guide: 'Panduan', nav_privacy: 'Privasi', nav_tos: 'Ketentuan', nav_support: 'Bantuan',
+        pp_title: 'Kebijakan Privasi',
+        pp_updated: 'Terakhir diperbarui: Januari 2026',
+        pp_summary_h: 'Ringkasan',
+        pp_summary: 'Family Budget Tracker adalah aplikasi pencatatan keuangan yang mengutamakan privasi. Data keuangan Anda disimpan di Google Sheets milik Anda sendiri, bukan di server kami.',
+        pp_data_h: 'Data yang Kami Akses',
+        pp_data1_h: '1. Google Account',
+        pp_data1_1: 'Kami menggunakan Google Sign-In untuk autentikasi',
+        pp_data1_2: 'Kami hanya mengakses: nama, email, dan foto profil',
+        pp_data1_3: 'Akses ini diperlukan untuk mengidentifikasi pengguna dan mengelola Google Sheets',
+        pp_data2_h: '2. Google Sheets',
+        pp_data2_1: 'Aplikasi membuat dan mengakses spreadsheet di Google Drive Anda',
+        pp_data2_2: 'Spreadsheet berisi data transaksi, kategori, dan pengaturan budget',
+        pp_data2_3: 'Data ini sepenuhnya milik Anda dan tersimpan di akun Google Anda',
+        pp_data3_h: '3. Notifikasi Perangkat',
+        pp_data3_1: 'Jika diizinkan, aplikasi membaca notifikasi dari aplikasi pembayaran (GoPay, OVO, dll)',
+        pp_data3_2: 'Notifikasi diproses secara lokal di perangkat untuk mendeteksi transaksi',
+        pp_data3_3: 'Data notifikasi TIDAK dikirim ke server manapun',
+        pp_not_h: 'Data yang Kami TIDAK Kumpulkan',
+        pp_not_1: 'Kami tidak memiliki server yang menyimpan data keuangan Anda',
+        pp_not_2: 'Kami tidak menggunakan analytics atau tracking',
+        pp_not_3: 'Kami tidak menampilkan iklan',
+        pp_not_4: 'Kami tidak menjual data Anda kepada pihak ketiga',
+        pp_bug_h: 'Laporan Bug (Opsional)',
+        pp_bug_intro: 'Jika Anda mengirim laporan bug melalui fitur "Laporkan Bug":',
+        pp_bug_1: 'Deskripsi masalah yang Anda tulis',
+        pp_bug_2: 'Informasi perangkat (model, versi Android)',
+        pp_bug_3: 'Screenshot (jika Anda lampirkan)',
+        pp_bug_4: 'Log aplikasi (jika Anda centang opsinya)',
+        pp_bug_note: 'Laporan dikirim ke Discord developer dan hanya digunakan untuk memperbaiki bug.',
+        pp_security_h: 'Keamanan Data',
+        pp_security_1: 'Data tersimpan di infrastruktur Google yang aman',
+        pp_security_2: 'Akses ke spreadsheet dikontrol oleh pengaturan berbagi Google Drive Anda',
+        pp_security_3: 'Kami tidak dapat mengakses data Anda tanpa izin eksplisit dari Anda',
+        pp_rights_h: 'Hak Anda',
+        pp_rights_1: 'Anda dapat menghapus data kapan saja dengan menghapus spreadsheet dari Google Drive',
+        pp_rights_2: 'Anda dapat mencabut akses aplikasi melalui pengaturan Google Account',
+        pp_rights_3: 'Anda dapat menghapus aplikasi tanpa kehilangan data (data tetap di Google Sheets)',
+        pp_contact_h: 'Kontak',
+        pp_contact: 'Jika ada pertanyaan tentang kebijakan privasi ini, hubungi developer melalui fitur "Laporkan Bug" di aplikasi.',
+        footer_desc: 'Aplikasi pencatatan keuangan keluarga yang mengutamakan privasi. Data Anda disimpan di Google Sheets milik Anda sendiri.',
+        footer_links: 'Tautan', footer_download: 'Unduh'
+    },
+    en: {
+        nav_home: 'Home', nav_guide: 'User Guide', nav_privacy: 'Privacy', nav_tos: 'Terms', nav_support: 'Support',
+        pp_title: 'Privacy Policy',
+        pp_updated: 'Last updated: January 2026',
+        pp_summary_h: 'Summary',
+        pp_summary: 'Family Budget Tracker is a privacy-first financial tracking app. Your financial data is stored in your own Google Sheets, not on our servers.',
+        pp_data_h: 'Data We Access',
+        pp_data1_h: '1. Google Account',
+        pp_data1_1: 'We use Google Sign-In for authentication',
+        pp_data1_2: 'We only access: name, email, and profile photo',
+        pp_data1_3: 'This access is required to identify users and manage Google Sheets',
+        pp_data2_h: '2. Google Sheets',
+        pp_data2_1: 'The app creates and accesses spreadsheets in your Google Drive',
+        pp_data2_2: 'Spreadsheets contain transaction data, categories, and budget settings',
+        pp_data2_3: 'This data is entirely yours and stored in your Google account',
+        pp_data3_h: '3. Device Notifications',
+        pp_data3_1: 'If permitted, the app reads notifications from payment apps (GoPay, OVO, etc.)',
+        pp_data3_2: 'Notifications are processed locally on your device to detect transactions',
+        pp_data3_3: 'Notification data is NOT sent to any server',
+        pp_not_h: 'Data We DO NOT Collect',
+        pp_not_1: 'We do not have servers storing your financial data',
+        pp_not_2: 'We do not use analytics or tracking',
+        pp_not_3: 'We do not display advertisements',
+        pp_not_4: 'We do not sell your data to third parties',
+        pp_bug_h: 'Bug Reports (Optional)',
+        pp_bug_intro: 'If you submit a bug report through the "Report Bug" feature:',
+        pp_bug_1: 'The problem description you write',
+        pp_bug_2: 'Device information (model, Android version)',
+        pp_bug_3: 'Screenshot (if you attach one)',
+        pp_bug_4: 'App logs (if you check the option)',
+        pp_bug_note: 'Reports are sent to the developer\'s Discord and only used to fix bugs.',
+        pp_security_h: 'Data Security',
+        pp_security_1: 'Data is stored on Google\'s secure infrastructure',
+        pp_security_2: 'Access to spreadsheets is controlled by your Google Drive sharing settings',
+        pp_security_3: 'We cannot access your data without your explicit permission',
+        pp_rights_h: 'Your Rights',
+        pp_rights_1: 'You can delete your data anytime by deleting the spreadsheet from Google Drive',
+        pp_rights_2: 'You can revoke app access through Google Account settings',
+        pp_rights_3: 'You can uninstall the app without losing data (data remains in Google Sheets)',
+        pp_contact_h: 'Contact',
+        pp_contact: 'If you have questions about this privacy policy, contact the developer through the "Report Bug" feature in the app.',
+        footer_desc: 'A privacy-first family financial tracking app. Your data is stored in your own Google Sheets.',
+        footer_links: 'Links', footer_download: 'Download'
+    }
+};
+</script>
+<script src="js/common.js"></script>
+
+</body>
+</html>

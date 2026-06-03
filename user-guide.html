@@ -1,0 +1,2826 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Pengguna — Family Budget Tracker</title>
+    <meta name="theme-color" content="#6B4DFF">
+    <meta name="description" content="Panduan lengkap cara menggunakan aplikasi Family Budget Tracker">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💰</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ===== CSS Reset & Base ===== */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            /* App Theme — Ivy Wallet Style */
+            --primary: #6B4DFF;
+            --primary-light: #8B71FF;
+            --primary-dark: #5038CC;
+            --primary-bg: #F0EDFF;
+
+            /* Semantic Colors */
+            --green: #14CC9E;
+            --green-light: #E8FBF6;
+            --orange: #FFC44D;
+            --orange-light: #FFF8E7;
+            --red: #FF4D6B;
+            --red-light: #FFEBEE;
+
+            /* Neutrals */
+            --bg: #FAFAFA;
+            --bg-card: #FFFFFF;
+            --surface: #FFFFFF;
+            --medium-white: #EFEEF0;
+            --text: #111114;
+            --text-secondary: #939199;
+            --text-light: #FFFFFF;
+            --border: #EFEEF0;
+            --shadow: 0 2px 8px rgba(107,77,255,0.06);
+            --shadow-lg: 0 4px 20px rgba(107,77,255,0.12);
+            --radius: 16px;
+            --radius-sm: 8px;
+            --radius-lg: 24px;
+            --sidebar-width: 280px;
+            --header-height: 64px;
+        }
+
+        html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        /* ===== Header ===== */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            z-index: 1000;
+            box-shadow: 0 2px 12px rgba(107,77,255,0.2);
+        }
+
+        .header-burger {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 8px;
+            margin-right: 12px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .header-burger:hover { background: rgba(255,255,255,0.15); }
+
+        .header-logo {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        .header-logo span { opacity: 0.8; font-weight: 400; }
+
+        .header-badge {
+            margin-left: 12px;
+            background: rgba(255,255,255,0.2);
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        /* ===== Sidebar ===== */
+        .sidebar {
+            position: fixed;
+            top: var(--header-height);
+            left: 0;
+            bottom: 0;
+            width: var(--sidebar-width);
+            background: var(--bg-card);
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            z-index: 900;
+            padding: 16px 0;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-section {
+            padding: 0 16px;
+            margin-bottom: 4px;
+        }
+
+        .sidebar-section-title {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--text-secondary);
+            padding: 12px 0 6px;
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 16px;
+            color: var(--text);
+            text-decoration: none;
+            font-size: 14px;
+            border-radius: 8px;
+            margin: 1px 8px;
+            transition: all 0.15s;
+        }
+
+        .sidebar a:hover {
+            background: var(--primary-bg);
+            color: var(--primary);
+        }
+
+        .sidebar a.active {
+            background: var(--primary);
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        .sidebar a .nav-icon {
+            width: 20px;
+            text-align: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .sidebar a .nav-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--medium-white);
+            font-size: 11px;
+            font-weight: 700;
+            flex-shrink: 0;
+            color: var(--text-secondary);
+        }
+
+        .sidebar a.active .nav-num {
+            background: rgba(255,255,255,0.3);
+            color: var(--text-light);
+        }
+
+        /* ===== Main Content ===== */
+        .main {
+            margin-left: var(--sidebar-width);
+            padding: 24px;
+            padding-top: calc(var(--header-height) + 24px);
+            max-width: 900px;
+        }
+
+        /* ===== Hero Section ===== */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--text-light);
+            border-radius: var(--radius-lg);
+            padding: 48px 40px;
+            margin-bottom: 40px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(107,77,255,0.25);
+        }
+
+        .hero h1 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .hero p {
+            font-size: 17px;
+            opacity: 0.9;
+            max-width: 500px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* ===== Sections ===== */
+        .section {
+            margin-bottom: 48px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--primary-bg);
+        }
+
+        .section-num {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: var(--text-light);
+            font-size: 18px;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .section-header h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .section-intro {
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            font-size: 15px;
+        }
+
+        /* ===== Steps ===== */
+        .step {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 24px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .step-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 28px;
+            height: 28px;
+            border-radius: 14px;
+            background: var(--primary);
+            color: var(--text-light);
+            font-size: 13px;
+            font-weight: 700;
+            padding: 0 8px;
+        }
+
+        .step-title {
+            font-size: 17px;
+            font-weight: 600;
+        }
+
+        .step p {
+            color: #56545A;
+            font-size: 15px;
+            margin-bottom: 12px;
+        }
+
+        .step p:last-child { margin-bottom: 0; }
+
+        .step p strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        /* ===== Screenshot ===== */
+        .screenshot-wrap {
+            margin: 16px 0;
+            text-align: center;
+        }
+
+        .screenshot-wrap img {
+            max-width: 300px;
+            width: 100%;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border);
+            transition: transform 0.2s;
+        }
+
+        .screenshot-wrap img:hover {
+            transform: scale(1.02);
+        }
+
+        .screenshot-wrap .caption {
+            margin-top: 8px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* ===== Info Boxes ===== */
+        .info-box {
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            margin: 16px 0;
+            font-size: 14px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .info-box .box-icon { font-size: 20px; flex-shrink: 0; }
+
+        .info-box.tip {
+            background: var(--green-light);
+            border: 1px solid #A8E6CF;
+            color: #0A7B5F;
+        }
+
+        .info-box.warning {
+            background: var(--orange-light);
+            border: 1px solid var(--orange);
+            color: #B8860B;
+        }
+
+        .info-box.info {
+            background: var(--primary-bg);
+            border: 1px solid #C4B5FD;
+            color: var(--primary-dark);
+        }
+
+        /* ===== Comparison Cards ===== */
+        .type-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin: 16px 0;
+        }
+
+        .type-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            border: 2px solid var(--border);
+            padding: 24px 20px;
+            text-align: center;
+            transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+        }
+
+        .type-card:hover {
+            border-color: var(--primary-light);
+            box-shadow: 0 4px 16px rgba(107,77,255,0.15);
+            transform: translateY(-2px);
+        }
+
+        .type-card .card-icon { font-size: 36px; margin-bottom: 8px; }
+        .type-card h4 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+        .type-card p { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+
+        .type-card .card-tag {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .type-card .card-tag.family { background: var(--red-light); color: #C62828; }
+        .type-card .card-tag.personal { background: var(--primary-bg); color: var(--primary-dark); }
+        .type-card .card-tag.peer { background: var(--orange-light); color: #B8860B; }
+
+        /* ===== Table of Contents (in hero) ===== */
+        .toc {
+            margin-top: 24px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .toc a {
+            display: inline-block;
+            padding: 6px 14px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 20px;
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 13px;
+            transition: background 0.2s;
+        }
+
+        .toc a:hover { background: rgba(255,255,255,0.3); }
+
+        /* ===== Footer ===== */
+        .footer {
+            text-align: center;
+            padding: 32px 24px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            border-top: 1px solid var(--border);
+            margin-top: 40px;
+        }
+
+        /* ===== Overlay (mobile) ===== */
+        .overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 850;
+        }
+
+        .overlay.active { display: block; }
+
+        /* ===== Back to Top ===== */
+        .back-to-top {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: var(--text-light);
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.3s, transform 0.3s;
+            z-index: 100;
+        }
+
+        .back-to-top.visible { display: flex; }
+        .back-to-top:hover { transform: scale(1.1); }
+
+        /* ===== Language Toggle ===== */
+        .lang-toggle {
+            margin-left: auto;
+            margin-right: 12px;
+            background: rgba(255,255,255,0.18);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: var(--text-light);
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-family: inherit;
+            letter-spacing: 0.5px;
+        }
+
+        .lang-toggle:hover { background: rgba(255,255,255,0.3); }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 768px) {
+            .header-burger { display: block; }
+
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+                box-shadow: var(--shadow-lg);
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 16px;
+                padding-top: calc(var(--header-height) + 16px);
+            }
+
+            .hero {
+                padding: 32px 24px;
+            }
+
+            .hero h1 { font-size: 24px; }
+            .hero p { font-size: 15px; }
+
+            .section-header h2 { font-size: 20px; }
+
+            .step { padding: 18px; }
+
+            .screenshot-wrap img { max-width: 260px; }
+
+            .type-cards { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 480px) {
+            .hero { padding: 24px 16px; }
+            .hero h1 { font-size: 21px; }
+            .toc a { font-size: 12px; padding: 5px 10px; }
+            .header-logo { font-size: 16px; }
+            .header-badge { display: none; }
+        }
+
+        /* Category Reference */
+        .catref-wrap { margin-top: 24px; }
+        .catref-wrap > details { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+        .catref-wrap > details > summary {
+            padding: 16px 20px; cursor: pointer; font-weight: 600; font-size: 1.05em;
+            background: var(--primary-bg); color: var(--primary); list-style: none;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .catref-wrap > details > summary::-webkit-details-marker { display: none; }
+        .catref-wrap > details > summary::before { content: '\25B6'; font-size: 0.7em; transition: transform 0.2s; }
+        .catref-wrap > details[open] > summary::before { transform: rotate(90deg); }
+        .catref-wrap > details > summary:hover { background: var(--primary); color: #fff; }
+        .catref-inner { padding: 16px 20px; }
+        .catref-inner p { margin-bottom: 16px; font-size: 0.93em; color: var(--text-secondary); }
+        .catref-group-title { font-size: 1em; font-weight: 700; margin: 20px 0 12px; padding-bottom: 8px; border-bottom: 2px solid var(--primary-bg); color: var(--primary-dark); }
+        .catref-group-title:first-child { margin-top: 0; }
+        .cat-card {
+            background: var(--bg); border-radius: var(--radius-sm); padding: 12px 16px;
+            margin-bottom: 8px; border-left: 3px solid var(--primary-bg);
+        }
+        .cat-card-header { font-weight: 600; font-size: 0.95em; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+        .cat-card-header .cat-icon { font-size: 1.2em; }
+        .cat-card-subs { font-size: 0.88em; color: var(--text-secondary); line-height: 1.8; padding-left: 4px; }
+        .cat-card-subs .sub-item { display: inline; }
+        .cat-card-subs .sub-sep { color: var(--border); margin: 0 2px; }
+        .cat-card-subs .sub-example { color: var(--text-secondary); font-style: italic; opacity: 0.8; font-size: 0.92em; }
+        .cat-card.system { border-left-color: var(--orange); background: var(--orange-light); }
+        .cat-card.income { border-left-color: var(--green); }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+    <button class="header-burger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+    <a href="index.html" class="header-logo" style="color:#fff;text-decoration:none;">Family Budget Tracker <span data-i18n="header_subtitle">Panduan Pengguna</span></a>
+    <a href="index.html" style="color:rgba(255,255,255,0.85);font-size:13px;padding:6px 12px;border:1px solid rgba(255,255,255,0.3);border-radius:8px;text-decoration:none;margin-right:8px;" data-i18n="back_to_web">Kembali ke Web</a>
+    <button class="lang-toggle" id="langToggle" onclick="toggleLanguage()">EN</button>
+    <div class="header-badge">v1.0</div>
+</header>
+
+<!-- Overlay (mobile sidebar) -->
+<div class="overlay" onclick="toggleSidebar()"></div>
+
+<!-- Sidebar Navigation -->
+<nav class="sidebar" id="sidebar">
+    <div class="sidebar-section">
+        <div class="sidebar-section-title" data-i18n="nav_g1">Mulai</div>
+        <a href="#section-1"><span class="nav-num">1</span> <span data-i18n="nav_1">Mulai Pertama Kali</span></a>
+        <a href="#section-2"><span class="nav-num">2</span> <span data-i18n="nav_2">Mengenal Home</span></a>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-section-title" data-i18n="nav_g2">Fitur Utama</div>
+        <a href="#section-3"><span class="nav-num">3</span> <span data-i18n="nav_3">Catat Transaksi</span></a>
+        <a href="#section-4"><span class="nav-num">4</span> <span data-i18n="nav_4">Auto-Input</span></a>
+        <a href="#section-5"><span class="nav-num">5</span> <span data-i18n="nav_5">Riwayat &amp; Laporan</span></a>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-section-title" data-i18n="nav_g3">Kelola</div>
+        <a href="#section-6"><span class="nav-num">6</span> <span data-i18n="nav_6">Keluarga / Grup</span></a>
+        <a href="#section-7"><span class="nav-num">7</span> <span data-i18n="nav_7">Atur Budget</span></a>
+        <a href="#section-8"><span class="nav-num">8</span> <span data-i18n="nav_8">Target Tabungan</span></a>
+        <a href="#section-wallet"><span class="nav-num">9</span> <span data-i18n="nav_wallet">E-Wallet</span></a>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-section-title" data-i18n="nav_g4">Lainnya</div>
+        <a href="#section-9"><span class="nav-num">10</span> <span data-i18n="nav_9">Gamification</span></a>
+        <a href="#section-10"><span class="nav-num">11</span> <span data-i18n="nav_10">Settings</span></a>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<main class="main">
+
+    <!-- Hero -->
+    <div class="hero">
+        <h1 data-i18n="hero_title">Panduan Pengguna</h1>
+        <p data-i18n="hero_desc">Panduan lengkap untuk menggunakan Family Budget Tracker dari awal hingga mahir.</p>
+        <div class="toc">
+            <a href="#section-1" data-i18n="toc_1">1. Mulai</a>
+            <a href="#section-2" data-i18n="toc_2">2. Home</a>
+            <a href="#section-3" data-i18n="toc_3">3. Transaksi</a>
+            <a href="#section-4" data-i18n="toc_4">4. Auto-Input</a>
+            <a href="#section-5" data-i18n="toc_5">5. Laporan</a>
+            <a href="#section-6" data-i18n="toc_6">6. Keluarga</a>
+            <a href="#section-7" data-i18n="toc_7">7. Budget</a>
+            <a href="#section-8" data-i18n="toc_8">8. Tabungan</a>
+            <a href="#section-wallet" data-i18n="toc_wallet">9. E-Wallet</a>
+            <a href="#section-9" data-i18n="toc_9">10. Gamification</a>
+            <a href="#section-10" data-i18n="toc_10">11. Settings</a>
+        </div>
+    </div>
+
+    <!-- ==================== SECTION 1 ==================== -->
+    <div class="section" id="section-1">
+        <div class="section-header">
+            <div class="section-num">1</div>
+            <h2 data-i18n="s1_title">Mulai Pertama Kali</h2>
+        </div>
+        <p class="section-intro" data-i18n="s1_intro">Langkah-langkah awal untuk setup aplikasi dan mulai mencatat keuangan keluarga.</p>
+
+        <!-- Step 1.1 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">1</span>
+                <span class="step-title" data-i18n="s1_step1_title">Buka Aplikasi & Login Google</span>
+            </div>
+            <p data-i18n="s1_step1_p1">Setelah install, buka aplikasi. Kamu akan melihat halaman splash, lalu tap tombol <strong>"Masuk dengan Google"</strong>. Pilih akun Google yang ingin dipakai.</p>
+            <div class="info-box info">
+                <span class="box-icon">&#x1F512;</span>
+                <div data-i18n="s1_step1_info">Akun Google ini akan digunakan untuk menyimpan data keuanganmu di Google Sheets milikmu sendiri. Data kamu aman &mdash; tidak tersimpan di server kami.</div>
+            </div>
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_01_splash_phone_large_light.png" alt="Splash Screen">
+                <div class="caption" data-i18n="s1_cap1">Halaman Splash &mdash; tap "Masuk dengan Google"</div>
+            </div>
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_02_login_google_phone_large_light.png" alt="Login Google">
+                <div class="caption" data-i18n="s1_cap2">Pilih akun Google kamu</div>
+            </div>
+        </div>
+
+        <!-- Step 1.2 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">2</span>
+                <span class="step-title" data-i18n="s1_step2_title">Pilih Tipe Budget</span>
+            </div>
+            <p data-i18n="s1_step2_p1">Selanjutnya, pilih tipe budget yang sesuai dengan kebutuhanmu:</p>
+
+            <div class="type-cards">
+                <div class="type-card">
+                    <div class="card-icon">&#x1F468;&#x200D;&#x1F469;&#x200D;&#x1F467;</div>
+                    <h4 data-i18n="type_family_title">Keluarga</h4>
+                    <p data-i18n="type_family_desc">Untuk suami, istri, dan anak. Ada hierarki <strong>Parent</strong> (kontrol penuh) dan <strong>Child</strong> (akses terbatas).</p>
+                    <span class="card-tag family" data-i18n="type_family_tag">Hierarki Parent-Child</span>
+                </div>
+                <div class="type-card">
+                    <div class="card-icon">&#x1F464;</div>
+                    <h4 data-i18n="type_personal_title">Saya Sendiri</h4>
+                    <p data-i18n="type_personal_desc">Budget personal untuk kamu sendiri. Hanya 1 pengguna, tanpa perlu invite siapapun.</p>
+                    <span class="card-tag personal" data-i18n="type_personal_tag">Single User</span>
+                </div>
+                <div class="type-card">
+                    <div class="card-icon">&#x1F465;</div>
+                    <h4 data-i18n="type_peer_title">Bersama Teman</h4>
+                    <p data-i18n="type_peer_desc">Untuk teman kos, roommate, atau rekan. Semua anggota <strong>setara</strong> &mdash; tidak ada hierarki.</p>
+                    <span class="card-tag peer" data-i18n="type_peer_tag">Semua Setara</span>
+                </div>
+            </div>
+
+            <div class="info-box tip">
+                <span class="box-icon">&#x1F4A1;</span>
+                <div data-i18n="s1_step2_tip">
+                    <strong>Kapan pilih mana?</strong><br>
+                    &bull; <strong>Keluarga</strong> &mdash; kamu orang tua yang ingin mengontrol budget keluarga, bisa lihat pengeluaran anak.<br>
+                    &bull; <strong>Saya Sendiri</strong> &mdash; hanya untuk mencatat keuangan pribadi, tidak butuh anggota lain.<br>
+                    &bull; <strong>Bersama Teman</strong> &mdash; split budget kos/kontrakan, belanja bareng teman, atau proyek bersama.
+                </div>
+            </div>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_03_pilih_tipe_budget_phone_large_light.png" alt="Pilih Tipe Budget">
+                <div class="caption" data-i18n="s1_cap3">Pilih tipe budget sesuai kebutuhanmu</div>
+            </div>
+        </div>
+
+        <!-- Step 1.3 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">3</span>
+                <span class="step-title" data-i18n="s1_step3_title">Buat Baru atau Gabung Budget</span>
+            </div>
+            <p data-i18n="s1_step3_p1">Kamu punya 2 pilihan:</p>
+            <p data-i18n="s1_step3_p2"><strong>Buat Budget Baru</strong> &mdash; Jika kamu yang pertama kali membuat budget. Aplikasi akan otomatis membuat Google Spreadsheet baru di Google Drive kamu.</p>
+            <p data-i18n="s1_step3_p3"><strong>Gabung Budget</strong> &mdash; Jika ada anggota keluarga/teman yang sudah membuat budget dan mengundangmu. Pilih spreadsheet yang sudah di-share ke email kamu.</p>
+
+            <div class="info-box warning">
+                <span class="box-icon">&#x26A0;&#xFE0F;</span>
+                <div data-i18n="s1_step3_warn">Untuk <strong>"Gabung Budget"</strong>, pastikan orang yang mengundangmu sudah menambahkan email kamu dari menu Anggota Keluarga di aplikasinya.</div>
+            </div>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_04_buat_spreadsheet_phone_large_light.png" alt="Buat Spreadsheet">
+                <div class="caption" data-i18n="s1_cap4">Buat Budget Baru &mdash; spreadsheet otomatis dibuat</div>
+            </div>
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_05_join_spreadsheet_phone_large_light.png" alt="Join Spreadsheet">
+                <div class="caption" data-i18n="s1_cap5">Gabung Budget &mdash; pilih spreadsheet yang sudah di-share</div>
+            </div>
+        </div>
+
+        <!-- Step 1.4 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">4</span>
+                <span class="step-title" data-i18n="s1_step4_title">Pilih Role</span>
+            </div>
+            <p data-i18n="s1_step4_p1">Setelah spreadsheet siap, pilih role (peran) kamu:</p>
+
+            <p data-i18n="s1_step4_p2"><strong>Tipe Keluarga:</strong> Pilih salah satu dari 3 role Parent yang tersedia.</p>
+            <div class="info-box" style="background: #E8F5E9; border-left: 4px solid #4CAF50; margin: 8px 0 4px 16px;">
+                <div>
+                    <p style="margin: 0 0 4px;" data-i18n="s1_role_parent_title"><strong>👨 Suami / 👩 Istri / 👤 Orang Tua Tunggal (Parent):</strong></p>
+                    <p style="margin: 0; font-size: 0.92em;" data-i18n="s1_role_parent_desc">Akses penuh &mdash; kelola budget, invite &amp; hapus anggota, lihat &amp; export transaksi semua anggota, kelola kategori &amp; metode pembayaran.</p>
+                </div>
+            </div>
+            <div class="info-box" style="background: #FFF3E0; border-left: 4px solid #FF9800; margin: 8px 0 12px 16px;">
+                <div>
+                    <p style="margin: 0 0 4px;" data-i18n="s1_role_child_title"><strong>👶 Child (Anak):</strong></p>
+                    <p style="margin: 0; font-size: 0.92em;" data-i18n="s1_role_child_desc">Akses terbatas &mdash; catat transaksi sendiri, lihat laporan &amp; leaderboard. Tidak bisa invite/hapus anggota, export hanya data sendiri. Role ini ditambahkan oleh Parent saat invite anggota baru.</p>
+                </div>
+            </div>
+
+            <p data-i18n="s1_step4_p3"><strong>Tipe Bersama Teman:</strong> Anggota 1, Anggota 2, dst.</p>
+            <div class="info-box" style="background: #E3F2FD; border-left: 4px solid #2196F3; margin: 8px 0 12px 16px;">
+                <div>
+                    <p style="margin: 0 0 4px;" data-i18n="s1_role_peer_title"><strong>👥 Peer (Semua Anggota):</strong></p>
+                    <p style="margin: 0; font-size: 0.92em;" data-i18n="s1_role_peer_desc">Akses penuh &amp; setara &mdash; semua anggota bisa kelola budget, invite &amp; hapus anggota, lihat &amp; export semua data. Tidak ada hierarki.</p>
+                </div>
+            </div>
+
+            <p data-i18n="s1_step4_p4"><strong>Tipe Saya Sendiri:</strong> Otomatis &mdash; role "Personal" langsung terpilih.</p>
+            <div class="info-box" style="background: #F3E5F5; border-left: 4px solid #9C27B0; margin: 8px 0 12px 16px;">
+                <div>
+                    <p style="margin: 0 0 4px;" data-i18n="s1_role_personal_title"><strong>👤 Personal:</strong></p>
+                    <p style="margin: 0; font-size: 0.92em;" data-i18n="s1_role_personal_desc">Akses penuh otomatis &mdash; semua fitur tersedia untuk kamu sendiri. Tidak perlu pilih role, langsung masuk.</p>
+                </div>
+            </div>
+
+            <div class="info-box info">
+                <span class="box-icon">&#x1F3AF;</span>
+                <div data-i18n="s1_step4_info">Role menentukan identitas kamu di budget bersama. Setiap transaksi yang kamu catat akan ditandai dengan role ini, sehingga terlihat jelas siapa yang mencatat.</div>
+            </div>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_06_pilih_role_phone_large_light.png" alt="Pilih Role">
+                <div class="caption" data-i18n="s1_cap6">Pilih role kamu di budget ini</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== SECTION 2 ==================== -->
+    <div class="section" id="section-2">
+        <div class="section-header">
+            <div class="section-num">2</div>
+            <h2 data-i18n="s2_title">Mengenal Home</h2>
+        </div>
+        <p class="section-intro" data-i18n="s2_intro">Setelah setup selesai, kamu akan masuk ke halaman Home. Ini adalah pusat kendali keuanganmu.</p>
+
+        <!-- Step 2.1 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">1</span>
+                <span class="step-title" data-i18n="s2_step1_title">Dashboard Utama</span>
+            </div>
+            <p data-i18n="s2_step1_p1">Di bagian atas Home, kamu bisa melihat:</p>
+            <p data-i18n="s2_step1_p2">&bull; <strong>Saldo</strong> &mdash; Total pemasukan dikurangi pengeluaran bulan ini.</p>
+            <p data-i18n="s2_step1_p3">&bull; <strong>Ringkasan Bulanan</strong> &mdash; Total pemasukan dan pengeluaran dalam bentuk card.</p>
+            <p data-i18n="s2_step1_p4">&bull; <strong>Greeting</strong> &mdash; Sapaan berdasarkan waktu (Selamat Pagi/Siang/Sore/Malam) dan nama role kamu di bawahnya.</p>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_07_home_dashboard_phone_large_light.png" alt="Home Dashboard">
+                <div class="caption" data-i18n="s2_cap1">Dashboard utama &mdash; saldo dan ringkasan bulanan</div>
+            </div>
+        </div>
+
+        <!-- Step 2.2 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">2</span>
+                <span class="step-title" data-i18n="s2_step2_title">Transaksi Terakhir</span>
+            </div>
+            <p data-i18n="s2_step2_p1">Scroll ke bawah untuk melihat <strong>7 transaksi terakhir</strong>. Setiap transaksi menampilkan kategori, nominal, tanggal, dan siapa yang mencatat.</p>
+            <p data-i18n="s2_step2_p2">Tap salah satu transaksi untuk melihat detail atau mengeditnya.</p>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_08_home_recent_phone_large_light.png" alt="Recent Transactions">
+                <div class="caption" data-i18n="s2_cap2">7 transaksi terakhir di Home</div>
+            </div>
+        </div>
+
+        <!-- Step 2.3 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">3</span>
+                <span class="step-title" data-i18n="s2_step3_title">Navigasi & Quick Actions</span>
+            </div>
+            <p data-i18n="s2_step3_p1">Di bagian bawah layar ada <strong>Bottom Navigation</strong> dengan 4 menu:</p>
+            <p data-i18n="s2_step3_p2">&bull; <strong>Home</strong> &mdash; Dashboard utama (halaman ini).</p>
+            <p data-i18n="s2_step3_p3">&bull; <strong>History</strong> &mdash; Semua riwayat transaksi.</p>
+            <p data-i18n="s2_step3_p4">&bull; <strong>Reports</strong> &mdash; Laporan dan grafik keuangan.</p>
+            <p data-i18n="s2_step3_p5">&bull; <strong>Settings</strong> &mdash; Pengaturan aplikasi.</p>
+            <p data-i18n="s2_step3_p6">Di Home juga ada quick action buttons: <strong>Achievements</strong> (piala), <strong>Leaderboard</strong> (ranking), dan <strong>Pending</strong> (notifikasi tertunda).</p>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_09_home_quick_actions_phone_large_light.png" alt="Quick Actions">
+                <div class="caption" data-i18n="s2_cap3">Bottom navigation &amp; quick action buttons</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== SECTION 3 ==================== -->
+    <div class="section" id="section-3">
+        <div class="section-header">
+            <div class="section-num">3</div>
+            <h2 data-i18n="s3_title">Catat Transaksi</h2>
+        </div>
+        <p class="section-intro" data-i18n="s3_intro">Cara mencatat pengeluaran dan pemasukan secara manual.</p>
+
+        <!-- Step 3.1 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">1</span>
+                <span class="step-title" data-i18n="s3_step1_title">Tap Tombol (+)</span>
+            </div>
+            <p data-i18n="s3_step1_p1">Dari Home, tap tombol <strong>(+)</strong> berwarna ungu di tengah bawah layar. Ini akan membuka form tambah transaksi.</p>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_10_add_fab_phone_large_light.png" alt="FAB Button">
+                <div class="caption" data-i18n="s3_cap1">Tap tombol (+) untuk menambah transaksi</div>
+            </div>
+        </div>
+
+        <!-- Step 3.2 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">2</span>
+                <span class="step-title" data-i18n="s3_step2_title">Pilih Tipe: Pengeluaran atau Pemasukan</span>
+            </div>
+            <p data-i18n="s3_step2_p1">Di bagian atas form, ada 2 tab:</p>
+            <p data-i18n="s3_step2_p2">&bull; <strong>Pengeluaran</strong> &mdash; untuk mencatat uang keluar (belanja, bayar tagihan, dll).</p>
+            <p data-i18n="s3_step2_p3">&bull; <strong>Pemasukan</strong> &mdash; untuk mencatat uang masuk (gaji, bonus, transfer masuk, dll).</p>
+            <p data-i18n="s3_step2_p4">Pilih tab yang sesuai, lalu isi nominalnya.</p>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_11_add_expense_phone_large_light.png" alt="Form Expense">
+                <div class="caption" data-i18n="s3_cap2">Form Pengeluaran</div>
+            </div>
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_12_add_income_phone_large_light.png" alt="Form Income">
+                <div class="caption" data-i18n="s3_cap3">Form Pemasukan</div>
+            </div>
+        </div>
+
+        <!-- Step 3.3 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">3</span>
+                <span class="step-title" data-i18n="s3_step3_title">Pilih Kategori & Sub-Kategori</span>
+            </div>
+            <p data-i18n="s3_step3_p1">Tap field <strong>"Kategori"</strong> untuk memilih kategori transaksi. Contoh kategori pengeluaran: Makanan, Transportasi, Tagihan, Belanja, dll.</p>
+            <p data-i18n="s3_step3_p2">Setelah memilih kategori, kamu bisa pilih <strong>sub-kategori</strong> (opsional) untuk detail lebih spesifik. Misalnya kategori "Makanan" bisa dipilih sub: Belanja Bulanan, Jajan, Makan di Luar, dll.</p>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_13_add_kategori_phone_large_light.png" alt="Pilih Kategori">
+                <div class="caption" data-i18n="s3_cap4">Pilih kategori dari daftar</div>
+            </div>
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_14_add_subkategori_phone_large_light.png" alt="Pilih Sub-Kategori">
+                <div class="caption" data-i18n="s3_cap5">Pilih sub-kategori (opsional)</div>
+            </div>
+        </div>
+
+        <!-- Step 3.4 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">4</span>
+                <span class="step-title" data-i18n="s3_step4_title">Pilih Metode Pembayaran</span>
+            </div>
+            <p data-i18n="s3_step4_p1">Tap field <strong>"Metode Pembayaran"</strong> untuk memilih cara bayar: Cash, BCA, GoPay, OVO, DANA, dan lainnya. Ini membantu kamu melacak dari mana uang keluar/masuk.</p>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_15_add_payment_phone_large_light.png" alt="Pilih Payment">
+                <div class="caption" data-i18n="s3_cap6">Pilih metode pembayaran</div>
+            </div>
+        </div>
+
+        <!-- Step 3.5 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">5</span>
+                <span class="step-title" data-i18n="s3_step5_date_title">Ubah Tanggal (Opsional)</span>
+            </div>
+            <p data-i18n="s3_step5_date_p1">Secara default, tanggal transaksi adalah <strong>hari ini</strong>. Jika ingin mencatat transaksi di tanggal lain (misalnya kemarin atau minggu lalu), tap field <strong>"Tanggal"</strong> untuk membuka date picker.</p>
+            <p data-i18n="s3_step5_date_p2">Pilih tanggal yang sesuai, lalu tap <strong>"OK"</strong>. Ini berguna jika kamu lupa mencatat transaksi di hari sebelumnya.</p>
+        </div>
+
+        <!-- Step 3.6 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">6</span>
+                <span class="step-title" data-i18n="s3_step6_curr_title">Ubah Mata Uang (Opsional)</span>
+            </div>
+            <p data-i18n="s3_step6_curr_p1">Di sebelah field nominal, ada <strong>badge mata uang</strong> (misal: <strong>IDR</strong>). Tap badge ini untuk mengganti currency jika transaksi menggunakan mata uang lain seperti USD, SGD, EUR, dan lainnya.</p>
+            <p data-i18n="s3_step6_curr_p2">Mata uang default diambil dari pengaturan kamu. Setiap transaksi bisa menggunakan currency berbeda &mdash; berguna jika kamu punya pengeluaran dalam beberapa mata uang.</p>
+        </div>
+
+        <!-- Step 3.7 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">7</span>
+                <span class="step-title" data-i18n="s3_step7_title">Tambah Catatan & Simpan</span>
+            </div>
+            <p data-i18n="s3_step5_p1">Kamu juga bisa menambahkan <strong>catatan</strong> (opsional) untuk keterangan tambahan, misalnya "Belanja bulanan di Alfamart".</p>
+            <p data-i18n="s3_step5_p2">Setelah semua terisi, tap tombol <strong>"Simpan"</strong>. Transaksi akan tercatat dan kamu kembali ke Home.</p>
+
+            <div class="info-box tip">
+                <span class="box-icon">&#x2705;</span>
+                <div data-i18n="s3_step5_tip">Transaksi yang tersimpan akan langsung muncul di daftar transaksi terakhir di Home, dan otomatis di-sync ke Google Sheets saat ada koneksi internet.</div>
+            </div>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_16_add_success_phone_large_light.png" alt="Success">
+                <div class="caption" data-i18n="s3_cap7">Transaksi berhasil disimpan!</div>
+            </div>
+        </div>
+
+        <!-- Step 3.8 — Transfer Internal -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">8</span>
+                <span class="step-title" data-i18n="s3_step8_transfer_title">Transfer Internal (Keluarga)</span>
+            </div>
+            <p data-i18n="s3_step8_transfer_p1">Fitur ini khusus untuk <strong>mode Keluarga</strong>. Gunakan untuk mencatat transfer uang antar anggota keluarga, misalnya suami memberi uang belanja ke istri.</p>
+            <p data-i18n="s3_step8_transfer_p2"><strong>Cara pakai:</strong></p>
+            <p data-i18n="s3_step8_transfer_p3">&bull; Buka form tambah transaksi, pilih tab <strong>Pengeluaran</strong>.</p>
+            <p data-i18n="s3_step8_transfer_p4">&bull; Pilih kategori <strong>"Transfer Internal"</strong> (ikon 🔄).</p>
+            <p data-i18n="s3_step8_transfer_p5">&bull; Pilih <strong>sub-kategori</strong> = nama anggota tujuan (misal: "Istri"). Nama kamu sendiri tidak akan muncul di daftar.</p>
+            <p data-i18n="s3_step8_transfer_p6">&bull; Isi nominal dan simpan.</p>
+
+            <div class="info-box info">
+                <span class="box-icon">&#x1F504;</span>
+                <div data-i18n="s3_step8_transfer_info">Sistem otomatis membuat <strong>2 transaksi berpasangan</strong>: pengeluaran di akun pengirim dan pemasukan di akun penerima. Jika salah satu diedit atau dihapus, pasangannya juga ikut berubah.</div>
+            </div>
+
+            <div class="info-box warning">
+                <span class="box-icon">&#x26A0;&#xFE0F;</span>
+                <div data-i18n="s3_step8_transfer_warn">Transfer Internal <strong>tidak mempengaruhi total budget keluarga</strong> karena uang hanya berpindah antar anggota. Laporan per anggota tetap akurat karena masing-masing punya record sendiri.</div>
+            </div>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_45_transfer_internal_phone_large_light.png" alt="Transfer Internal">
+                <div class="caption" data-i18n="s3_cap8">Form Transfer Internal — pilih anggota tujuan</div>
+            </div>
+        </div>
+
+        <!-- Step 3.9 — Debt Tracking -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">9</span>
+                <span class="step-title" data-i18n="s3_step9_debt_title">Pencatatan Hutang / Piutang</span>
+            </div>
+            <p data-i18n="s3_step9_debt_p1">Catat hutang dan piutang langsung dari form transaksi. Ada 4 kategori khusus:</p>
+            <p data-i18n="s3_step9_debt_p2">&bull; <strong>Piutang (Hutang Diberikan)</strong> &mdash; Kamu meminjamkan uang ke orang lain. Tercatat sebagai pengeluaran.</p>
+            <p data-i18n="s3_step9_debt_p3">&bull; <strong>Hutang (Hutang Diterima)</strong> &mdash; Kamu meminjam uang dari orang lain. Tercatat sebagai pemasukan.</p>
+            <p data-i18n="s3_step9_debt_p4">&bull; <strong>Bayar Cicilan Hutang</strong> &mdash; Kamu membayar cicilan hutang. Tercatat sebagai pengeluaran.</p>
+            <p data-i18n="s3_step9_debt_p5">&bull; <strong>Terima Cicilan Piutang</strong> &mdash; Orang lain membayar hutangnya ke kamu. Tercatat sebagai pemasukan.</p>
+            <p data-i18n="s3_step9_debt_p6"><strong>Cara pakai:</strong> Pilih salah satu kategori hutang di atas, lalu isi field tambahan:</p>
+            <p data-i18n="s3_step9_debt_p7">&bull; <strong>Nama</strong> &mdash; Nama orang yang berhutang/meminjamkan.</p>
+            <p data-i18n="s3_step9_debt_p8">&bull; <strong>Jatuh Tempo</strong> &mdash; Tanggal deadline pembayaran (opsional). Jika diisi, aplikasi akan mengirim <strong>notifikasi pengingat</strong> H-3, H-1, dan di hari jatuh tempo.</p>
+
+            <div class="info-box tip">
+                <span class="box-icon">&#x1F4B0;</span>
+                <div data-i18n="s3_step9_debt_tip">Hutang dan piutang akan otomatis menghitung sisa yang belum lunas. Kamu bisa track progress pembayaran dari riwayat transaksi dengan filter kategori hutang.</div>
+            </div>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_46_debt_tracking_phone_large_light.png" alt="Debt Tracking">
+                <div class="caption" data-i18n="s3_cap9">Form Hutang/Piutang — isi nama &amp; jatuh tempo</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== SECTION 4 ==================== -->
+    <div class="section" id="section-4">
+        <div class="section-header">
+            <div class="section-num">4</div>
+            <h2 data-i18n="s4_title">Auto-Input dari Notifikasi</h2>
+        </div>
+        <p class="section-intro" data-i18n="s4_intro">Fitur unggulan! Transaksi otomatis tercatat dari notifikasi e-wallet dan bank tanpa perlu input manual.</p>
+
+        <!-- Step 4.1 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">1</span>
+                <span class="step-title" data-i18n="s4_step1_title">Aktifkan Auto-Input di Settings</span>
+            </div>
+            <p data-i18n="s4_step1_p1">Buka <strong>Settings</strong> (menu bawah), lalu aktifkan toggle <strong>"Auto-Input Notifikasi"</strong>.</p>
+            <p data-i18n="s4_step1_p2">Saat pertama kali mengaktifkan, aplikasi akan meminta izin <strong>Notification Access</strong> &mdash; ini wajib agar aplikasi bisa membaca notifikasi pembayaran.</p>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_17_settings_autoinput_phone_large_light.png" alt="Toggle Auto-Input">
+                <div class="caption" data-i18n="s4_cap1">Aktifkan toggle Auto-Input di Settings</div>
+            </div>
+        </div>
+
+        <!-- Step 4.2 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">2</span>
+                <span class="step-title" data-i18n="s4_step2_title">Izinkan Notification Access</span>
+            </div>
+            <p data-i18n="s4_step2_p1">Kamu akan diarahkan ke halaman <strong>Settings HP &rarr; Notification Access</strong>. Cari <strong>"Family Budget Tracker"</strong> lalu <strong>aktifkan</strong>.</p>
+
+            <div class="info-box warning">
+                <span class="box-icon">&#x26A0;&#xFE0F;</span>
+                <div data-i18n="s4_step2_warn">
+                    <strong>Ini berbeda dari "izin notifikasi" biasa!</strong><br>
+                    Notification Access adalah izin khusus yang memungkinkan aplikasi membaca isi notifikasi dari aplikasi lain (GoPay, OVO, BCA, dll). Tanpa izin ini, fitur auto-input tidak akan berfungsi.
+                </div>
+            </div>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_18_notification_access_phone_large_light.png" alt="Notification Access">
+                <div class="caption" data-i18n="s4_cap2">Aktifkan Notification Access di Settings HP</div>
+            </div>
+        </div>
+
+        <!-- Step 4.3 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">3</span>
+                <span class="step-title" data-i18n="s4_step3_title">Cara Kerja Auto-Input</span>
+            </div>
+            <p data-i18n="s4_step3_p1">Setelah aktif, setiap kali kamu melakukan pembayaran dan muncul notifikasi, aplikasi akan:</p>
+            <p data-i18n="s4_step3_p2">&bull; <strong>Otomatis tercatat</strong> &mdash; Jika notifikasi dikenali (format & nominal cocok), transaksi langsung masuk.</p>
+            <p data-i18n="s4_step3_p3">&bull; <strong>Masuk ke Pending</strong> &mdash; Jika notifikasi tidak bisa di-parse otomatis, akan masuk ke daftar "Pending" untuk kamu review manual.</p>
+
+            <div class="info-box tip">
+                <span class="box-icon">&#x1F4A1;</span>
+                <div data-i18n="s4_step3_tip">
+                    <strong>Aplikasi yang didukung:</strong><br>
+                    <strong>E-Wallet:</strong> GoPay, OVO, DANA, ShopeePay, LinkAja, Grab<br>
+                    <strong>Bank Umum:</strong> BCA mobile, myBCA, BRImo, BRI, BNI, Mandiri, CIMB Niaga, BTN, Permata, BSI, Maybank, OCBC, Danamon, Bank Mega<br>
+                    <strong>Digital Bank:</strong> Jenius, Bank Jago, SeaBank, Blu by BCA, LINE Bank, Allo Bank, Neobank, Digibank, TMRW<br>
+                    <strong>Transfer:</strong> Flip
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4.4 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">4</span>
+                <span class="step-title" data-i18n="s4_step4_title">Kelola Pending Notifications</span>
+            </div>
+            <p data-i18n="s4_step4_p1">Buka menu <strong>Pending Notifications</strong> (dari Home &rarr; ikon lonceng, atau Settings &rarr; Notifikasi Tertunda) untuk melihat notifikasi yang tertangkap.</p>
+            <p data-i18n="s4_step4_p2">Untuk setiap notifikasi pending, kamu bisa:</p>
+            <p data-i18n="s4_step4_p3">&bull; <strong>Input Manual</strong> &mdash; Tap untuk mengisi kategori & detail, lalu simpan sebagai transaksi.</p>
+            <p data-i18n="s4_step4_p4">&bull; <strong>Dismiss</strong> &mdash; Abaikan jika bukan transaksi (misal: notifikasi promo).</p>
+            <p data-i18n="s4_step4_p5">&bull; <strong>Report</strong> &mdash; Laporkan jika notifikasi seharusnya bisa ter-parse otomatis tapi gagal.</p>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_19_pending_list_phone_large_light.png" alt="Pending List">
+                <div class="caption" data-i18n="s4_cap3">Daftar notifikasi yang tertangkap</div>
+            </div>
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_20_pending_detail_phone_large_light.png" alt="Pending Detail">
+                <div class="caption" data-i18n="s4_cap4">Review & input manual dari pending notification</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== SECTION 5 ==================== -->
+    <div class="section" id="section-5">
+        <div class="section-header">
+            <div class="section-num">5</div>
+            <h2 data-i18n="s5_title">Riwayat & Laporan</h2>
+        </div>
+        <p class="section-intro" data-i18n="s5_intro">Lihat semua riwayat transaksi dan analisis keuangan bulanan dalam bentuk grafik.</p>
+
+        <!-- Step 5.1 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">1</span>
+                <span class="step-title" data-i18n="s5_step1_title">Riwayat Transaksi</span>
+            </div>
+            <p data-i18n="s5_step1_p1">Tap <strong>"History"</strong> di bottom navigation untuk melihat semua transaksi. Transaksi ditampilkan per hari, dari yang terbaru.</p>
+            <p data-i18n="s5_step1_p2">Setiap item menampilkan: kategori, nominal, metode pembayaran, catatan, dan siapa yang mencatat.</p>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_21_history_phone_large_light.png" alt="History">
+                <div class="caption" data-i18n="s5_cap1">Riwayat semua transaksi</div>
+            </div>
+        </div>
+
+        <!-- Step 5.2 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">2</span>
+                <span class="step-title" data-i18n="s5_step2_title">Filter & Cari</span>
+            </div>
+            <p data-i18n="s5_step2_p1">History menampilkan transaksi di <strong>bulan yang sedang aktif</strong> (dipilih dari Home). Gunakan tombol filter dan search bar untuk mempersempit tampilan:</p>
+            <p data-i18n="s5_step2_p2">&bull; <strong>Tipe</strong> &mdash; Hanya pengeluaran atau hanya pemasukan.</p>
+            <p data-i18n="s5_step2_p3">&bull; <strong>Kategori</strong> &mdash; Tampilkan hanya kategori tertentu (misal: hanya Makanan).</p>
+            <p data-i18n="s5_step2_p4">&bull; <strong>Metode Pembayaran</strong> &mdash; Filter berdasarkan cara bayar (misal: hanya GoPay).</p>
+            <p data-i18n="s5_step2_p5">&bull; <strong>Anggota</strong> &mdash; Lihat transaksi anggota tertentu atau semua anggota.</p>
+            <p data-i18n="s5_step2_p6">&bull; <strong>Rentang Nominal</strong> &mdash; Filter berdasarkan jumlah minimum/maksimum.</p>
+            <p data-i18n="s5_step2_p7">&bull; <strong>Mata Uang</strong> &mdash; Pilih currency via chip di bagian atas (IDR, USD, dll).</p>
+            <p data-i18n="s5_step2_p8">&bull; <strong>Search</strong> &mdash; Cari berdasarkan catatan atau nama kategori.</p>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_22_history_filter_phone_large_light.png" alt="Filter">
+                <div class="caption" data-i18n="s5_cap2">Filter transaksi berdasarkan tipe, kategori, dan lainnya</div>
+            </div>
+        </div>
+
+        <!-- Step 5.3 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">3</span>
+                <span class="step-title" data-i18n="s5_step3_title">Laporan Bulanan</span>
+            </div>
+            <p data-i18n="s5_step3_p1">Tap <strong>"Reports"</strong> di bottom navigation untuk melihat laporan keuangan. Di sini kamu bisa melihat:</p>
+            <p data-i18n="s5_step3_p2">&bull; <strong>Ringkasan</strong> &mdash; Total pemasukan vs pengeluaran bulan ini.</p>
+            <p data-i18n="s5_step3_p3">&bull; <strong>Perbandingan</strong> &mdash; Dibanding bulan sebelumnya (naik/turun berapa persen).</p>
+            <p data-i18n="s5_step3_p4">&bull; <strong>Budget vs Actual</strong> &mdash; Jika kamu sudah set budget, lihat apakah pengeluaran masih sesuai target.</p>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_23_reports_overview_phone_large_light.png" alt="Reports Overview">
+                <div class="caption" data-i18n="s5_cap3">Ringkasan laporan bulanan</div>
+            </div>
+        </div>
+
+        <!-- Step 5.4 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">4</span>
+                <span class="step-title" data-i18n="s5_step4_title">Grafik per Kategori</span>
+            </div>
+            <p data-i18n="s5_step4_p1">Scroll ke bawah di halaman Reports untuk melihat <strong>pie chart breakdown per kategori</strong>. Di atas grafik ada toggle <strong>"Pengeluaran"</strong> dan <strong>"Pemasukan"</strong> &mdash; tap untuk beralih antara grafik pengeluaran atau pemasukan.</p>
+            <p data-i18n="s5_step4_p2">Grafik ini membantu kamu tahu kemana uang paling banyak keluar (atau dari mana uang paling banyak masuk).</p>
+
+            <div class="info-box tip">
+                <span class="box-icon">&#x1F4CA;</span>
+                <div data-i18n="s5_step4_tip">Gunakan laporan ini untuk evaluasi bulanan. Bandingkan bulan ke bulan dan lihat tren pengeluaranmu &mdash; apakah makin hemat atau makin boros?</div>
+            </div>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_24_reports_chart_phone_large_light.png" alt="Reports Chart">
+                <div class="caption" data-i18n="s5_cap4">Grafik pengeluaran per kategori</div>
+            </div>
+        </div>
+
+        <!-- Step 5.5 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">5</span>
+                <span class="step-title" data-i18n="s5_step5_title">Top 5 Pengeluaran Terbesar</span>
+            </div>
+            <p data-i18n="s5_step5_p1">Di bawah pie chart, ada daftar <strong>5 transaksi pengeluaran terbesar</strong> bulan ini. Setiap item menampilkan kategori, nominal, dan tanggal &mdash; membantu kamu mengidentifikasi pengeluaran yang paling signifikan.</p>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_47_reports_top5_phone_large_light.png" alt="Top 5 Pengeluaran">
+                <div class="caption" data-i18n="s5_cap5">Daftar 5 pengeluaran terbesar bulan ini</div>
+            </div>
+        </div>
+
+        <!-- Step 5.6 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">6</span>
+                <span class="step-title" data-i18n="s5_step6_title">Pengeluaran Rutin</span>
+            </div>
+            <p data-i18n="s5_step6_p1">Jika kamu sudah membuat transaksi rutin, bagian ini menampilkan <strong>ringkasan pengeluaran rutin bulanan</strong>: daftar setiap item recurring beserta nominalnya, total per bulan, dan persentase fixed cost terhadap total pengeluaran.</p>
+            <p data-i18n="s5_step6_p2">Ini berguna untuk melihat berapa besar porsi pengeluaran tetap (listrik, internet, sewa, dll) dibanding pengeluaran variabel.</p>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_48_reports_recurring_phone_large_light.png" alt="Pengeluaran Rutin">
+                <div class="caption" data-i18n="s5_cap6">Ringkasan pengeluaran rutin &amp; persentase fixed cost</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== SECTION 6 ==================== -->
+    <div class="section" id="section-6">
+        <div class="section-header">
+            <div class="section-num">6</div>
+            <h2 data-i18n="s6_title">Kelola Keluarga / Grup</h2>
+        </div>
+        <p class="section-intro" data-i18n="s6_intro">Invite anggota keluarga atau teman untuk budget bersama, dan kelola siapa saja yang punya akses.</p>
+
+        <!-- Step 6.1 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">1</span>
+                <span class="step-title" data-i18n="s6_step1_title">Lihat Daftar Anggota</span>
+            </div>
+            <p data-i18n="s6_step1_p1">Buka <strong>Settings &rarr; Anggota Keluarga</strong> (atau Anggota Grup, tergantung tipe budget). Di sini kamu bisa melihat semua anggota beserta role dan status mereka.</p>
+            <p data-i18n="s6_step1_p2">Status anggota:</p>
+            <p data-i18n="s6_step1_p3">&bull; <strong>Active</strong> &mdash; Sudah bergabung dan mengklaim role.</p>
+            <p data-i18n="s6_step1_p4">&bull; <strong>Pending</strong> &mdash; Sudah diundang tapi belum membuka aplikasi.</p>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_25_family_list_phone_large_light.png" alt="Daftar Anggota">
+                <div class="caption" data-i18n="s6_cap1">Daftar anggota keluarga/grup</div>
+            </div>
+        </div>
+
+        <!-- Step 6.2 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">2</span>
+                <span class="step-title" data-i18n="s6_step2_title">Invite Anggota Baru</span>
+            </div>
+            <p data-i18n="s6_step2_p1">Tap tombol <strong>"Invite"</strong> untuk mengundang anggota baru. Isi:</p>
+            <p data-i18n="s6_step2_p2">&bull; <strong>Email</strong> &mdash; Email Google dari orang yang ingin diundang.</p>
+            <p data-i18n="s6_step2_p6">&bull; <strong>Nama</strong> &mdash; Nama panggilan anggota (maks 20 karakter).</p>
+            <p data-i18n="s6_step2_p3">&bull; <strong>Role</strong> (Tipe Keluarga) &mdash; Pilih <strong>Parent</strong> (akses penuh, bisa kelola anggota) atau <strong>Child</strong> (akses terbatas, hanya catat transaksi sendiri).</p>
+            <p data-i18n="s6_step2_p4">&bull; <strong>Gender</strong> (khusus Child) &mdash; Pilih laki-laki (👦) atau perempuan (👧) untuk ikon avatar.</p>
+            <p data-i18n="s6_step2_p5">Setelah invite, spreadsheet akan otomatis di-share ke email tersebut. Orang yang diundang tinggal install app, login, dan pilih <strong>"Gabung Budget"</strong>.</p>
+
+            <div class="info-box tip">
+                <span class="box-icon">&#x1F4A1;</span>
+                <div data-i18n="s6_step2_tip">Untuk tipe <strong>Bersama Teman</strong>, tidak ada pilihan role &mdash; semua anggota otomatis setara (Peer). Cukup isi email dan nama saja.</div>
+            </div>
+
+            <div class="info-box info">
+                <span class="box-icon">&#x1F4E8;</span>
+                <div data-i18n="s6_step2_info">Pastikan email yang diundang adalah <strong>akun Google</strong> (Gmail). Akun non-Google tidak bisa mengakses Google Sheets.</div>
+            </div>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_26_family_invite_phone_large_light.png" alt="Invite Anggota">
+                <div class="caption" data-i18n="s6_cap2">Form invite anggota baru</div>
+            </div>
+        </div>
+
+        <!-- Step 6.3 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">3</span>
+                <span class="step-title" data-i18n="s6_step3_title">Hapus / Revoke Anggota</span>
+            </div>
+            <p data-i18n="s6_step3_p1">Jika ingin menghapus akses seseorang, tap anggota tersebut lalu pilih <strong>"Revoke"</strong>. Akses ke spreadsheet akan dicabut dan anggota tersebut tidak bisa lagi melihat atau mengedit data budget.</p>
+
+            <div class="info-box warning">
+                <span class="box-icon">&#x26A0;&#xFE0F;</span>
+                <div data-i18n="s6_step3_warn">Revoke bersifat permanen. Jika ingin mengundang kembali, kamu perlu melakukan invite ulang dari awal.</div>
+            </div>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_27_family_revoke_phone_large_light.png" alt="Revoke Anggota">
+                <div class="caption" data-i18n="s6_cap3">Hapus akses anggota</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== SECTION 7 ==================== -->
+    <div class="section" id="section-7">
+        <div class="section-header">
+            <div class="section-num">7</div>
+            <h2 data-i18n="s7_title">Atur Budget</h2>
+        </div>
+        <p class="section-intro" data-i18n="s7_intro">Set target pengeluaran bulanan per kategori agar keuangan lebih terkontrol.</p>
+
+        <!-- Step 7.1 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">1</span>
+                <span class="step-title" data-i18n="s7_step1_title">Lihat Daftar Budget</span>
+            </div>
+            <p data-i18n="s7_step1_p1">Buka <strong>Settings &rarr; Atur Budget</strong>. Kamu akan melihat daftar semua kategori pengeluaran beserta budget yang sudah di-set (jika ada).</p>
+            <p data-i18n="s7_step1_p2">Kategori yang belum punya budget akan menampilkan "Belum diatur".</p>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_28_budget_list_phone_large_light.png" alt="Daftar Budget">
+                <div class="caption" data-i18n="s7_cap1">Daftar budget per kategori</div>
+            </div>
+        </div>
+
+        <!-- Step 7.2 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">2</span>
+                <span class="step-title" data-i18n="s7_step2_title">Set Budget per Kategori</span>
+            </div>
+            <p data-i18n="s7_step2_p1">Tap kategori yang ingin diatur, lalu masukkan <strong>nominal budget bulanan</strong>. Misalnya: Makanan = Rp 2.000.000, Transportasi = Rp 500.000.</p>
+            <p data-i18n="s7_step2_p2">Budget berlaku per bulan dan akan di-reset otomatis setiap awal bulan.</p>
+
+            <div class="info-box tip">
+                <span class="box-icon">&#x1F4A1;</span>
+                <div data-i18n="s7_step2_tip">Mulai dari kategori terbesar dulu (Makanan, Transportasi, Tagihan). Kamu tidak perlu set budget untuk semua kategori sekaligus.</div>
+            </div>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_29_budget_edit_phone_large_light.png" alt="Edit Budget">
+                <div class="caption" data-i18n="s7_cap2">Set nominal budget untuk kategori</div>
+            </div>
+        </div>
+
+        <!-- Step 7.3 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">3</span>
+                <span class="step-title" data-i18n="s7_step3_title">Pantau Budget vs Actual</span>
+            </div>
+            <p data-i18n="s7_step3_p1">Setelah budget di-set, kamu bisa memantau progress di <strong>Reports</strong>. Setiap kategori akan menunjukkan:</p>
+            <p data-i18n="s7_step3_p2">&bull; <strong>Progress bar</strong> &mdash; Seberapa banyak budget yang sudah terpakai.</p>
+            <p data-i18n="s7_step3_p3">&bull; <strong>Warna indikator</strong> &mdash; Hijau (aman), kuning (mendekati limit), merah (melebihi budget).</p>
+            <p data-i18n="s7_step3_p4">&bull; <strong>Sisa budget</strong> &mdash; Berapa lagi yang boleh dikeluarkan bulan ini.</p>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_30_budget_progress_phone_large_light.png" alt="Budget Progress">
+                <div class="caption" data-i18n="s7_cap3">Pantau progress budget vs pengeluaran aktual</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== SECTION 8 ==================== -->
+    <div class="section" id="section-8">
+        <div class="section-header">
+            <div class="section-num">8</div>
+            <h2 data-i18n="s8_title">Target Tabungan</h2>
+        </div>
+        <p class="section-intro" data-i18n="s8_intro">Buat target menabung dan pantau progressnya hingga tercapai.</p>
+
+        <!-- Step 8.1 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">1</span>
+                <span class="step-title" data-i18n="s8_step1_title">Lihat Daftar Target</span>
+            </div>
+            <p data-i18n="s8_step1_p1">Buka <strong>Settings &rarr; Target Tabungan</strong>. Di sini kamu bisa melihat semua target tabungan yang sedang berjalan dan yang sudah tercapai.</p>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_31_savings_list_phone_large_light.png" alt="Daftar Tabungan">
+                <div class="caption" data-i18n="s8_cap1">Daftar target tabungan</div>
+            </div>
+        </div>
+
+        <!-- Step 8.2 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">2</span>
+                <span class="step-title" data-i18n="s8_step2_title">Buat Target Baru</span>
+            </div>
+            <p data-i18n="s8_step2_p1">Tap tombol <strong>(+)</strong> untuk membuat target baru. Isi:</p>
+            <p data-i18n="s8_step2_p2">&bull; <strong>Nama</strong> &mdash; Nama target (misal: "Dana Darurat", "Liburan Bali").</p>
+            <p data-i18n="s8_step2_p3">&bull; <strong>Target Nominal</strong> &mdash; Berapa total yang ingin ditabung.</p>
+            <p data-i18n="s8_step2_p4">&bull; <strong>Mata Uang</strong> &mdash; Pilih currency (IDR, USD, SGD, dll).</p>
+            <p data-i18n="s8_step2_p5">&bull; <strong>Target Tanggal</strong> &mdash; Kapan ingin tercapai (opsional).</p>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_32_savings_create_phone_large_light.png" alt="Buat Target">
+                <div class="caption" data-i18n="s8_cap2">Form buat target tabungan baru</div>
+            </div>
+        </div>
+
+        <!-- Step 8.3 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">3</span>
+                <span class="step-title" data-i18n="s8_step3_title">Pantau Progress</span>
+            </div>
+            <p data-i18n="s8_step3_p1">Setiap target menampilkan <strong>progress bar</strong> dan persentase pencapaian. Kamu bisa menambah saldo tabungan kapan saja.</p>
+            <p data-i18n="s8_step3_p2">Saat target tercapai 100%, kamu bisa menandainya sebagai <strong>"Complete"</strong> dan merayakan pencapaianmu!</p>
+
+            <div class="info-box tip">
+                <span class="box-icon">&#x1F389;</span>
+                <div data-i18n="s8_step3_tip">Menyelesaikan target tabungan juga memberikan <strong>Achievement</strong> di fitur Gamification. Satu alasan lagi untuk rajin menabung!</div>
+            </div>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_33_savings_progress_phone_large_light.png" alt="Progress Tabungan">
+                <div class="caption" data-i18n="s8_cap3">Progress bar target tabungan</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== SECTION WALLET ==================== -->
+    <div class="section" id="section-wallet">
+        <div class="section-header">
+            <div class="section-num">9</div>
+            <h2 data-i18n="sw_title">E-Wallet</h2>
+        </div>
+        <p class="section-intro" data-i18n="sw_intro">Lacak saldo e-wallet (GoPay, OVO, ShopeePay, DANA) dan otomatis kurangi saldo saat transaksi. Top up bukan pengeluaran!</p>
+
+        <!-- Step W.1 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">1</span>
+                <span class="step-title" data-i18n="sw_step1_title">Tambah Wallet</span>
+            </div>
+            <p data-i18n="sw_step1_p1">Buka <strong>Settings &rarr; E-Wallet</strong>, lalu tap tombol <strong>(+)</strong> untuk menambah wallet baru.</p>
+            <p data-i18n="sw_step1_p2">Isi <strong>nama</strong> (misal: "GoPay"), pilih <strong>ikon</strong>, dan masukkan <strong>saldo awal</strong>.</p>
+            <p data-i18n="sw_step1_p3">Opsional: <strong>Link ke Payment Method</strong> &mdash; Hubungkan wallet ke metode pembayaran yang sudah ada. Saldo akan otomatis berkurang saat kamu menggunakan metode pembayaran tersebut untuk transaksi.</p>
+
+            <div class="info-box tip">
+                <span class="box-icon">&#x1F4A1;</span>
+                <div data-i18n="sw_step1_tip">Setiap payment method hanya bisa di-link ke <strong>satu wallet</strong>. Jika payment method sudah terhubung ke wallet lain, maka tidak bisa dipilih.</div>
+            </div>
+        </div>
+
+        <!-- Step W.2 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">2</span>
+                <span class="step-title" data-i18n="sw_step2_title">Top Up &amp; Tarik Saldo</span>
+            </div>
+            <p data-i18n="sw_step2_p1">Tap tombol <strong>"Top Up"</strong> untuk menambah saldo wallet (misal: setelah transfer dari rekening bank ke GoPay).</p>
+            <p data-i18n="sw_step2_p2">Tap tombol <strong>"Tarik"</strong> untuk mengurangi saldo wallet (misal: tarik saldo GoPay ke rekening bank).</p>
+
+            <div class="info-box warning">
+                <span class="box-icon">&#x26A0;&#xFE0F;</span>
+                <div data-i18n="sw_step2_warn"><strong>Penting:</strong> Top up dan withdraw <strong>bukan</strong> transaksi pengeluaran/pemasukan. Ini hanya menggeser saldo internal wallet, sehingga tidak mempengaruhi laporan keuangan.</div>
+            </div>
+        </div>
+
+        <!-- Step W.3 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">3</span>
+                <span class="step-title" data-i18n="sw_step3_title">Auto-Adjust Saldo</span>
+            </div>
+            <p data-i18n="sw_step3_p1">Jika wallet sudah di-link ke payment method, saldo otomatis berubah saat transaksi:</p>
+            <p data-i18n="sw_step3_p2">&bull; <strong>Pengeluaran</strong> &mdash; Saldo wallet berkurang sesuai nominal transaksi.</p>
+            <p data-i18n="sw_step3_p3">&bull; <strong>Pemasukan</strong> &mdash; Saldo wallet bertambah sesuai nominal transaksi.</p>
+            <p data-i18n="sw_step3_p4">&bull; <strong>Hapus Transaksi</strong> &mdash; Saldo wallet dikembalikan (reverse).</p>
+            <p data-i18n="sw_step3_p5">Ini berlaku untuk transaksi manual maupun <strong>auto-input dari notifikasi</strong>.</p>
+
+            <div class="info-box tip">
+                <span class="box-icon">&#x1F4B3;</span>
+                <div data-i18n="sw_step3_tip">Saat menambah transaksi, <strong>saldo wallet ditampilkan</strong> di bawah payment method yang dipilih. Jika saldo minus, akan muncul <strong>warning merah</strong> sebagai pengingat untuk top up.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== SECTION 9 ==================== -->
+    <div class="section" id="section-9">
+        <div class="section-header">
+            <div class="section-num">10</div>
+            <h2 data-i18n="s9_title">Gamification</h2>
+        </div>
+        <p class="section-intro" data-i18n="s9_intro">Budgeting jadi lebih seru! Raih achievements, kumpulkan XP, naik level, dan bersaing di leaderboard keluarga.</p>
+
+        <!-- Step 9.1 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">1</span>
+                <span class="step-title" data-i18n="s9_step1_title">Achievements</span>
+            </div>
+            <p data-i18n="s9_step1_p1">Buka <strong>Home &rarr; ikon piala</strong> untuk melihat halaman Achievements. Ada <strong>29 achievement</strong> yang bisa kamu raih di 7 kategori:</p>
+            <p data-i18n="s9_step1_p2">&bull; <strong>Tracker</strong> &mdash; Rajin mencatat transaksi (misal: catat 10, 50, 100 transaksi).</p>
+            <p data-i18n="s9_step1_p3">&bull; <strong>Streak</strong> &mdash; Input berturut-turut setiap hari.</p>
+            <p data-i18n="s9_step1_p4">&bull; <strong>Budget</strong> &mdash; Berhasil tidak melebihi budget.</p>
+            <p data-i18n="s9_step1_p5">&bull; <strong>Savings</strong> &mdash; Menabung dan mencapai target.</p>
+            <p data-i18n="s9_step1_p6">&bull; <strong>Automation</strong> &mdash; Memanfaatkan fitur auto-input.</p>
+            <p data-i18n="s9_step1_p7">&bull; <strong>Debt</strong> &mdash; Melunasi hutang.</p>
+            <p data-i18n="s9_step1_p8">&bull; <strong>Special</strong> &mdash; Achievement tersembunyi dan unik.</p>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_34_achievements_phone_large_light.png" alt="Achievements">
+                <div class="caption" data-i18n="s9_cap1">Halaman Achievements &mdash; lihat semua achievement</div>
+            </div>
+        </div>
+
+        <!-- Step 9.2 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">2</span>
+                <span class="step-title" data-i18n="s9_step2_title">XP, Level & Streak</span>
+            </div>
+            <p data-i18n="s9_step2_p1">Setiap aktivitas yang kamu lakukan memberikan <strong>XP (Experience Points)</strong>:</p>
+            <p data-i18n="s9_step2_p2">&bull; Catat transaksi = XP.</p>
+            <p data-i18n="s9_step2_p3">&bull; Raih achievement = bonus XP besar.</p>
+            <p data-i18n="s9_step2_p4">&bull; Streak harian = XP multiplier.</p>
+            <p data-i18n="s9_step2_p5">Semakin banyak XP, semakin tinggi <strong>level</strong> kamu. Level dan streak ditampilkan di Home sebagai badge.</p>
+
+            <div class="info-box tip">
+                <span class="box-icon">&#x1F525;</span>
+                <div data-i18n="s9_step2_tip"><strong>Jaga streak harianmu!</strong> Cukup catat minimal 1 transaksi per hari agar streak tidak putus. Streak panjang memberikan XP bonus dan membuka achievement khusus.</div>
+            </div>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_35_achievements_detail_phone_large_light.png" alt="Achievement Detail">
+                <div class="caption" data-i18n="s9_cap2">Detail achievement dengan progress</div>
+            </div>
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_37_streak_phone_large_light.png" alt="Streak & XP">
+                <div class="caption" data-i18n="s9_cap3">Streak counter dan level badge di Home</div>
+            </div>
+        </div>
+
+        <!-- Step 9.3 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">3</span>
+                <span class="step-title" data-i18n="s9_step3_title">Leaderboard Keluarga</span>
+            </div>
+            <p data-i18n="s9_step3_p1">Di tab <strong>Leaderboard</strong> (dari halaman Achievements), kamu bisa melihat peringkat semua anggota keluarga/grup berdasarkan XP dan level.</p>
+            <p data-i18n="s9_step3_p2">Siapa yang paling rajin mencatat? Siapa yang punya streak terpanjang? Kompetisi sehat untuk memotivasi seluruh anggota!</p>
+
+            <div class="info-box info">
+                <span class="box-icon">&#x1F3C6;</span>
+                <div data-i18n="s9_step3_info">Leaderboard hanya tersedia untuk tipe budget <strong>Keluarga</strong> dan <strong>Bersama Teman</strong>. Untuk tipe Saya Sendiri, kamu tetap bisa mengumpulkan achievement dan XP.</div>
+            </div>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_36_leaderboard_phone_large_light.png" alt="Leaderboard">
+                <div class="caption" data-i18n="s9_cap4">Leaderboard keluarga &mdash; siapa paling rajin?</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== SECTION 10 ==================== -->
+    <div class="section" id="section-10">
+        <div class="section-header">
+            <div class="section-num">11</div>
+            <h2 data-i18n="s10_title">Settings & Lainnya</h2>
+        </div>
+        <p class="section-intro" data-i18n="s10_intro">Pengaturan sync, bahasa, transaksi rutin, export data, dan fitur tambahan lainnya.</p>
+
+        <!-- Step 10.1 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">1</span>
+                <span class="step-title" data-i18n="s10_step1_title">Halaman Settings</span>
+            </div>
+            <p data-i18n="s10_step1_p1">Tap <strong>"Settings"</strong> di bottom navigation. Dari sini kamu bisa mengakses semua pengaturan aplikasi.</p>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_38_settings_main_phone_large_light.png" alt="Settings">
+                <div class="caption" data-i18n="s10_cap1">Halaman Settings utama</div>
+            </div>
+        </div>
+
+        <!-- Step 10.2 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">2</span>
+                <span class="step-title" data-i18n="s10_step2_title">Sync Data</span>
+            </div>
+            <p data-i18n="s10_step2_p1">Data kamu tersimpan lokal di HP dan di-sync ke Google Sheets. Sync terjadi <strong>otomatis</strong> saat kamu membuka app atau menambah transaksi.</p>
+            <p data-i18n="s10_step2_p2">Jika ingin sync manual, tap tombol <strong>"Sync"</strong> di Settings. Ada cooldown 5 menit antar sync manual untuk mencegah overload.</p>
+
+            <div class="info-box info">
+                <span class="box-icon">&#x2601;&#xFE0F;</span>
+                <div data-i18n="s10_step2_info">Aplikasi tetap bisa digunakan <strong>tanpa internet</strong> (offline). Transaksi akan tersimpan lokal dan otomatis di-sync saat koneksi kembali.</div>
+            </div>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_39_settings_sync_phone_large_light.png" alt="Sync">
+                <div class="caption" data-i18n="s10_cap2">Sync manual di Settings</div>
+            </div>
+        </div>
+
+        <!-- Step 10.3 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">3</span>
+                <span class="step-title" data-i18n="s10_step3_rem_title">Pengingat Harian</span>
+            </div>
+            <p data-i18n="s10_step3_rem_p1">Aktifkan toggle <strong>"Pengingat Harian"</strong> di Settings agar aplikasi mengirim notifikasi setiap <strong>jam 20:00</strong> jika kamu belum mencatat transaksi hari ini.</p>
+            <p data-i18n="s10_step3_rem_p2">Fitur ini membantu menjaga <strong>streak harian</strong> dan memastikan tidak ada pengeluaran yang terlewat dicatat.</p>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_49_daily_reminder_phone_large_light.png" alt="Pengingat Harian">
+                <div class="caption" data-i18n="s10_cap_reminder">Toggle Pengingat Harian di Settings</div>
+            </div>
+        </div>
+
+        <!-- Step 10.4 -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">4</span>
+                <span class="step-title" data-i18n="s10_step4_lang_title">Ganti Bahasa</span>
+            </div>
+            <p data-i18n="s10_step3_p1">Aplikasi mendukung <strong>Bahasa Indonesia</strong> dan <strong>English</strong>. Untuk mengganti bahasa, tap <strong>Settings &rarr; Bahasa</strong> lalu pilih bahasa yang diinginkan. Aplikasi akan langsung berubah tanpa restart.</p>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_40_settings_language_phone_large_light.png" alt="Ganti Bahasa">
+                <div class="caption" data-i18n="s10_cap3">Pilih bahasa: Indonesia atau English</div>
+            </div>
+        </div>
+
+        <!-- Step 10.5 — Theme -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">5</span>
+                <span class="step-title" data-i18n="s10_step5_theme_title">Tema Aplikasi</span>
+            </div>
+            <p data-i18n="s10_step5_theme_p1">Tap <strong>Settings &rarr; Tema</strong> untuk mengganti tampilan aplikasi. Ada 3 pilihan:</p>
+            <p data-i18n="s10_step5_theme_p2">&bull; <strong>Terang (Light)</strong> &mdash; Tampilan cerah dengan latar putih.</p>
+            <p data-i18n="s10_step5_theme_p3">&bull; <strong>Gelap (Dark)</strong> &mdash; Tampilan gelap, nyaman di malam hari dan hemat baterai di layar AMOLED.</p>
+            <p data-i18n="s10_step5_theme_p4">&bull; <strong>Sistem (System)</strong> &mdash; Otomatis mengikuti pengaturan tema HP kamu (default).</p>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_50_theme_picker_phone_large_light.png" alt="Tema Aplikasi">
+                <div class="caption" data-i18n="s10_cap_theme">Pilih tema: Terang, Gelap, atau Sistem</div>
+            </div>
+        </div>
+
+        <!-- Step 10.6 — Manage Categories & Payment Methods -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">6</span>
+                <span class="step-title" data-i18n="s10_step6_manage_title">Kelola Kategori & Metode Pembayaran</span>
+            </div>
+            <p data-i18n="s10_step6_manage_p1">Buka <strong>Settings &rarr; Kelola Kategori</strong> untuk menambah, mengedit, atau menghapus kategori dan sub-kategori pengeluaran/pemasukan. Setiap kategori bisa diberi <strong>emoji</strong> dan <strong>warna</strong> custom.</p>
+            <p data-i18n="s10_step6_manage_p2">Untuk metode pembayaran, buka <strong>Settings &rarr; Metode Pembayaran</strong>. Kamu bisa menambah metode baru (misal: kartu kredit tertentu) atau menghapus yang tidak dipakai.</p>
+            <div class="info-box tip">
+                <span class="box-icon">&#x1F4A1;</span>
+                <div data-i18n="s10_step6_manage_tip">Perubahan kategori dan metode pembayaran akan otomatis tersedia di form transaksi dan filter, serta di-sync ke anggota keluarga lainnya.</div>
+            </div>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_51_manage_categories_phone_large_light.png" alt="Kelola Kategori">
+                <div class="caption" data-i18n="s10_cap_manage">Kelola Kategori &amp; Metode Pembayaran</div>
+            </div>
+
+            <!-- Category Reference (Collapsible) -->
+            <div class="catref-wrap">
+                <details>
+                    <summary data-i18n="s10_catref_title">Daftar Lengkap Kategori &amp; Sub-Kategori</summary>
+                    <div class="catref-inner">
+                        <p data-i18n="s10_catref_intro">Berikut daftar lengkap semua kategori dan sub-kategori bawaan. Kamu bisa menambah, mengedit, atau menghapus sesuai kebutuhan.</p>
+
+                        <!-- EXPENSE CATEGORIES -->
+                        <div class="catref-group-title" data-i18n="s10_catref_expense_title">Pengeluaran &mdash; 17 Kategori</div>
+
+                        <div class="cat-card">
+                            <div class="cat-card-header"><span class="cat-icon">🍔</span> <span data-i18n="s10_cr_n1">Makanan &amp; Groceries</span></div>
+                            <div class="cat-card-subs" data-i18n="s10_cr_s1">Belanja Bulanan &middot; Jajan &middot; Makan di Luar &middot; Kopi/Minuman &middot; Delivery/GoFood <span class="sub-example">(GoFood, GrabFood, ShopeeFood)</span> &middot; Sayur &amp; Buah <span class="sub-example">(pasar, tukang sayur)</span></div>
+                        </div>
+
+                        <div class="cat-card">
+                            <div class="cat-card-header"><span class="cat-icon">🚗</span> <span data-i18n="s10_cr_n2">Transportasi</span></div>
+                            <div class="cat-card-subs" data-i18n="s10_cr_s2">Bensin &middot; Parkir &middot; Tol &middot; Ojek Online <span class="sub-example">(Gojek, Grab)</span> &middot; Servis Kendaraan <span class="sub-example">(ganti oli, tune-up, ganti ban)</span> &middot; Pajak Kendaraan <span class="sub-example">(STNK tahunan)</span> &middot; Transportasi Umum <span class="sub-example">(KRL, TransJakarta, MRT, bus)</span></div>
+                        </div>
+
+                        <div class="cat-card">
+                            <div class="cat-card-header"><span class="cat-icon">💡</span> <span data-i18n="s10_cr_n3">Utilitas &amp; Tagihan</span></div>
+                            <div class="cat-card-subs" data-i18n="s10_cr_s3">Listrik &middot; Air &middot; Internet &middot; Pulsa &middot; Gas &middot; TV Kabel <span class="sub-example">(IndiHome, First Media)</span> &middot; Sampah/Kebersihan <span class="sub-example">(iuran sampah RT)</span></div>
+                        </div>
+
+                        <div class="cat-card">
+                            <div class="cat-card-header"><span class="cat-icon">🛍️</span> <span data-i18n="s10_cr_n4">Belanja &amp; Lifestyle</span></div>
+                            <div class="cat-card-subs" data-i18n="s10_cr_s4">Fashion &middot; Elektronik &middot; Aksesoris &middot; Gadget <span class="sub-example">(HP, tablet, earbuds)</span> &middot; Furniture</div>
+                        </div>
+
+                        <div class="cat-card">
+                            <div class="cat-card-header"><span class="cat-icon">🏥</span> <span data-i18n="s10_cr_n5">Kesehatan</span></div>
+                            <div class="cat-card-subs" data-i18n="s10_cr_s5">Obat &middot; Dokter &middot; Vitamin &middot; Rumah Sakit &middot; Cek Lab <span class="sub-example">(tes darah, medical check-up)</span> &middot; Asuransi Kesehatan <span class="sub-example">(BPJS, premi asuransi swasta)</span></div>
+                        </div>
+
+                        <div class="cat-card">
+                            <div class="cat-card-header"><span class="cat-icon">📚</span> <span data-i18n="s10_cr_n6">Pendidikan</span></div>
+                            <div class="cat-card-subs" data-i18n="s10_cr_s6">SPP/Uang Sekolah &middot; Buku &middot; Kursus &middot; Alat Tulis &middot; Seragam &middot; Ekskul/Les <span class="sub-example">(bimbel, les musik, les bahasa)</span></div>
+                        </div>
+
+                        <div class="cat-card">
+                            <div class="cat-card-header"><span class="cat-icon">🎬</span> <span data-i18n="s10_cr_n7">Hiburan</span></div>
+                            <div class="cat-card-subs" data-i18n="s10_cr_s7">Bioskop &middot; Hobi &middot; Games &middot; Konser/Event <span class="sub-example">(tiket konser, festival, pameran)</span> &middot; Liburan <span class="sub-example">(hotel, tiket pesawat, wisata)</span></div>
+                        </div>
+
+                        <div class="cat-card">
+                            <div class="cat-card-header"><span class="cat-icon">🏠</span> <span data-i18n="s10_cr_n8">Rumah Tangga</span></div>
+                            <div class="cat-card-subs" data-i18n="s10_cr_s8">Perlengkapan &middot; Pembersih &middot; Servis <span class="sub-example">(tukang ledeng, service AC)</span> &middot; Sewa/Kontrakan &middot; Pajak Rumah/PBB <span class="sub-example">(Pajak Bumi &amp; Bangunan)</span> &middot; Renovasi &middot; Satpam/Keamanan <span class="sub-example">(iuran security kompleks)</span></div>
+                        </div>
+
+                        <div class="cat-card">
+                            <div class="cat-card-header"><span class="cat-icon">👨‍👩‍👧</span> <span data-i18n="s10_cr_n9">Anak &amp; Keluarga</span></div>
+                            <div class="cat-card-subs" data-i18n="s10_cr_s9">Susu/Popok &middot; Mainan &middot; Penitipan Anak <span class="sub-example">(daycare, babysitter)</span> &middot; Perlengkapan Sekolah &middot; Les Anak <span class="sub-example">(les privat, bimbel)</span> &middot; Acara Keluarga <span class="sub-example">(ultah, reuni)</span></div>
+                        </div>
+
+                        <div class="cat-card">
+                            <div class="cat-card-header"><span class="cat-icon">🤝</span> <span data-i18n="s10_cr_n10">Sosial &amp; Amal</span></div>
+                            <div class="cat-card-subs" data-i18n="s10_cr_s10">Donasi &middot; Zakat/Infaq <span class="sub-example">(zakat fitrah, zakat mal, sedekah)</span> &middot; Kado/Hadiah &middot; Arisan/Kumpul &middot; Kondangan <span class="sub-example">(amplop nikahan)</span></div>
+                        </div>
+
+                        <div class="cat-card">
+                            <div class="cat-card-header"><span class="cat-icon">🏃</span> <span data-i18n="s10_cr_n11">Olahraga &amp; Fitness</span></div>
+                            <div class="cat-card-subs" data-i18n="s10_cr_s11">Gym/Fitness &middot; Alat Olahraga &middot; Sewa Lapangan <span class="sub-example">(futsal, badminton, tenis)</span> &middot; Kelas Olahraga <span class="sub-example">(yoga, kelas renang)</span> &middot; Pakaian Olahraga</div>
+                        </div>
+
+                        <div class="cat-card">
+                            <div class="cat-card-header"><span class="cat-icon">💅</span> <span data-i18n="s10_cr_n12">Perawatan Diri</span></div>
+                            <div class="cat-card-subs" data-i18n="s10_cr_s12">Salon/Barbershop &middot; Spa/Massage &middot; Skincare <span class="sub-example">(serum, moisturizer)</span> &middot; Makeup <span class="sub-example">(lipstik, foundation)</span> &middot; Kosmetik <span class="sub-example">(parfum, bedak)</span></div>
+                        </div>
+
+                        <div class="cat-card">
+                            <div class="cat-card-header"><span class="cat-icon">🐾</span> <span data-i18n="s10_cr_n13">Hewan Peliharaan</span></div>
+                            <div class="cat-card-subs" data-i18n="s10_cr_s13">Makanan Hewan &middot; Dokter Hewan &middot; Grooming <span class="sub-example">(mandi, potong kuku hewan)</span> &middot; Perlengkapan Hewan <span class="sub-example">(kandang, tempat makan)</span></div>
+                        </div>
+
+                        <div class="cat-card">
+                            <div class="cat-card-header"><span class="cat-icon">📋</span> <span data-i18n="s10_cr_n14">Pajak &amp; Administrasi</span></div>
+                            <div class="cat-card-subs" data-i18n="s10_cr_s14">Pajak Penghasilan <span class="sub-example">(PPh 21, SPT tahunan)</span> &middot; Biaya Admin <span class="sub-example">(transfer fee, admin bank)</span> &middot; Notaris <span class="sub-example">(akta, legalisir, surat kuasa)</span> &middot; Dokumen/Surat <span class="sub-example">(KTP, paspor, SIM)</span></div>
+                        </div>
+
+                        <div class="cat-card">
+                            <div class="cat-card-header"><span class="cat-icon">📱</span> <span data-i18n="s10_cr_n15">Langganan Digital</span></div>
+                            <div class="cat-card-subs" data-i18n="s10_cr_s15">Streaming Video <span class="sub-example">(Netflix, Disney+, Vidio)</span> &middot; Streaming Musik <span class="sub-example">(Spotify, Apple Music)</span> &middot; Cloud Storage <span class="sub-example">(Google One, iCloud)</span> &middot; AI Tools <span class="sub-example">(ChatGPT Plus, Claude Pro)</span> &middot; Aplikasi Premium &middot; Berita/Majalah <span class="sub-example">(Kompas+, Tempo)</span></div>
+                        </div>
+
+                        <div class="cat-card">
+                            <div class="cat-card-header"><span class="cat-icon">🏦</span> <span data-i18n="s10_cr_n16">Tabungan &amp; Investasi</span></div>
+                            <div class="cat-card-subs" data-i18n="s10_cr_s16">Dana Darurat &middot; Dana Pensiun <span class="sub-example">(DPLK, BPJS Ketenagakerjaan)</span> &middot; Dana Pendidikan &middot; Saham &middot; Reksadana &middot; Emas &middot; Crypto</div>
+                        </div>
+
+                        <div class="cat-card">
+                            <div class="cat-card-header"><span class="cat-icon">📦</span> <span data-i18n="s10_cr_n17">Lainnya</span></div>
+                            <div class="cat-card-subs" data-i18n="s10_cr_s17"><em>Tidak ada sub-kategori &mdash; gunakan untuk pengeluaran yang tidak masuk kategori manapun.</em></div>
+                        </div>
+
+                        <!-- INCOME CATEGORIES -->
+                        <div class="catref-group-title" data-i18n="s10_catref_income_title">Pemasukan &mdash; 8 Kategori</div>
+
+                        <div class="cat-card income">
+                            <div class="cat-card-header"><span class="cat-icon">💰</span> <span data-i18n="s10_cr_n18">Gaji Pokok</span></div>
+                            <div class="cat-card-subs" data-i18n="s10_cr_s18">Gaji Bulanan &middot; Lembur &middot; Tunjangan <span class="sub-example">(transport, makan, jabatan)</span></div>
+                        </div>
+
+                        <div class="cat-card income">
+                            <div class="cat-card-header"><span class="cat-icon">🎉</span> <span data-i18n="s10_cr_n19">Bonus/THR</span></div>
+                            <div class="cat-card-subs" data-i18n="s10_cr_s19">Bonus Tahunan &middot; THR &middot; Insentif <span class="sub-example">(bonus kinerja per kuartal)</span></div>
+                        </div>
+
+                        <div class="cat-card income">
+                            <div class="cat-card-header"><span class="cat-icon">📈</span> <span data-i18n="s10_cr_n20">Investasi</span></div>
+                            <div class="cat-card-subs" data-i18n="s10_cr_s20">Dividen Saham &middot; Bunga Deposito &middot; Profit Trading <span class="sub-example">(jual-beli saham/crypto)</span> &middot; Hasil Reksadana</div>
+                        </div>
+
+                        <div class="cat-card income">
+                            <div class="cat-card-header"><span class="cat-icon">💼</span> <span data-i18n="s10_cr_n21">Bisnis/Freelance</span></div>
+                            <div class="cat-card-subs" data-i18n="s10_cr_s21">Project Freelance <span class="sub-example">(desain, programming)</span> &middot; Profit Bisnis &middot; Komisi <span class="sub-example">(penjualan, affiliate)</span></div>
+                        </div>
+
+                        <div class="cat-card income">
+                            <div class="cat-card-header"><span class="cat-icon">🏘️</span> <span data-i18n="s10_cr_n22">Sewa/Properti</span></div>
+                            <div class="cat-card-subs" data-i18n="s10_cr_s22">Sewa Rumah/Kos &middot; Sewa Tanah &middot; Sewa Kendaraan</div>
+                        </div>
+
+                        <div class="cat-card income">
+                            <div class="cat-card-header"><span class="cat-icon">🛒</span> <span data-i18n="s10_cr_n23">Penjualan</span></div>
+                            <div class="cat-card-subs" data-i18n="s10_cr_s23">Jual Barang &middot; Jual Preloved <span class="sub-example">(barang bekas di marketplace)</span> &middot; Jual Makanan <span class="sub-example">(catering, jualan kue)</span></div>
+                        </div>
+
+                        <div class="cat-card income">
+                            <div class="cat-card-header"><span class="cat-icon">🎁</span> <span data-i18n="s10_cr_n24">Hadiah/Warisan</span></div>
+                            <div class="cat-card-subs" data-i18n="s10_cr_s24">Hadiah Ulang Tahun &middot; Amplop Nikah <span class="sub-example">(uang dari tamu undangan)</span> &middot; Warisan &middot; Hadiah/Undian <span class="sub-example">(doorprize, undian)</span></div>
+                        </div>
+
+                        <div class="cat-card income">
+                            <div class="cat-card-header"><span class="cat-icon">💵</span> <span data-i18n="s10_cr_n25">Lainnya</span></div>
+                            <div class="cat-card-subs" data-i18n="s10_cr_s25">Cashback/Reward <span class="sub-example">(cashback e-wallet, loyalty points)</span></div>
+                        </div>
+
+                        <!-- SYSTEM CATEGORIES -->
+                        <div class="catref-group-title" data-i18n="s10_catref_system_title">Kategori Sistem &mdash; Otomatis Tersedia</div>
+
+                        <div class="cat-card system">
+                            <div class="cat-card-header"><span class="cat-icon">💸</span> <span data-i18n="s10_cr_n26">Piutang (Kasih Pinjaman)</span></div>
+                            <div class="cat-card-subs" data-i18n="s10_cr_s26">Pengeluaran &mdash; catat saat kamu meminjamkan uang ke orang lain.</div>
+                        </div>
+
+                        <div class="cat-card system">
+                            <div class="cat-card-header"><span class="cat-icon">💰</span> <span data-i18n="s10_cr_n27">Hutang (Terima Pinjaman)</span></div>
+                            <div class="cat-card-subs" data-i18n="s10_cr_s27">Pemasukan &mdash; catat saat kamu menerima pinjaman dari orang lain.</div>
+                        </div>
+
+                        <div class="cat-card system">
+                            <div class="cat-card-header"><span class="cat-icon">💳</span> <span data-i18n="s10_cr_n28">Bayar Cicilan Hutang</span></div>
+                            <div class="cat-card-subs" data-i18n="s10_cr_s28">Pengeluaran &mdash; catat saat kamu membayar cicilan hutang.</div>
+                        </div>
+
+                        <div class="cat-card system">
+                            <div class="cat-card-header"><span class="cat-icon">💵</span> <span data-i18n="s10_cr_n29">Terima Cicilan Piutang</span></div>
+                            <div class="cat-card-subs" data-i18n="s10_cr_s29">Pemasukan &mdash; catat saat orang lain membayar hutangnya ke kamu.</div>
+                        </div>
+
+                        <div class="cat-card system">
+                            <div class="cat-card-header"><span class="cat-icon">🔄</span> <span data-i18n="s10_cr_n30">Transfer Internal</span></div>
+                            <div class="cat-card-subs" data-i18n="s10_cr_s30">Khusus mode Keluarga &mdash; transfer uang antar anggota. Otomatis buat 2 transaksi berpasangan (pengeluaran pengirim + pemasukan penerima).</div>
+                        </div>
+
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <!-- Step 10.7 — Recurring -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">7</span>
+                <span class="step-title" data-i18n="s10_step4_title">Transaksi Rutin</span>
+            </div>
+            <p data-i18n="s10_step4_p1">Punya tagihan bulanan yang tetap? (Listrik, Internet, Sewa, dll.) Buka <strong>Settings &rarr; Transaksi Rutin</strong> untuk membuat transaksi yang otomatis tercatat setiap bulan.</p>
+            <p data-i18n="s10_step4_p2">Isi nominal, kategori, dan jadwal pengulangan. Transaksi akan otomatis dibuat sesuai jadwal.</p>
+            <p data-i18n="s10_step4_p3">Saat membuat transaksi rutin, isi: <strong>nama</strong> (misal: "Listrik PLN"), <strong>tipe</strong> (pengeluaran/pemasukan), <strong>kategori</strong>, <strong>nominal</strong>, <strong>metode pembayaran</strong>, dan <strong>tanggal jatuh tempo</strong> (tanggal 1-31 setiap bulan).</p>
+            <p data-i18n="s10_step4_p4">Pilih salah satu <strong>mode</strong>:</p>
+            <p data-i18n="s10_step4_p5">&bull; <strong>Otomatis (Auto)</strong> &mdash; Transaksi langsung tercatat di tanggal yang ditentukan tanpa konfirmasi. Cocok untuk tagihan yang nominalnya tetap.</p>
+            <p data-i18n="s10_step4_p6">&bull; <strong>Pengingat (Reminder)</strong> &mdash; Aplikasi mengirim notifikasi di tanggal jatuh tempo. Kamu bisa konfirmasi untuk mencatat atau tunda. Cocok untuk tagihan yang nominalnya bisa berubah.</p>
+
+            <div class="info-box tip">
+                <span class="box-icon">&#x23F8;&#xFE0F;</span>
+                <div data-i18n="s10_step4_pause_tip">Kamu bisa <strong>pause</strong> transaksi rutin yang sedang tidak aktif (misal: langganan yang dihentikan sementara) tanpa harus menghapusnya. Aktifkan kembali kapan saja.</div>
+            </div>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_41_recurring_list_phone_large_light.png" alt="Recurring List">
+                <div class="caption" data-i18n="s10_cap4">Daftar transaksi rutin</div>
+            </div>
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_42_recurring_add_phone_large_light.png" alt="Add Recurring">
+                <div class="caption" data-i18n="s10_cap5">Form tambah transaksi rutin</div>
+            </div>
+        </div>
+
+        <!-- Step 10.8 — Export -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">8</span>
+                <span class="step-title" data-i18n="s10_step5_title">Export Data</span>
+            </div>
+            <p data-i18n="s10_step5_p1">Ingin backup atau analisis data di luar aplikasi? Buka <strong>Settings &rarr; Export</strong>. Kamu bisa export data transaksi dalam format yang bisa dibuka di spreadsheet.</p>
+            <p data-i18n="s10_step5_p2">Pilih rentang waktu dan filter role jika ingin export data anggota tertentu saja.</p>
+            <p data-i18n="s10_step5_p3">File yang dihasilkan berformat <strong>CSV</strong> dengan 9 kolom: Tanggal, Tipe, Kategori, SubKategori, Jumlah, Mata Uang, MetodeBayar, Catatan, dan Dicatat Oleh. File bisa langsung dibuka di Excel, Google Sheets, atau aplikasi spreadsheet lainnya.</p>
+
+            <div class="info-box tip">
+                <span class="box-icon">&#x1F4E4;</span>
+                <div data-i18n="s10_step5_share_tip">Setelah export berhasil, kamu bisa langsung <strong>membuka</strong> file atau <strong>membagikan</strong> via WhatsApp, email, dan lainnya.</div>
+            </div>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_43_export_phone_large_light.png" alt="Export">
+                <div class="caption" data-i18n="s10_cap6">Export data transaksi</div>
+            </div>
+        </div>
+
+        <!-- Step 10.9 — About -->
+        <div class="step">
+            <div class="step-header">
+                <span class="step-badge">9</span>
+                <span class="step-title" data-i18n="s10_step6_title">Tentang Aplikasi</span>
+            </div>
+            <p data-i18n="s10_step6_p1">Buka <strong>Settings &rarr; Tentang</strong> untuk melihat versi aplikasi, kebijakan privasi, dan mengirim feedback.</p>
+            <p data-i18n="s10_step6_p2">Jika menemukan bug atau punya saran fitur, tap <strong>"Kirim Feedback"</strong> untuk langsung melaporkan ke developer.</p>
+
+            <div class="screenshot-wrap">
+                <img src="screenshots/guide_44_about_phone_large_light.png" alt="About">
+                <div class="caption" data-i18n="s10_cap7">Halaman Tentang Aplikasi</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <strong data-i18n="footer_1">Family Budget Tracker</strong> &mdash; <span data-i18n="footer_guide">Panduan Pengguna</span> v1.0<br>
+        <span style="opacity:0.7" data-i18n="footer_2">Data kamu, di Google Drive kamu. Privacy-first, always.</span><br>
+        <span style="opacity:0.5; font-size: 12px; margin-top: 4px; display: inline-block;">&copy; 2026 Family Budget Tracker</span>
+    </div>
+
+</main>
+
+<!-- Back to Top -->
+<button class="back-to-top" onclick="window.scrollTo({top:0})" aria-label="Kembali ke atas">&#8593;</button>
+
+<script>
+    // === Sidebar toggle (mobile) ===
+    function toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('open');
+        document.querySelector('.overlay').classList.toggle('active');
+    }
+
+    // Close sidebar when clicking a nav link (mobile)
+    document.querySelectorAll('.sidebar a').forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('open');
+                document.querySelector('.overlay').classList.remove('active');
+            }
+        });
+    });
+
+    // === Active nav highlight on scroll ===
+    const sections = document.querySelectorAll('.section');
+    const navLinks = document.querySelectorAll('.sidebar a');
+
+    const observerOptions = {
+        root: null,
+        rootMargin: '-100px 0px -60% 0px',
+        threshold: 0
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.id;
+                navLinks.forEach(link => {
+                    link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+                });
+            }
+        });
+    }, observerOptions);
+
+    sections.forEach(section => observer.observe(section));
+
+    // === Back to top button ===
+    const backToTop = document.querySelector('.back-to-top');
+    window.addEventListener('scroll', () => {
+        backToTop.classList.toggle('visible', window.scrollY > 400);
+    });
+
+    // === i18n Multi-language Support ===
+    const i18n = {
+        id: {
+            footer_1: 'Family Budget Tracker',
+            footer_2: 'Data kamu, di Google Drive kamu. Privacy-first, always.',
+            footer_guide: 'Panduan Pengguna',
+            header_subtitle: 'Panduan Pengguna',
+            back_to_web: 'Kembali ke Web',
+            hero_desc: 'Panduan lengkap untuk menggunakan Family Budget Tracker dari awal hingga mahir.',
+            hero_title: 'Panduan Pengguna',
+            nav_1: 'Mulai Pertama Kali',
+            nav_10: 'Settings',
+            nav_2: 'Mengenal Home',
+            nav_3: 'Catat Transaksi',
+            nav_4: 'Auto-Input',
+            nav_5: 'Riwayat &amp; Laporan',
+            nav_6: 'Keluarga / Grup',
+            nav_7: 'Atur Budget',
+            nav_8: 'Target Tabungan',
+            nav_9: 'Gamification',
+            nav_wallet: 'E-Wallet',
+            nav_g1: 'Mulai',
+            nav_g2: 'Fitur Utama',
+            nav_g3: 'Kelola',
+            nav_g4: 'Lainnya',
+            s10_cap1: 'Halaman Settings utama',
+            s10_cap2: 'Sync manual di Settings',
+            s10_cap3: 'Pilih bahasa: Indonesia atau English',
+            s10_cap4: 'Daftar transaksi rutin',
+            s10_cap5: 'Form tambah transaksi rutin',
+            s10_cap6: 'Export data transaksi',
+            s10_cap7: 'Halaman Tentang Aplikasi',
+            s10_cap_manage: 'Kelola Kategori & Metode Pembayaran',
+            s10_cap_reminder: 'Toggle Pengingat Harian di Settings',
+            s10_cap_theme: 'Pilih tema: Terang, Gelap, atau Sistem',
+            s10_intro: 'Pengaturan sync, bahasa, transaksi rutin, export data, dan fitur tambahan lainnya.',
+            s10_step1_p1: 'Tap "Settings"',
+            s10_step1_title: 'Halaman Settings',
+            s10_step2_info: 'Aplikasi tetap bisa digunakan tanpa internet',
+            s10_step2_p1: 'Data kamu tersimpan lokal di HP dan di-sync ke Google Sheets. Sync terjadi otomatis',
+            s10_step2_p2: 'Jika ingin sync manual, tap tombol "Sync"',
+            s10_step2_title: 'Sync Data',
+            s10_step3_p1: 'Aplikasi mendukung Bahasa Indonesia',
+            s10_step3_rem_p1: 'Aktifkan toggle <strong>\u201cPengingat Harian\u201d</strong> di Settings agar aplikasi mengirim notifikasi setiap <strong>jam 20:00</strong> jika kamu belum mencatat transaksi hari ini.',
+            s10_step3_rem_p2: 'Fitur ini membantu menjaga <strong>streak harian</strong> dan memastikan tidak ada pengeluaran yang terlewat dicatat.',
+            s10_step3_rem_title: 'Pengingat Harian',
+            s10_step3_title: 'Ganti Bahasa',
+            s10_step4_lang_title: 'Ganti Bahasa',
+            s10_step4_p1: 'Punya tagihan bulanan yang tetap? (Listrik, Internet, Sewa, dll.) Buka Settings &rarr; Transaksi Rutin',
+            s10_step4_p2: 'Isi nominal, kategori, dan jadwal pengulangan. Transaksi akan otomatis dibuat sesuai jadwal.',
+            s10_step4_p3: 'Saat membuat transaksi rutin, isi: <strong>nama</strong> (misal: &ldquo;Listrik PLN&rdquo;), <strong>tipe</strong> (pengeluaran/pemasukan), <strong>kategori</strong>, <strong>nominal</strong>, <strong>metode pembayaran</strong>, dan <strong>tanggal jatuh tempo</strong> (tanggal 1-31 setiap bulan).',
+            s10_step4_p4: 'Pilih salah satu <strong>mode</strong>:',
+            s10_step4_p5: '&bull; <strong>Otomatis (Auto)</strong> &mdash; Transaksi langsung tercatat di tanggal yang ditentukan tanpa konfirmasi. Cocok untuk tagihan yang nominalnya tetap.',
+            s10_step4_p6: '&bull; <strong>Pengingat (Reminder)</strong> &mdash; Aplikasi mengirim notifikasi di tanggal jatuh tempo. Kamu bisa konfirmasi untuk mencatat atau tunda. Cocok untuk tagihan yang nominalnya bisa berubah.',
+            s10_step4_pause_tip: 'Kamu bisa <strong>pause</strong> transaksi rutin yang sedang tidak aktif (misal: langganan yang dihentikan sementara) tanpa harus menghapusnya. Aktifkan kembali kapan saja.',
+            s10_step4_title: 'Transaksi Rutin',
+            s10_step5_p1: 'Ingin backup atau analisis data di luar aplikasi? Buka Settings &rarr; Export',
+            s10_step5_p2: 'Pilih rentang waktu dan filter role jika ingin export data anggota tertentu saja.',
+            s10_step5_p3: 'File yang dihasilkan berformat <strong>CSV</strong> dengan 9 kolom: Tanggal, Tipe, Kategori, SubKategori, Jumlah, Mata Uang, MetodeBayar, Catatan, dan Dicatat Oleh. File bisa langsung dibuka di Excel, Google Sheets, atau aplikasi spreadsheet lainnya.',
+            s10_step5_share_tip: 'Setelah export berhasil, kamu bisa langsung <strong>membuka</strong> file atau <strong>membagikan</strong> via WhatsApp, email, dan lainnya.',
+            s10_step5_theme_p1: 'Tap <strong>Settings &rarr; Tema</strong> untuk mengganti tampilan aplikasi. Ada 3 pilihan:',
+            s10_step5_theme_p2: '&bull; <strong>Terang (Light)</strong> &mdash; Tampilan cerah dengan latar putih.',
+            s10_step5_theme_p3: '&bull; <strong>Gelap (Dark)</strong> &mdash; Tampilan gelap, nyaman di malam hari dan hemat baterai di layar AMOLED.',
+            s10_step5_theme_p4: '&bull; <strong>Sistem (System)</strong> &mdash; Otomatis mengikuti pengaturan tema HP kamu (default).',
+            s10_step5_theme_title: 'Tema Aplikasi',
+            s10_step5_title: 'Export Data',
+            s10_step6_manage_p1: 'Buka <strong>Settings &rarr; Kelola Kategori</strong> untuk menambah, mengedit, atau menghapus kategori dan sub-kategori pengeluaran/pemasukan. Setiap kategori bisa diberi <strong>emoji</strong> dan <strong>warna</strong> custom.',
+            s10_step6_manage_p2: 'Untuk metode pembayaran, buka <strong>Settings &rarr; Metode Pembayaran</strong>. Kamu bisa menambah metode baru (misal: kartu kredit tertentu) atau menghapus yang tidak dipakai.',
+            s10_step6_manage_tip: 'Perubahan kategori dan metode pembayaran akan otomatis tersedia di form transaksi dan filter, serta di-sync ke anggota keluarga lainnya.',
+            s10_step6_manage_title: 'Kelola Kategori &amp; Metode Pembayaran',
+            s10_catref_title: 'Daftar Lengkap Kategori & Sub-Kategori',
+            s10_catref_intro: 'Berikut daftar lengkap semua kategori dan sub-kategori bawaan. Kamu bisa menambah, mengedit, atau menghapus sesuai kebutuhan.',
+            s10_catref_expense_title: 'Pengeluaran &mdash; 17 Kategori',
+            s10_catref_income_title: 'Pemasukan &mdash; 8 Kategori',
+            s10_catref_system_title: 'Kategori Sistem &mdash; Otomatis Tersedia',
+            s10_cr_n1: 'Makanan & Groceries',
+            s10_cr_s1: 'Belanja Bulanan &middot; Jajan &middot; Makan di Luar &middot; Kopi/Minuman &middot; Delivery/GoFood <span class="sub-example">(GoFood, GrabFood, ShopeeFood)</span> &middot; Sayur & Buah <span class="sub-example">(pasar, tukang sayur)</span>',
+            s10_cr_n2: 'Transportasi',
+            s10_cr_s2: 'Bensin &middot; Parkir &middot; Tol &middot; Ojek Online <span class="sub-example">(Gojek, Grab)</span> &middot; Servis Kendaraan <span class="sub-example">(ganti oli, tune-up, ganti ban)</span> &middot; Pajak Kendaraan <span class="sub-example">(STNK tahunan)</span> &middot; Transportasi Umum <span class="sub-example">(KRL, TransJakarta, MRT, bus)</span>',
+            s10_cr_n3: 'Utilitas & Tagihan',
+            s10_cr_s3: 'Listrik &middot; Air &middot; Internet &middot; Pulsa &middot; Gas &middot; TV Kabel <span class="sub-example">(IndiHome, First Media)</span> &middot; Sampah/Kebersihan <span class="sub-example">(iuran sampah RT)</span>',
+            s10_cr_n4: 'Belanja & Lifestyle',
+            s10_cr_s4: 'Fashion &middot; Elektronik &middot; Aksesoris &middot; Gadget <span class="sub-example">(HP, tablet, earbuds)</span> &middot; Furniture',
+            s10_cr_n5: 'Kesehatan',
+            s10_cr_s5: 'Obat &middot; Dokter &middot; Vitamin &middot; Rumah Sakit &middot; Cek Lab <span class="sub-example">(tes darah, medical check-up)</span> &middot; Asuransi Kesehatan <span class="sub-example">(BPJS, premi asuransi swasta)</span>',
+            s10_cr_n6: 'Pendidikan',
+            s10_cr_s6: 'SPP/Uang Sekolah &middot; Buku &middot; Kursus &middot; Alat Tulis &middot; Seragam &middot; Ekskul/Les <span class="sub-example">(bimbel, les musik, les bahasa)</span>',
+            s10_cr_n7: 'Hiburan',
+            s10_cr_s7: 'Bioskop &middot; Hobi &middot; Games &middot; Konser/Event <span class="sub-example">(tiket konser, festival, pameran)</span> &middot; Liburan <span class="sub-example">(hotel, tiket pesawat, wisata)</span>',
+            s10_cr_n8: 'Rumah Tangga',
+            s10_cr_s8: 'Perlengkapan &middot; Pembersih &middot; Servis <span class="sub-example">(tukang ledeng, service AC)</span> &middot; Sewa/Kontrakan &middot; Pajak Rumah/PBB <span class="sub-example">(Pajak Bumi & Bangunan)</span> &middot; Renovasi &middot; Satpam/Keamanan <span class="sub-example">(iuran security kompleks)</span>',
+            s10_cr_n9: 'Anak & Keluarga',
+            s10_cr_s9: 'Susu/Popok &middot; Mainan &middot; Penitipan Anak <span class="sub-example">(daycare, babysitter)</span> &middot; Perlengkapan Sekolah &middot; Les Anak <span class="sub-example">(les privat, bimbel)</span> &middot; Acara Keluarga <span class="sub-example">(ultah, reuni)</span>',
+            s10_cr_n10: 'Sosial & Amal',
+            s10_cr_s10: 'Donasi &middot; Zakat/Infaq <span class="sub-example">(zakat fitrah, zakat mal, sedekah)</span> &middot; Kado/Hadiah &middot; Arisan/Kumpul &middot; Kondangan <span class="sub-example">(amplop nikahan)</span>',
+            s10_cr_n11: 'Olahraga & Fitness',
+            s10_cr_s11: 'Gym/Fitness &middot; Alat Olahraga &middot; Sewa Lapangan <span class="sub-example">(futsal, badminton, tenis)</span> &middot; Kelas Olahraga <span class="sub-example">(yoga, kelas renang)</span> &middot; Pakaian Olahraga',
+            s10_cr_n12: 'Perawatan Diri',
+            s10_cr_s12: 'Salon/Barbershop &middot; Spa/Massage &middot; Skincare <span class="sub-example">(serum, moisturizer)</span> &middot; Makeup <span class="sub-example">(lipstik, foundation)</span> &middot; Kosmetik <span class="sub-example">(parfum, bedak)</span>',
+            s10_cr_n13: 'Hewan Peliharaan',
+            s10_cr_s13: 'Makanan Hewan &middot; Dokter Hewan &middot; Grooming <span class="sub-example">(mandi, potong kuku hewan)</span> &middot; Perlengkapan Hewan <span class="sub-example">(kandang, tempat makan)</span>',
+            s10_cr_n14: 'Pajak & Administrasi',
+            s10_cr_s14: 'Pajak Penghasilan <span class="sub-example">(PPh 21, SPT tahunan)</span> &middot; Biaya Admin <span class="sub-example">(transfer fee, admin bank)</span> &middot; Notaris <span class="sub-example">(akta, legalisir, surat kuasa)</span> &middot; Dokumen/Surat <span class="sub-example">(KTP, paspor, SIM)</span>',
+            s10_cr_n15: 'Langganan Digital',
+            s10_cr_s15: 'Streaming Video <span class="sub-example">(Netflix, Disney+, Vidio)</span> &middot; Streaming Musik <span class="sub-example">(Spotify, Apple Music)</span> &middot; Cloud Storage <span class="sub-example">(Google One, iCloud)</span> &middot; AI Tools <span class="sub-example">(ChatGPT Plus, Claude Pro)</span> &middot; Aplikasi Premium &middot; Berita/Majalah <span class="sub-example">(Kompas+, Tempo)</span>',
+            s10_cr_n16: 'Tabungan & Investasi',
+            s10_cr_s16: 'Dana Darurat &middot; Dana Pensiun <span class="sub-example">(DPLK, BPJS Ketenagakerjaan)</span> &middot; Dana Pendidikan &middot; Saham &middot; Reksadana &middot; Emas &middot; Crypto',
+            s10_cr_n17: 'Lainnya',
+            s10_cr_s17: '<em>Tidak ada sub-kategori &mdash; gunakan untuk pengeluaran yang tidak masuk kategori manapun.</em>',
+            s10_cr_n18: 'Gaji Pokok',
+            s10_cr_s18: 'Gaji Bulanan &middot; Lembur &middot; Tunjangan <span class="sub-example">(transport, makan, jabatan)</span>',
+            s10_cr_n19: 'Bonus/THR',
+            s10_cr_s19: 'Bonus Tahunan &middot; THR &middot; Insentif <span class="sub-example">(bonus kinerja per kuartal)</span>',
+            s10_cr_n20: 'Investasi',
+            s10_cr_s20: 'Dividen Saham &middot; Bunga Deposito &middot; Profit Trading <span class="sub-example">(jual-beli saham/crypto)</span> &middot; Hasil Reksadana',
+            s10_cr_n21: 'Bisnis/Freelance',
+            s10_cr_s21: 'Project Freelance <span class="sub-example">(desain, programming)</span> &middot; Profit Bisnis &middot; Komisi <span class="sub-example">(penjualan, affiliate)</span>',
+            s10_cr_n22: 'Sewa/Properti',
+            s10_cr_s22: 'Sewa Rumah/Kos &middot; Sewa Tanah &middot; Sewa Kendaraan',
+            s10_cr_n23: 'Penjualan',
+            s10_cr_s23: 'Jual Barang &middot; Jual Preloved <span class="sub-example">(barang bekas di marketplace)</span> &middot; Jual Makanan <span class="sub-example">(catering, jualan kue)</span>',
+            s10_cr_n24: 'Hadiah/Warisan',
+            s10_cr_s24: 'Hadiah Ulang Tahun &middot; Amplop Nikah <span class="sub-example">(uang dari tamu undangan)</span> &middot; Warisan &middot; Hadiah/Undian <span class="sub-example">(doorprize, undian)</span>',
+            s10_cr_n25: 'Lainnya',
+            s10_cr_s25: 'Cashback/Reward <span class="sub-example">(cashback e-wallet, loyalty points)</span>',
+            s10_cr_n26: 'Piutang (Kasih Pinjaman)',
+            s10_cr_s26: 'Pengeluaran &mdash; catat saat kamu meminjamkan uang ke orang lain.',
+            s10_cr_n27: 'Hutang (Terima Pinjaman)',
+            s10_cr_s27: 'Pemasukan &mdash; catat saat kamu menerima pinjaman dari orang lain.',
+            s10_cr_n28: 'Bayar Cicilan Hutang',
+            s10_cr_s28: 'Pengeluaran &mdash; catat saat kamu membayar cicilan hutang.',
+            s10_cr_n29: 'Terima Cicilan Piutang',
+            s10_cr_s29: 'Pemasukan &mdash; catat saat orang lain membayar hutangnya ke kamu.',
+            s10_cr_n30: 'Transfer Internal',
+            s10_cr_s30: 'Khusus mode Keluarga &mdash; transfer uang antar anggota. Otomatis buat 2 transaksi berpasangan (pengeluaran pengirim + pemasukan penerima).',
+            s10_step6_p1: 'Buka Settings &rarr; Tentang',
+            s10_step6_p2: 'Jika menemukan bug atau punya saran fitur, tap "Kirim Feedback"',
+            s10_step6_title: 'Tentang Aplikasi',
+            s10_title: 'Settings &amp; Lainnya',
+            s1_cap1: 'Halaman Splash &mdash; tap "Masuk dengan Google"',
+            s1_cap2: 'Pilih akun Google kamu',
+            s1_cap3: 'Pilih tipe budget sesuai kebutuhanmu',
+            s1_cap4: 'Buat Budget Baru &mdash; spreadsheet otomatis dibuat',
+            s1_cap5: 'Gabung Budget &mdash; pilih spreadsheet yang sudah di-share',
+            s1_cap6: 'Pilih role kamu di budget ini',
+            s1_intro: 'Langkah-langkah awal untuk setup aplikasi dan mulai mencatat keuangan keluarga.',
+            s1_step1_info: 'Akun Google ini akan digunakan untuk menyimpan data keuanganmu di Google Sheets milikmu sendiri. Data kamu aman &mdash; tidak tersimpan di server kami.',
+            s1_step1_p1: 'Setelah install, buka aplikasi. Kamu akan melihat halaman splash, lalu tap tombol "Masuk dengan Google"',
+            s1_step1_title: 'Buka Aplikasi &amp; Login Google',
+            s1_step2_p1: 'Selanjutnya, pilih tipe budget yang sesuai dengan kebutuhanmu:',
+            s1_step2_tip: 'Kapan pilih mana?',
+            s1_step2_title: 'Pilih Tipe Budget',
+            s1_step3_p1: 'Kamu punya 2 pilihan:',
+            s1_step3_p2: 'Buat Budget Baru',
+            s1_step3_p3: 'Gabung Budget',
+            s1_step3_title: 'Buat Baru atau Gabung Budget',
+            s1_step3_warn: 'Untuk "Gabung Budget"',
+            s1_step4_info: 'Role menentukan identitas kamu di budget bersama. Setiap transaksi yang kamu catat akan ditandai dengan role ini, sehingga terlihat jelas siapa yang mencatat.',
+            s1_step4_p1: 'Setelah spreadsheet siap, pilih role (peran) kamu:',
+            s1_step4_p2: '<strong>Tipe Keluarga:</strong> Pilih salah satu dari 3 role Parent yang tersedia.',
+            s1_step4_p3: '<strong>Tipe Bersama Teman:</strong> Anggota 1, Anggota 2, dst.',
+            s1_step4_p4: '<strong>Tipe Saya Sendiri:</strong> Otomatis &mdash; role \u201cPersonal\u201d langsung terpilih.',
+            s1_role_parent_title: '<strong>👨 Suami / 👩 Istri / 👤 Orang Tua Tunggal (Parent):</strong>',
+            s1_role_parent_desc: 'Akses penuh &mdash; kelola budget, invite &amp; hapus anggota, lihat &amp; export transaksi semua anggota, kelola kategori &amp; metode pembayaran.',
+            s1_role_child_title: '<strong>👶 Child (Anak):</strong>',
+            s1_role_child_desc: 'Akses terbatas &mdash; catat transaksi sendiri, lihat laporan &amp; leaderboard. Tidak bisa invite/hapus anggota, export hanya data sendiri. Role ini ditambahkan oleh Parent saat invite anggota baru.',
+            s1_role_peer_title: '<strong>👥 Peer (Semua Anggota):</strong>',
+            s1_role_peer_desc: 'Akses penuh &amp; setara &mdash; semua anggota bisa kelola budget, invite &amp; hapus anggota, lihat &amp; export semua data. Tidak ada hierarki.',
+            s1_role_personal_title: '<strong>👤 Personal:</strong>',
+            s1_role_personal_desc: 'Akses penuh otomatis &mdash; semua fitur tersedia untuk kamu sendiri. Tidak perlu pilih role, langsung masuk.',
+            s1_step4_title: 'Pilih Role',
+            s1_title: 'Mulai Pertama Kali',
+            s2_cap1: 'Dashboard utama &mdash; saldo dan ringkasan bulanan',
+            s2_cap2: '7 transaksi terakhir di Home',
+            s2_cap3: 'Bottom navigation &amp; quick action buttons',
+            s2_intro: 'Setelah setup selesai, kamu akan masuk ke halaman Home. Ini adalah pusat kendali keuanganmu.',
+            s2_step1_p1: 'Di bagian atas Home, kamu bisa melihat:',
+            s2_step1_p2: '&bull; Saldo',
+            s2_step1_p3: '&bull; <strong>Ringkasan Bulanan</strong> &mdash; Total pemasukan dan pengeluaran dalam bentuk card.',
+            s2_step1_p4: '&bull; <strong>Greeting</strong> &mdash; Sapaan berdasarkan waktu (Selamat Pagi/Siang/Sore/Malam) dan nama role kamu di bawahnya.',
+            s2_step1_title: 'Dashboard Utama',
+            s2_step2_p1: 'Scroll ke bawah untuk melihat 7 transaksi terakhir',
+            s2_step2_p2: 'Tap salah satu transaksi untuk melihat detail atau mengeditnya.',
+            s2_step2_title: 'Transaksi Terakhir',
+            s2_step3_p1: 'Di bagian bawah layar ada Bottom Navigation',
+            s2_step3_p2: '&bull; Home',
+            s2_step3_p3: '&bull; History',
+            s2_step3_p4: '&bull; Reports',
+            s2_step3_p5: '&bull; Settings',
+            s2_step3_p6: 'Di Home juga ada quick action buttons: Achievements',
+            s2_step3_title: 'Navigasi &amp; Quick Actions',
+            s2_title: 'Mengenal Home',
+            s3_cap1: 'Tap tombol (+) untuk menambah transaksi',
+            s3_cap2: 'Form Pengeluaran',
+            s3_cap3: 'Form Pemasukan',
+            s3_cap4: 'Pilih kategori dari daftar',
+            s3_cap5: 'Pilih sub-kategori (opsional)',
+            s3_cap6: 'Pilih metode pembayaran',
+            s3_cap7: 'Transaksi berhasil disimpan!',
+            s3_cap8: 'Form Transfer Internal — pilih anggota tujuan',
+            s3_cap9: 'Form Hutang/Piutang — isi nama & jatuh tempo',
+            s3_intro: 'Cara mencatat pengeluaran dan pemasukan secara manual.',
+            s3_step1_p1: 'Dari Home, tap tombol (+)',
+            s3_step1_title: 'Tap Tombol (+)',
+            s3_step2_p1: 'Di bagian atas form, ada 2 tab:',
+            s3_step2_p2: '&bull; Pengeluaran',
+            s3_step2_p3: '&bull; Pemasukan',
+            s3_step2_p4: 'Pilih tab yang sesuai, lalu isi nominalnya.',
+            s3_step2_title: 'Pilih Tipe: Pengeluaran atau Pemasukan',
+            s3_step3_p1: 'Tap field "Kategori"',
+            s3_step3_p2: 'Setelah memilih kategori, kamu bisa pilih sub-kategori',
+            s3_step3_title: 'Pilih Kategori &amp; Sub-Kategori',
+            s3_step4_p1: 'Tap field "Metode Pembayaran"',
+            s3_step4_title: 'Pilih Metode Pembayaran',
+            s3_step5_date_p1: 'Secara default, tanggal transaksi adalah <strong>hari ini</strong>. Jika ingin mencatat transaksi di tanggal lain (misalnya kemarin atau minggu lalu), tap field <strong>\u201cTanggal\u201d</strong> untuk membuka date picker.',
+            s3_step5_date_p2: 'Pilih tanggal yang sesuai, lalu tap <strong>\u201cOK\u201d</strong>. Ini berguna jika kamu lupa mencatat transaksi di hari sebelumnya.',
+            s3_step5_date_title: 'Ubah Tanggal (Opsional)',
+            s3_step5_p1: 'Kamu juga bisa menambahkan catatan',
+            s3_step5_p2: 'Setelah semua terisi, tap tombol \u201cSimpan\u201d',
+            s3_step5_tip: 'Transaksi yang tersimpan akan langsung muncul di daftar transaksi terakhir di Home, dan otomatis di-sync ke Google Sheets saat ada koneksi internet.',
+            s3_step5_title: 'Tambah Catatan &amp; Simpan',
+            s3_step6_curr_p1: 'Di sebelah field nominal, ada <strong>badge mata uang</strong> (misal: <strong>IDR</strong>). Tap badge ini untuk mengganti currency jika transaksi menggunakan mata uang lain seperti USD, SGD, EUR, dan lainnya.',
+            s3_step6_curr_p2: 'Mata uang default diambil dari pengaturan kamu. Setiap transaksi bisa menggunakan currency berbeda &mdash; berguna jika kamu punya pengeluaran dalam beberapa mata uang.',
+            s3_step6_curr_title: 'Ubah Mata Uang (Opsional)',
+            s3_step6_title: 'Tambah Catatan &amp; Simpan',
+            s3_step7_title: 'Tambah Catatan &amp; Simpan',
+            s3_step8_transfer_info: 'Sistem otomatis membuat <strong>2 transaksi berpasangan</strong>: pengeluaran di akun pengirim dan pemasukan di akun penerima. Jika salah satu diedit atau dihapus, pasangannya juga ikut berubah.',
+            s3_step8_transfer_p1: 'Fitur ini khusus untuk <strong>mode Keluarga</strong>. Gunakan untuk mencatat transfer uang antar anggota keluarga, misalnya suami memberi uang belanja ke istri.',
+            s3_step8_transfer_p2: '<strong>Cara pakai:</strong>',
+            s3_step8_transfer_p3: '&bull; Buka form tambah transaksi, pilih tab <strong>Pengeluaran</strong>.',
+            s3_step8_transfer_p4: '&bull; Pilih kategori <strong>&ldquo;Transfer Internal&rdquo;</strong> (ikon 🔄).',
+            s3_step8_transfer_p5: '&bull; Pilih <strong>sub-kategori</strong> = nama anggota tujuan (misal: &ldquo;Istri&rdquo;). Nama kamu sendiri tidak akan muncul di daftar.',
+            s3_step8_transfer_p6: '&bull; Isi nominal dan simpan.',
+            s3_step8_transfer_title: 'Transfer Internal (Keluarga)',
+            s3_step8_transfer_warn: 'Transfer Internal <strong>tidak mempengaruhi total budget keluarga</strong> karena uang hanya berpindah antar anggota. Laporan per anggota tetap akurat karena masing-masing punya record sendiri.',
+            s3_step9_debt_p1: 'Catat hutang dan piutang langsung dari form transaksi. Ada 4 kategori khusus:',
+            s3_step9_debt_p2: '&bull; <strong>Piutang (Hutang Diberikan)</strong> &mdash; Kamu meminjamkan uang ke orang lain. Tercatat sebagai pengeluaran.',
+            s3_step9_debt_p3: '&bull; <strong>Hutang (Hutang Diterima)</strong> &mdash; Kamu meminjam uang dari orang lain. Tercatat sebagai pemasukan.',
+            s3_step9_debt_p4: '&bull; <strong>Bayar Cicilan Hutang</strong> &mdash; Kamu membayar cicilan hutang. Tercatat sebagai pengeluaran.',
+            s3_step9_debt_p5: '&bull; <strong>Terima Cicilan Piutang</strong> &mdash; Orang lain membayar hutangnya ke kamu. Tercatat sebagai pemasukan.',
+            s3_step9_debt_p6: '<strong>Cara pakai:</strong> Pilih salah satu kategori hutang di atas, lalu isi field tambahan:',
+            s3_step9_debt_p7: '&bull; <strong>Nama</strong> &mdash; Nama orang yang berhutang/meminjamkan.',
+            s3_step9_debt_p8: '&bull; <strong>Jatuh Tempo</strong> &mdash; Tanggal deadline pembayaran (opsional). Jika diisi, aplikasi akan mengirim <strong>notifikasi pengingat</strong> H-3, H-1, dan di hari jatuh tempo.',
+            s3_step9_debt_tip: 'Hutang dan piutang akan otomatis menghitung sisa yang belum lunas. Kamu bisa track progress pembayaran dari riwayat transaksi dengan filter kategori hutang.',
+            s3_step9_debt_title: 'Pencatatan Hutang / Piutang',
+            s3_title: 'Catat Transaksi',
+            s4_cap1: 'Aktifkan toggle Auto-Input di Settings',
+            s4_cap2: 'Aktifkan Notification Access di Settings HP',
+            s4_cap3: 'Daftar notifikasi yang tertangkap',
+            s4_cap4: 'Review &amp; input manual dari pending notification',
+            s4_intro: 'Fitur unggulan! Transaksi otomatis tercatat dari notifikasi e-wallet dan bank tanpa perlu input manual.',
+            s4_step1_p1: 'Buka Settings',
+            s4_step1_p2: 'Saat pertama kali mengaktifkan, aplikasi akan meminta izin Notification Access',
+            s4_step1_title: 'Aktifkan Auto-Input di Settings',
+            s4_step2_p1: 'Kamu akan diarahkan ke halaman Settings HP &rarr; Notification Access',
+            s4_step2_title: 'Izinkan Notification Access',
+            s4_step2_warn: 'Ini berbeda dari "izin notifikasi" biasa!',
+            s4_step3_p1: 'Setelah aktif, setiap kali kamu melakukan pembayaran dan muncul notifikasi, aplikasi akan:',
+            s4_step3_p2: '&bull; Otomatis tercatat',
+            s4_step3_p3: '&bull; Masuk ke Pending',
+            s4_step3_tip: '<strong>Aplikasi yang didukung:</strong><br><strong>E-Wallet:</strong> GoPay, OVO, DANA, ShopeePay, LinkAja, Grab<br><strong>Bank Umum:</strong> BCA mobile, myBCA, BRImo, BRI, BNI, Mandiri, CIMB Niaga, BTN, Permata, BSI, Maybank, OCBC, Danamon, Bank Mega<br><strong>Digital Bank:</strong> Jenius, Bank Jago, SeaBank, Blu by BCA, LINE Bank, Allo Bank, Neobank, Digibank, TMRW<br><strong>Transfer:</strong> Flip',
+            s4_step3_title: 'Cara Kerja Auto-Input',
+            s4_step4_p1: 'Buka menu Pending Notifications',
+            s4_step4_p2: 'Untuk setiap notifikasi pending, kamu bisa:',
+            s4_step4_p3: '&bull; Input Manual',
+            s4_step4_p4: '&bull; Dismiss',
+            s4_step4_p5: '&bull; Report',
+            s4_step4_title: 'Kelola Pending Notifications',
+            s4_title: 'Auto-Input dari Notifikasi',
+            s5_cap1: 'Riwayat semua transaksi',
+            s5_cap2: 'Filter transaksi berdasarkan tipe, kategori, dan lainnya',
+            s5_cap3: 'Ringkasan laporan bulanan',
+            s5_cap4: 'Grafik pengeluaran per kategori',
+            s5_cap5: 'Daftar 5 pengeluaran terbesar bulan ini',
+            s5_cap6: 'Ringkasan pengeluaran rutin & persentase fixed cost',
+            s5_intro: 'Lihat semua riwayat transaksi dan analisis keuangan bulanan dalam bentuk grafik.',
+            s5_step1_p1: 'Tap "History"',
+            s5_step1_p2: 'Setiap item menampilkan: kategori, nominal, metode pembayaran, catatan, dan siapa yang mencatat.',
+            s5_step1_title: 'Riwayat Transaksi',
+            s5_step2_p1: 'History menampilkan transaksi di <strong>bulan yang sedang aktif</strong> (dipilih dari Home). Gunakan tombol filter dan search bar untuk mempersempit tampilan:',
+            s5_step2_p2: '&bull; <strong>Tipe</strong> &mdash; Hanya pengeluaran atau hanya pemasukan.',
+            s5_step2_p3: '&bull; <strong>Kategori</strong> &mdash; Tampilkan hanya kategori tertentu (misal: hanya Makanan).',
+            s5_step2_p4: '&bull; <strong>Metode Pembayaran</strong> &mdash; Filter berdasarkan cara bayar (misal: hanya GoPay).',
+            s5_step2_p5: '&bull; <strong>Anggota</strong> &mdash; Lihat transaksi anggota tertentu atau semua anggota.',
+            s5_step2_p6: '&bull; <strong>Rentang Nominal</strong> &mdash; Filter berdasarkan jumlah minimum/maksimum.',
+            s5_step2_p7: '&bull; <strong>Mata Uang</strong> &mdash; Pilih currency via chip di bagian atas (IDR, USD, dll).',
+            s5_step2_p8: '&bull; <strong>Search</strong> &mdash; Cari berdasarkan catatan atau nama kategori.',
+            s5_step2_title: 'Filter &amp; Cari',
+            s5_step3_p1: 'Tap "Reports"',
+            s5_step3_p2: '&bull; Ringkasan',
+            s5_step3_p3: '&bull; Perbandingan',
+            s5_step3_p4: '&bull; Budget vs Actual',
+            s5_step3_title: 'Laporan Bulanan',
+            s5_step4_p1: 'Scroll ke bawah di halaman Reports untuk melihat <strong>pie chart breakdown per kategori</strong>. Di atas grafik ada toggle <strong>\u201cPengeluaran\u201d</strong> dan <strong>\u201cPemasukan\u201d</strong> &mdash; tap untuk beralih antara grafik pengeluaran atau pemasukan.',
+            s5_step4_p2: 'Grafik ini membantu kamu tahu kemana uang paling banyak keluar (atau dari mana uang paling banyak masuk).',
+            s5_step4_tip: 'Gunakan laporan ini untuk evaluasi bulanan. Bandingkan bulan ke bulan dan lihat tren pengeluaranmu &mdash; apakah makin hemat atau makin boros?',
+            s5_step4_title: 'Grafik per Kategori',
+            s5_step5_p1: 'Di bawah pie chart, ada daftar <strong>5 transaksi pengeluaran terbesar</strong> bulan ini. Setiap item menampilkan kategori, nominal, dan tanggal &mdash; membantu kamu mengidentifikasi pengeluaran yang paling signifikan.',
+            s5_step5_title: 'Top 5 Pengeluaran Terbesar',
+            s5_step6_p1: 'Jika kamu sudah membuat transaksi rutin, bagian ini menampilkan <strong>ringkasan pengeluaran rutin bulanan</strong>: daftar setiap item recurring beserta nominalnya, total per bulan, dan persentase fixed cost terhadap total pengeluaran.',
+            s5_step6_p2: 'Ini berguna untuk melihat berapa besar porsi pengeluaran tetap (listrik, internet, sewa, dll) dibanding pengeluaran variabel.',
+            s5_step6_title: 'Pengeluaran Rutin',
+            s5_title: 'Riwayat &amp; Laporan',
+            s6_cap1: 'Daftar anggota keluarga/grup',
+            s6_cap2: 'Form invite anggota baru',
+            s6_cap3: 'Hapus akses anggota',
+            s6_intro: 'Invite anggota keluarga atau teman untuk budget bersama, dan kelola siapa saja yang punya akses.',
+            s6_step1_p1: 'Buka Settings &rarr; Anggota Keluarga',
+            s6_step1_p2: 'Status anggota:',
+            s6_step1_p3: '&bull; Active',
+            s6_step1_p4: '&bull; Pending',
+            s6_step1_title: 'Lihat Daftar Anggota',
+            s6_step2_info: 'Pastikan email yang diundang adalah akun Google',
+            s6_step2_p1: 'Tap tombol "Invite"',
+            s6_step2_p2: '&bull; <strong>Email</strong> &mdash; Email Google dari orang yang ingin diundang.',
+            s6_step2_p3: '&bull; <strong>Role</strong> (Tipe Keluarga) &mdash; Pilih <strong>Parent</strong> (akses penuh, bisa kelola anggota) atau <strong>Child</strong> (akses terbatas, hanya catat transaksi sendiri).',
+            s6_step2_p4: '&bull; <strong>Gender</strong> (khusus Child) &mdash; Pilih laki-laki (\uD83D\uDC66) atau perempuan (\uD83D\uDC67) untuk ikon avatar.',
+            s6_step2_p5: 'Setelah invite, spreadsheet akan otomatis di-share ke email tersebut. Orang yang diundang tinggal install app, login, dan pilih <strong>\u201cGabung Budget\u201d</strong>.',
+            s6_step2_p6: '&bull; <strong>Nama</strong> &mdash; Nama panggilan anggota (maks 20 karakter).',
+            s6_step2_tip: 'Untuk tipe <strong>Bersama Teman</strong>, tidak ada pilihan role &mdash; semua anggota otomatis setara (Peer). Cukup isi email dan nama saja.',
+            s6_step2_title: 'Invite Anggota Baru',
+            s6_step3_p1: 'Jika ingin menghapus akses seseorang, tap anggota tersebut lalu pilih "Revoke"',
+            s6_step3_title: 'Hapus / Revoke Anggota',
+            s6_step3_warn: 'Revoke bersifat permanen. Jika ingin mengundang kembali, kamu perlu melakukan invite ulang dari awal.',
+            s6_title: 'Kelola Keluarga / Grup',
+            s7_cap1: 'Daftar budget per kategori',
+            s7_cap2: 'Set nominal budget untuk kategori',
+            s7_cap3: 'Pantau progress budget vs pengeluaran aktual',
+            s7_intro: 'Set target pengeluaran bulanan per kategori agar keuangan lebih terkontrol.',
+            s7_step1_p1: 'Buka Settings &rarr; Atur Budget',
+            s7_step1_p2: 'Kategori yang belum punya budget akan menampilkan "Belum diatur".',
+            s7_step1_title: 'Lihat Daftar Budget',
+            s7_step2_p1: 'Tap kategori yang ingin diatur, lalu masukkan nominal budget bulanan',
+            s7_step2_p2: 'Budget berlaku per bulan dan akan di-reset otomatis setiap awal bulan.',
+            s7_step2_tip: 'Mulai dari kategori terbesar dulu (Makanan, Transportasi, Tagihan). Kamu tidak perlu set budget untuk semua kategori sekaligus.',
+            s7_step2_title: 'Set Budget per Kategori',
+            s7_step3_p1: 'Setelah budget di-set, kamu bisa memantau progress di Reports',
+            s7_step3_p2: '&bull; Progress bar',
+            s7_step3_p3: '&bull; Warna indikator',
+            s7_step3_p4: '&bull; Sisa budget',
+            s7_step3_title: 'Pantau Budget vs Actual',
+            s7_title: 'Atur Budget',
+            s8_cap1: 'Daftar target tabungan',
+            s8_cap2: 'Form buat target tabungan baru',
+            s8_cap3: 'Progress bar target tabungan',
+            s8_intro: 'Buat target menabung dan pantau progressnya hingga tercapai.',
+            s8_step1_p1: 'Buka Settings &rarr; Target Tabungan',
+            s8_step1_title: 'Lihat Daftar Target',
+            s8_step2_p1: 'Tap tombol (+)',
+            s8_step2_p2: '&bull; Nama',
+            s8_step2_p3: '&bull; Target Nominal',
+            s8_step2_p4: '&bull; Mata Uang',
+            s8_step2_p5: '&bull; Target Tanggal',
+            s8_step2_title: 'Buat Target Baru',
+            s8_step3_p1: 'Setiap target menampilkan progress bar',
+            s8_step3_p2: 'Saat target tercapai 100%, kamu bisa menandainya sebagai "Complete"',
+            s8_step3_tip: 'Menyelesaikan target tabungan juga memberikan Achievement',
+            s8_step3_title: 'Pantau Progress',
+            s8_title: 'Target Tabungan',
+            sw_intro: 'Lacak saldo e-wallet (GoPay, OVO, ShopeePay, DANA) dan otomatis kurangi saldo saat transaksi. Top up bukan pengeluaran!',
+            sw_step1_p1: 'Buka <strong>Settings &rarr; E-Wallet</strong>, lalu tap tombol <strong>(+)</strong> untuk menambah wallet baru.',
+            sw_step1_p2: 'Isi <strong>nama</strong> (misal: &ldquo;GoPay&rdquo;), pilih <strong>ikon</strong>, dan masukkan <strong>saldo awal</strong>.',
+            sw_step1_p3: 'Opsional: <strong>Link ke Payment Method</strong> &mdash; Hubungkan wallet ke metode pembayaran yang sudah ada. Saldo akan otomatis berkurang saat kamu menggunakan metode pembayaran tersebut untuk transaksi.',
+            sw_step1_tip: 'Setiap payment method hanya bisa di-link ke <strong>satu wallet</strong>. Jika payment method sudah terhubung ke wallet lain, maka tidak bisa dipilih.',
+            sw_step1_title: 'Tambah Wallet',
+            sw_step2_p1: 'Tap tombol <strong>&ldquo;Top Up&rdquo;</strong> untuk menambah saldo wallet (misal: setelah transfer dari rekening bank ke GoPay).',
+            sw_step2_p2: 'Tap tombol <strong>&ldquo;Tarik&rdquo;</strong> untuk mengurangi saldo wallet (misal: tarik saldo GoPay ke rekening bank).',
+            sw_step2_title: 'Top Up &amp; Tarik Saldo',
+            sw_step2_warn: '<strong>Penting:</strong> Top up dan withdraw <strong>bukan</strong> transaksi pengeluaran/pemasukan. Ini hanya menggeser saldo internal wallet, sehingga tidak mempengaruhi laporan keuangan.',
+            sw_step3_p1: 'Jika wallet sudah di-link ke payment method, saldo otomatis berubah saat transaksi:',
+            sw_step3_p2: '&bull; <strong>Pengeluaran</strong> &mdash; Saldo wallet berkurang sesuai nominal transaksi.',
+            sw_step3_p3: '&bull; <strong>Pemasukan</strong> &mdash; Saldo wallet bertambah sesuai nominal transaksi.',
+            sw_step3_p4: '&bull; <strong>Hapus Transaksi</strong> &mdash; Saldo wallet dikembalikan (reverse).',
+            sw_step3_p5: 'Ini berlaku untuk transaksi manual maupun <strong>auto-input dari notifikasi</strong>.',
+            sw_step3_tip: 'Saat menambah transaksi, <strong>saldo wallet ditampilkan</strong> di bawah payment method yang dipilih. Jika saldo minus, akan muncul <strong>warning merah</strong> sebagai pengingat untuk top up.',
+            sw_step3_title: 'Auto-Adjust Saldo',
+            sw_title: 'E-Wallet',
+            s9_cap1: 'Halaman Achievements &mdash; lihat semua achievement',
+            s9_cap2: 'Detail achievement dengan progress',
+            s9_cap3: 'Streak counter dan level badge di Home',
+            s9_cap4: 'Leaderboard keluarga &mdash; siapa paling rajin?',
+            s9_intro: 'Budgeting jadi lebih seru! Raih achievements, kumpulkan XP, naik level, dan bersaing di leaderboard keluarga.',
+            s9_step1_p1: 'Buka Home &rarr; ikon piala',
+            s9_step1_p2: '&bull; Tracker',
+            s9_step1_p3: '&bull; Streak',
+            s9_step1_p4: '&bull; Budget',
+            s9_step1_p5: '&bull; Savings',
+            s9_step1_p6: '&bull; Automation',
+            s9_step1_p7: '&bull; Debt',
+            s9_step1_p8: '&bull; Special',
+            s9_step1_title: 'Achievements',
+            s9_step2_p1: 'Setiap aktivitas yang kamu lakukan memberikan XP (Experience Points)',
+            s9_step2_p2: '&bull; Catat transaksi = XP.',
+            s9_step2_p3: '&bull; Raih achievement = bonus XP besar.',
+            s9_step2_p4: '&bull; Streak harian = XP multiplier.',
+            s9_step2_p5: 'Semakin banyak XP, semakin tinggi level',
+            s9_step2_tip: 'Jaga streak harianmu!',
+            s9_step2_title: 'XP, Level &amp; Streak',
+            s9_step3_info: 'Leaderboard hanya tersedia untuk tipe budget Keluarga',
+            s9_step3_p1: 'Di tab Leaderboard',
+            s9_step3_p2: 'Siapa yang paling rajin mencatat? Siapa yang punya streak terpanjang? Kompetisi sehat untuk memotivasi seluruh anggota!',
+            s9_step3_title: 'Leaderboard Keluarga',
+            s9_title: 'Gamification',
+            toc_1: '1. Mulai',
+            toc_10: '10. Settings',
+            toc_2: '2. Home',
+            toc_3: '3. Transaksi',
+            toc_4: '4. Auto-Input',
+            toc_5: '5. Laporan',
+            toc_6: '6. Keluarga',
+            toc_7: '7. Budget',
+            toc_8: '8. Tabungan',
+            toc_9: '10. Gamification',
+            toc_wallet: '9. E-Wallet',
+            type_family_desc: 'Untuk suami, istri, dan anak. Ada hierarki Parent',
+            type_family_tag: 'Hierarki Parent-Child',
+            type_family_title: 'Keluarga',
+            type_peer_desc: 'Untuk teman kos, roommate, atau rekan. Semua anggota setara',
+            type_peer_tag: 'Semua Setara',
+            type_peer_title: 'Bersama Teman',
+            type_personal_desc: 'Budget personal untuk kamu sendiri. Hanya 1 pengguna, tanpa perlu invite siapapun.',
+            type_personal_tag: 'Single User',
+            type_personal_title: 'Saya Sendiri'
+        },
+        en: {
+            footer_1: 'Family Budget Tracker',
+            footer_2: 'Your data, in your Google Drive. Privacy-first, always.',
+            footer_guide: 'User Guide',
+            header_subtitle: 'User Guide',
+            back_to_web: 'Back to Website',
+            hero_desc: 'Complete guide to using Family Budget Tracker from start to finish.',
+            hero_title: 'User Guide',
+            nav_1: 'Getting Started',
+            nav_10: 'Settings',
+            nav_2: 'Explore Home',
+            nav_3: 'Add Transactions',
+            nav_4: 'Auto-Input',
+            nav_5: 'History &amp; Reports',
+            nav_6: 'Family / Group',
+            nav_7: 'Set Budget',
+            nav_8: 'Savings Goals',
+            nav_9: 'Gamification',
+            nav_wallet: 'E-Wallet',
+            nav_g1: 'Start',
+            nav_g2: 'Main Features',
+            nav_g3: 'Manage',
+            nav_g4: 'More',
+            s10_cap1: 'Main Settings page',
+            s10_cap2: 'Manual sync in Settings',
+            s10_cap3: 'Choose language: Indonesian or English',
+            s10_cap4: 'Recurring transactions list',
+            s10_cap5: 'Add recurring transaction form',
+            s10_cap6: 'Export transaction data',
+            s10_cap7: 'About App page',
+            s10_cap_manage: 'Manage Categories & Payment Methods',
+            s10_cap_reminder: 'Daily Reminder toggle in Settings',
+            s10_cap_theme: 'Choose theme: Light, Dark, or System',
+            s10_intro: 'Configure sync, language, recurring transactions, data export, and other additional features.',
+            s10_step1_p1: 'Tap "Settings"',
+            s10_step1_title: 'Settings Page',
+            s10_step2_info: 'The app works offline',
+            s10_step2_p1: 'Your data is stored locally on your phone and synced to Google Sheets. Sync happens automatically',
+            s10_step2_p2: 'For manual sync, tap the "Sync" button',
+            s10_step2_title: 'Sync Data',
+            s10_step3_p1: 'The app supports <strong>Indonesian</strong> and <strong>English</strong>. To change language, tap <strong>Settings &rarr; Language</strong> then select your preferred language. The app will switch instantly without restart.',
+            s10_step3_rem_p1: 'Enable the <strong>&ldquo;Daily Reminder&rdquo;</strong> toggle in Settings so the app sends a notification every day at <strong>8:00 PM</strong> if you haven&rsquo;t recorded any transactions today.',
+            s10_step3_rem_p2: 'This feature helps maintain your <strong>daily streak</strong> and ensures no expenses go unrecorded.',
+            s10_step3_rem_title: 'Daily Reminder',
+            s10_step4_lang_title: 'Change Language',
+            s10_step4_p1: 'Have recurring monthly bills? (Electricity, Internet, Rent, etc.) Go to Settings &rarr; Recurring Transactions',
+            s10_step4_p2: 'Enter amount, category, and recurrence schedule. Transactions will be created automatically on schedule.',
+            s10_step4_p3: 'When creating a recurring transaction, fill in: <strong>name</strong> (e.g., &ldquo;Electricity Bill&rdquo;), <strong>type</strong> (expense/income), <strong>category</strong>, <strong>amount</strong>, <strong>payment method</strong>, and <strong>due date</strong> (day 1-31 each month).',
+            s10_step4_p4: 'Choose a <strong>mode</strong>:',
+            s10_step4_p5: '&bull; <strong>Auto</strong> &mdash; Transaction is recorded automatically on the specified date without confirmation. Best for bills with fixed amounts.',
+            s10_step4_p6: '&bull; <strong>Reminder</strong> &mdash; The app sends a notification on the due date. You can confirm to record or snooze. Best for bills with variable amounts.',
+            s10_step4_pause_tip: 'You can <strong>pause</strong> recurring transactions that are temporarily inactive (e.g., a suspended subscription) without deleting them. Reactivate anytime.',
+            s10_step4_title: 'Recurring Transactions',
+            s10_step5_p1: 'Want to backup or analyze data outside the app? Go to Settings &rarr; Export',
+            s10_step5_p2: 'Select date range and filter by role if you want to export specific member data only.',
+            s10_step5_p3: 'The exported file is in <strong>CSV</strong> format with 9 columns: Date, Type, Category, SubCategory, Amount, Currency, PaymentMethod, Notes, and Recorded By. The file can be opened directly in Excel, Google Sheets, or any spreadsheet app.',
+            s10_step5_share_tip: 'After a successful export, you can <strong>open</strong> the file directly or <strong>share</strong> it via WhatsApp, email, and more.',
+            s10_step5_theme_p1: 'Tap <strong>Settings &rarr; Theme</strong> to change the app appearance. There are 3 options:',
+            s10_step5_theme_p2: '&bull; <strong>Light</strong> &mdash; Bright appearance with white background.',
+            s10_step5_theme_p3: '&bull; <strong>Dark</strong> &mdash; Dark appearance, comfortable at night and saves battery on AMOLED screens.',
+            s10_step5_theme_p4: '&bull; <strong>System</strong> &mdash; Automatically follows your phone&rsquo;s theme setting (default).',
+            s10_step5_theme_title: 'App Theme',
+            s10_step5_title: 'Export Data',
+            s10_step6_manage_p1: 'Go to <strong>Settings &rarr; Manage Categories</strong> to add, edit, or delete expense/income categories and sub-categories. Each category can have a custom <strong>emoji</strong> and <strong>color</strong>.',
+            s10_step6_manage_p2: 'For payment methods, go to <strong>Settings &rarr; Payment Methods</strong>. You can add new methods (e.g., a specific credit card) or remove unused ones.',
+            s10_step6_manage_tip: 'Changes to categories and payment methods will automatically be available in the transaction form and filters, and synced to other family members.',
+            s10_step6_manage_title: 'Manage Categories &amp; Payment Methods',
+            s10_catref_title: 'Complete Category & Sub-Category List',
+            s10_catref_intro: 'Here is the complete list of all built-in categories and sub-categories. You can add, edit, or delete them as needed.',
+            s10_catref_expense_title: 'Expenses &mdash; 17 Categories',
+            s10_catref_income_title: 'Income &mdash; 8 Categories',
+            s10_catref_system_title: 'System Categories &mdash; Always Available',
+            s10_cr_n1: 'Food & Groceries',
+            s10_cr_s1: 'Monthly Groceries &middot; Snacks &middot; Dining Out &middot; Coffee/Drinks &middot; Food Delivery <span class="sub-example">(GoFood, GrabFood, ShopeeFood)</span> &middot; Fruits & Vegetables <span class="sub-example">(market, street vendor)</span>',
+            s10_cr_n2: 'Transportation',
+            s10_cr_s2: 'Gasoline &middot; Parking &middot; Toll &middot; Ride-Hailing <span class="sub-example">(Gojek, Grab)</span> &middot; Vehicle Service <span class="sub-example">(oil change, tune-up, tire replacement)</span> &middot; Vehicle Tax <span class="sub-example">(annual registration)</span> &middot; Public Transport <span class="sub-example">(train, bus, subway)</span>',
+            s10_cr_n3: 'Utilities & Bills',
+            s10_cr_s3: 'Electricity &middot; Water &middot; Internet &middot; Phone Credit &middot; Gas &middot; Cable TV <span class="sub-example">(IndiHome, First Media)</span> &middot; Waste/Sanitation <span class="sub-example">(neighborhood waste fee)</span>',
+            s10_cr_n4: 'Shopping & Lifestyle',
+            s10_cr_s4: 'Fashion &middot; Electronics &middot; Accessories &middot; Gadgets <span class="sub-example">(phone, tablet, earbuds)</span> &middot; Furniture',
+            s10_cr_n5: 'Health',
+            s10_cr_s5: 'Medicine &middot; Doctor &middot; Vitamins &middot; Hospital &middot; Lab Tests <span class="sub-example">(blood test, medical check-up)</span> &middot; Health Insurance <span class="sub-example">(BPJS, private insurance premium)</span>',
+            s10_cr_n6: 'Education',
+            s10_cr_s6: 'Tuition Fee &middot; Books &middot; Courses &middot; Stationery &middot; Uniform &middot; Extracurricular <span class="sub-example">(tutoring, music/language lessons)</span>',
+            s10_cr_n7: 'Entertainment',
+            s10_cr_s7: 'Cinema &middot; Hobbies &middot; Games &middot; Concerts/Events <span class="sub-example">(concert tickets, festivals, exhibitions)</span> &middot; Vacation <span class="sub-example">(hotel, flight tickets, tours)</span>',
+            s10_cr_n8: 'Household',
+            s10_cr_s8: 'Supplies &middot; Cleaning &middot; Maintenance <span class="sub-example">(plumber, AC service)</span> &middot; Rent &middot; Property Tax <span class="sub-example">(land & building tax)</span> &middot; Renovation &middot; Security <span class="sub-example">(neighborhood security fee)</span>',
+            s10_cr_n9: 'Kids & Family',
+            s10_cr_s9: 'Baby Supplies &middot; Toys &middot; Daycare <span class="sub-example">(daycare, babysitter)</span> &middot; School Supplies &middot; Kids Tutoring <span class="sub-example">(private lessons)</span> &middot; Family Events <span class="sub-example">(birthdays, reunions)</span>',
+            s10_cr_n10: 'Social & Charity',
+            s10_cr_s10: 'Donation &middot; Zakat/Tithe <span class="sub-example">(religious charity, alms)</span> &middot; Gifts &middot; Social Gathering &middot; Wedding Gifts <span class="sub-example">(wedding envelope)</span>',
+            s10_cr_n11: 'Sports & Fitness',
+            s10_cr_s11: 'Gym/Fitness &middot; Sports Equipment &middot; Court Rental <span class="sub-example">(futsal, badminton, tennis)</span> &middot; Sports Class <span class="sub-example">(yoga, swimming)</span> &middot; Sportswear',
+            s10_cr_n12: 'Personal Care',
+            s10_cr_s12: 'Salon/Barbershop &middot; Spa/Massage &middot; Skincare <span class="sub-example">(serum, moisturizer)</span> &middot; Makeup <span class="sub-example">(lipstick, foundation)</span> &middot; Cosmetics <span class="sub-example">(perfume, powder)</span>',
+            s10_cr_n13: 'Pets',
+            s10_cr_s13: 'Pet Food &middot; Veterinarian &middot; Grooming <span class="sub-example">(bathing, nail trimming)</span> &middot; Pet Supplies <span class="sub-example">(cage, food bowl)</span>',
+            s10_cr_n14: 'Taxes & Administration',
+            s10_cr_s14: 'Income Tax <span class="sub-example">(annual tax filing)</span> &middot; Admin Fee <span class="sub-example">(transfer fee, bank charges)</span> &middot; Notary <span class="sub-example">(deed, legalization, power of attorney)</span> &middot; Documents <span class="sub-example">(ID card, passport, driver\'s license)</span>',
+            s10_cr_n15: 'Digital Subscriptions',
+            s10_cr_s15: 'Video Streaming <span class="sub-example">(Netflix, Disney+, Vidio)</span> &middot; Music Streaming <span class="sub-example">(Spotify, Apple Music)</span> &middot; Cloud Storage <span class="sub-example">(Google One, iCloud)</span> &middot; AI Tools <span class="sub-example">(ChatGPT Plus, Claude Pro)</span> &middot; Premium Apps &middot; News/Magazines <span class="sub-example">(Kompas+, Tempo)</span>',
+            s10_cr_n16: 'Savings & Investment',
+            s10_cr_s16: 'Emergency Fund &middot; Retirement Fund <span class="sub-example">(pension plan, social security)</span> &middot; Education Fund &middot; Stocks &middot; Mutual Funds &middot; Gold &middot; Crypto',
+            s10_cr_n17: 'Others',
+            s10_cr_s17: '<em>No sub-categories &mdash; use for expenses that don\'t fit any other category.</em>',
+            s10_cr_n18: 'Salary',
+            s10_cr_s18: 'Monthly Salary &middot; Overtime &middot; Allowance <span class="sub-example">(transport, meals, position)</span>',
+            s10_cr_n19: 'Bonus/Holiday Pay',
+            s10_cr_s19: 'Annual Bonus &middot; Holiday Pay (THR) &middot; Incentive <span class="sub-example">(quarterly performance bonus)</span>',
+            s10_cr_n20: 'Investment',
+            s10_cr_s20: 'Stock Dividends &middot; Deposit Interest &middot; Trading Profit <span class="sub-example">(stock/crypto trading)</span> &middot; Mutual Fund Returns',
+            s10_cr_n21: 'Business/Freelance',
+            s10_cr_s21: 'Freelance Project <span class="sub-example">(design, programming)</span> &middot; Business Profit &middot; Commission <span class="sub-example">(sales, affiliate)</span>',
+            s10_cr_n22: 'Rental/Property',
+            s10_cr_s22: 'House/Room Rent &middot; Land Rent &middot; Vehicle Rent',
+            s10_cr_n23: 'Sales',
+            s10_cr_s23: 'Sell Goods &middot; Sell Preloved <span class="sub-example">(used items on marketplace)</span> &middot; Sell Food <span class="sub-example">(catering, baked goods)</span>',
+            s10_cr_n24: 'Gifts/Inheritance',
+            s10_cr_s24: 'Birthday Gift &middot; Wedding Money <span class="sub-example">(cash gift from wedding guests)</span> &middot; Inheritance &middot; Prize/Raffle <span class="sub-example">(doorprize, lottery)</span>',
+            s10_cr_n25: 'Others',
+            s10_cr_s25: 'Cashback/Reward <span class="sub-example">(e-wallet cashback, loyalty points)</span>',
+            s10_cr_n26: 'Receivable (Lend Money)',
+            s10_cr_s26: 'Expense &mdash; record when you lend money to someone.',
+            s10_cr_n27: 'Payable (Borrow Money)',
+            s10_cr_s27: 'Income &mdash; record when you receive a loan from someone.',
+            s10_cr_n28: 'Pay Debt Installment',
+            s10_cr_s28: 'Expense &mdash; record when you pay a debt installment.',
+            s10_cr_n29: 'Receive Debt Installment',
+            s10_cr_s29: 'Income &mdash; record when someone pays back their debt to you.',
+            s10_cr_n30: 'Internal Transfer',
+            s10_cr_s30: 'Family mode only &mdash; transfer money between members. Automatically creates 2 paired transactions (sender expense + receiver income).',
+            s10_step6_p1: 'Go to Settings &rarr; About',
+            s10_step6_p2: 'If you find a bug or have a feature suggestion, tap "Send Feedback"',
+            s10_step6_title: 'About App',
+            s10_title: 'Settings &amp; More',
+            s1_cap1: 'Splash screen &mdash; tap "Sign in with Google"',
+            s1_cap2: 'Select your Google account',
+            s1_cap3: 'Choose budget type that suits your needs',
+            s1_cap4: 'Create New Budget &mdash; spreadsheet automatically created',
+            s1_cap5: 'Join Budget &mdash; select shared spreadsheet',
+            s1_cap6: 'Choose your role in this budget',
+            s1_intro: 'Initial steps to set up the app and start tracking your family finances.',
+            s1_step1_info: 'This Google account will be used to store your financial data in your own Google Sheets. Your data is safe &mdash; not stored on our servers.',
+            s1_step1_p1: 'After installation, open the app. You\'ll see the splash screen, then tap "Sign in with Google" button',
+            s1_step1_title: 'Open App &amp; Google Login',
+            s1_step2_p1: 'Next, choose the budget type that suits your needs:',
+            s1_step2_tip: 'When to choose which?',
+            s1_step2_title: 'Choose Budget Type',
+            s1_step3_p1: 'You have 2 options:',
+            s1_step3_p2: 'Create New Budget',
+            s1_step3_p3: 'Join Budget',
+            s1_step3_title: 'Create New or Join Budget',
+            s1_step3_warn: 'For "Join Budget"',
+            s1_step4_info: 'Role determines your identity in the shared budget. Every transaction you record will be marked with this role, making it clear who recorded it.',
+            s1_step4_p1: 'After the spreadsheet is ready, choose your role:',
+            s1_step4_p2: '<strong>Family Type:</strong> Choose one of the 3 available Parent roles.',
+            s1_step4_p3: '<strong>Peer Type:</strong> Member 1, Member 2, etc.',
+            s1_step4_p4: '<strong>Personal Type:</strong> Automatic &mdash; "Personal" role is selected for you.',
+            s1_role_parent_title: '<strong>👨 Husband / 👩 Wife / 👤 Single Parent (Parent):</strong>',
+            s1_role_parent_desc: 'Full access &mdash; manage budget, invite &amp; remove members, view &amp; export all transactions, manage categories &amp; payment methods.',
+            s1_role_child_title: '<strong>👶 Child:</strong>',
+            s1_role_child_desc: 'Limited access &mdash; record your own transactions, view reports &amp; leaderboard. Cannot invite/remove members, export own data only. This role is added by a Parent when inviting new members.',
+            s1_role_peer_title: '<strong>👥 Peer (All Members):</strong>',
+            s1_role_peer_desc: 'Full &amp; equal access &mdash; all members can manage budget, invite &amp; remove members, view &amp; export all data. No hierarchy.',
+            s1_role_personal_title: '<strong>👤 Personal:</strong>',
+            s1_role_personal_desc: 'Full access automatically &mdash; all features available for yourself. No role selection needed, go straight in.',
+            s1_step4_title: 'Choose Role',
+            s1_title: 'Getting Started',
+            s2_cap1: 'Main dashboard &mdash; balance and monthly summary',
+            s2_cap2: 'Last 7 transactions on Home',
+            s2_cap3: 'Bottom navigation &amp; quick action buttons',
+            s2_intro: 'After setup is complete, you\'ll enter the Home page. This is your financial control center.',
+            s2_step1_p1: 'At the top of Home, you can see:',
+            s2_step1_p2: '&bull; Balance',
+            s2_step1_p3: '&bull; <strong>Monthly Summary</strong> &mdash; Total income and expenses as cards.',
+            s2_step1_p4: '&bull; <strong>Greeting</strong> &mdash; Time-based greeting (Good Morning/Afternoon/Evening/Night) with your role name below.',
+            s2_step1_title: 'Main Dashboard',
+            s2_step2_p1: 'Scroll down to see the last 7 transactions',
+            s2_step2_p2: 'Tap any transaction to view details or edit it.',
+            s2_step2_title: 'Recent Transactions',
+            s2_step3_p1: 'At the bottom of the screen there\'s a Bottom Navigation',
+            s2_step3_p2: '&bull; Home',
+            s2_step3_p3: '&bull; History',
+            s2_step3_p4: '&bull; Reports',
+            s2_step3_p5: '&bull; Settings',
+            s2_step3_p6: 'Home also has quick action buttons: Achievements',
+            s2_step3_title: 'Navigation &amp; Quick Actions',
+            s2_title: 'Explore Home',
+            s3_cap1: 'Tap (+) button to add transaction',
+            s3_cap2: 'Expense Form',
+            s3_cap3: 'Income Form',
+            s3_cap4: 'Select category from list',
+            s3_cap5: 'Select sub-category (optional)',
+            s3_cap6: 'Select payment method',
+            s3_cap7: 'Transaction successfully saved!',
+            s3_cap8: 'Internal Transfer form — select target member',
+            s3_cap9: 'Debt/Loan form — enter name & due date',
+            s3_intro: 'How to manually record expenses and income.',
+            s3_step1_p1: 'From Home, tap the (+) button',
+            s3_step1_title: 'Tap (+) Button',
+            s3_step2_p1: 'At the top of the form, there are 2 tabs:',
+            s3_step2_p2: '&bull; Expense',
+            s3_step2_p3: '&bull; Income',
+            s3_step2_p4: 'Choose the appropriate tab, then enter the amount.',
+            s3_step2_title: 'Choose Type: Expense or Income',
+            s3_step3_p1: 'Tap the "Category" field',
+            s3_step3_p2: 'After selecting category, you can choose a sub-category',
+            s3_step3_title: 'Select Category &amp; Sub-Category',
+            s3_step4_p1: 'Tap the "Payment Method" field',
+            s3_step4_title: 'Select Payment Method',
+            s3_step5_date_p1: 'By default, the transaction date is <strong>today</strong>. If you want to record a transaction on a different date (e.g. yesterday or last week), tap the <strong>\u201cDate\u201d</strong> field to open the date picker.',
+            s3_step5_date_p2: 'Select the desired date, then tap <strong>\u201cOK\u201d</strong>. This is useful if you forgot to record a transaction on a previous day.',
+            s3_step5_date_title: 'Change Date (Optional)',
+            s3_step5_p1: 'You can also add a note',
+            s3_step5_p2: 'After everything is filled, tap the \u201cSave\u201d button',
+            s3_step5_tip: 'Saved transactions will immediately appear in the recent transactions list on Home, and automatically sync to Google Sheets when online.',
+            s3_step5_title: 'Add Note &amp; Save',
+            s3_step6_curr_p1: 'Next to the amount field, there is a <strong>currency badge</strong> (e.g. <strong>IDR</strong>). Tap this badge to change the currency if the transaction uses a different currency like USD, SGD, EUR, and more.',
+            s3_step6_curr_p2: 'The default currency is taken from your settings. Each transaction can use a different currency &mdash; useful if you have expenses in multiple currencies.',
+            s3_step6_curr_title: 'Change Currency (Optional)',
+            s3_step6_title: 'Add Note &amp; Save',
+            s3_step7_title: 'Add Note &amp; Save',
+            s3_step8_transfer_info: 'The system automatically creates <strong>2 paired transactions</strong>: an expense under the sender&rsquo;s account and an income under the receiver&rsquo;s account. If one is edited or deleted, its pair is also updated.',
+            s3_step8_transfer_p1: 'This feature is exclusive to <strong>Family mode</strong>. Use it to record money transfers between family members, e.g., husband gives grocery money to wife.',
+            s3_step8_transfer_p2: '<strong>How to use:</strong>',
+            s3_step8_transfer_p3: '&bull; Open the add transaction form, select the <strong>Expense</strong> tab.',
+            s3_step8_transfer_p4: '&bull; Choose category <strong>&ldquo;Transfer Internal&rdquo;</strong> (🔄 icon).',
+            s3_step8_transfer_p5: '&bull; Select <strong>sub-category</strong> = the recipient member name (e.g., &ldquo;Istri&rdquo;). Your own name will not appear in the list.',
+            s3_step8_transfer_p6: '&bull; Enter the amount and save.',
+            s3_step8_transfer_title: 'Internal Transfer (Family)',
+            s3_step8_transfer_warn: 'Internal Transfers <strong>do not affect the total family budget</strong> since money only moves between members. Per-member reports remain accurate as each has their own record.',
+            s3_step9_debt_p1: 'Record debts and receivables directly from the transaction form. There are 4 special categories:',
+            s3_step9_debt_p2: '&bull; <strong>Receivable (Debt Given)</strong> &mdash; You lend money to someone. Recorded as an expense.',
+            s3_step9_debt_p3: '&bull; <strong>Payable (Debt Received)</strong> &mdash; You borrow money from someone. Recorded as income.',
+            s3_step9_debt_p4: '&bull; <strong>Pay Debt Installment</strong> &mdash; You pay an installment on your debt. Recorded as an expense.',
+            s3_step9_debt_p5: '&bull; <strong>Receive Debt Installment</strong> &mdash; Someone pays back their debt to you. Recorded as income.',
+            s3_step9_debt_p6: '<strong>How to use:</strong> Select one of the debt categories above, then fill in the additional fields:',
+            s3_step9_debt_p7: '&bull; <strong>Name</strong> &mdash; The name of the person borrowing/lending.',
+            s3_step9_debt_p8: '&bull; <strong>Due Date</strong> &mdash; Payment deadline (optional). If set, the app will send <strong>reminder notifications</strong> 3 days before, 1 day before, and on the due date.',
+            s3_step9_debt_tip: 'Debts and receivables automatically calculate the remaining unpaid balance. You can track payment progress from the transaction history with the debt category filter.',
+            s3_step9_debt_title: 'Debt &amp; Receivable Tracking',
+            s3_title: 'Add Transactions',
+            s4_cap1: 'Enable Auto-Input toggle in Settings',
+            s4_cap2: 'Enable Notification Access in phone Settings',
+            s4_cap3: 'List of captured notifications',
+            s4_cap4: 'Review &amp; manual input from pending notification',
+            s4_intro: 'Premium feature! Transactions are automatically recorded from e-wallet and bank notifications without manual input.',
+            s4_step1_p1: 'Go to Settings',
+            s4_step1_p2: 'When enabling for the first time, the app will request Notification Access permission',
+            s4_step1_title: 'Enable Auto-Input in Settings',
+            s4_step2_p1: 'You\'ll be directed to phone Settings &rarr; Notification Access',
+            s4_step2_title: 'Allow Notification Access',
+            s4_step2_warn: 'This is different from regular "notification permission"!',
+            s4_step3_p1: 'Once active, every time you make a payment and a notification appears, the app will:',
+            s4_step3_p2: '&bull; Automatically record it',
+            s4_step3_p3: '&bull; Add to Pending',
+            s4_step3_tip: '<strong>Supported apps:</strong><br><strong>E-Wallet:</strong> GoPay, OVO, DANA, ShopeePay, LinkAja, Grab<br><strong>Major Banks:</strong> BCA mobile, myBCA, BRImo, BRI, BNI, Mandiri, CIMB Niaga, BTN, Permata, BSI, Maybank, OCBC, Danamon, Bank Mega<br><strong>Digital Banks:</strong> Jenius, Bank Jago, SeaBank, Blu by BCA, LINE Bank, Allo Bank, Neobank, Digibank, TMRW<br><strong>Transfer:</strong> Flip',
+            s4_step3_title: 'How Auto-Input Works',
+            s4_step4_p1: 'Open the Pending Notifications menu',
+            s4_step4_p2: 'For each pending notification, you can:',
+            s4_step4_p3: '&bull; Manual Input',
+            s4_step4_p4: '&bull; Dismiss',
+            s4_step4_p5: '&bull; Report',
+            s4_step4_title: 'Manage Pending Notifications',
+            s4_title: 'Auto-Input from Notifications',
+            s5_cap1: 'All transaction history',
+            s5_cap2: 'Filter transactions by type, category, and more',
+            s5_cap3: 'Monthly report summary',
+            s5_cap4: 'Expense chart per category',
+            s5_cap5: 'Top 5 largest expenses this month',
+            s5_cap6: 'Recurring expenses summary & fixed cost percentage',
+            s5_intro: 'View all transaction history and monthly financial analysis in chart form.',
+            s5_step1_p1: 'Tap "History"',
+            s5_step1_p2: 'Each item displays: category, amount, payment method, note, and who recorded it.',
+            s5_step1_title: 'Transaction History',
+            s5_step2_p1: 'History shows transactions for the <strong>currently active month</strong> (selected from Home). Use the filter button and search bar to narrow results:',
+            s5_step2_p2: '&bull; <strong>Type</strong> &mdash; Expenses only or income only.',
+            s5_step2_p3: '&bull; <strong>Category</strong> &mdash; Show only a specific category (e.g. Food only).',
+            s5_step2_p4: '&bull; <strong>Payment Method</strong> &mdash; Filter by payment method (e.g. GoPay only).',
+            s5_step2_p5: '&bull; <strong>Member</strong> &mdash; View transactions of a specific member or all members.',
+            s5_step2_p6: '&bull; <strong>Amount Range</strong> &mdash; Filter by minimum/maximum amount.',
+            s5_step2_p7: '&bull; <strong>Currency</strong> &mdash; Select currency via chips at the top (IDR, USD, etc).',
+            s5_step2_p8: '&bull; <strong>Search</strong> &mdash; Search by note or category name.',
+            s5_step2_title: 'Filter &amp; Search',
+            s5_step3_p1: 'Tap "Reports"',
+            s5_step3_p2: '&bull; Summary',
+            s5_step3_p3: '&bull; Comparison',
+            s5_step3_p4: '&bull; Budget vs Actual',
+            s5_step3_title: 'Monthly Reports',
+            s5_step4_p1: 'Scroll down on the Reports page to see <strong>pie chart breakdown per category</strong>. Above the chart there is a toggle for <strong>\u201cExpenses\u201d</strong> and <strong>\u201cIncome\u201d</strong> &mdash; tap to switch between expense or income chart.',
+            s5_step4_p2: 'This chart helps you see where most money goes out (or where most money comes in).',
+            s5_step4_tip: 'Use these reports for monthly evaluation. Compare month to month and see your spending trends &mdash; are you saving more or spending more?',
+            s5_step4_title: 'Chart per Category',
+            s5_step5_p1: 'Below the pie chart, there is a list of the <strong>5 largest expenses</strong> this month. Each item shows category, amount, and date &mdash; helping you identify the most significant expenses.',
+            s5_step5_title: 'Top 5 Largest Expenses',
+            s5_step6_p1: 'If you have set up recurring transactions, this section shows a <strong>monthly recurring expense summary</strong>: list of each recurring item with amounts, total per month, and fixed cost percentage against total expenses.',
+            s5_step6_p2: 'This is useful to see how much of your spending is fixed costs (electricity, internet, rent, etc.) compared to variable expenses.',
+            s5_step6_title: 'Recurring Expenses',
+            s5_title: 'History &amp; Reports',
+            s6_cap1: 'Family/group members list',
+            s6_cap2: 'Invite new member form',
+            s6_cap3: 'Remove member access',
+            s6_intro: 'Invite family members or friends to shared budget, and manage who has access.',
+            s6_step1_p1: 'Go to Settings &rarr; Family Members',
+            s6_step1_p2: 'Member status:',
+            s6_step1_p3: '&bull; Active',
+            s6_step1_p4: '&bull; Pending',
+            s6_step1_title: 'View Members List',
+            s6_step2_info: 'Make sure the invited email is a Google account',
+            s6_step2_p1: 'Tap "Invite" button',
+            s6_step2_p2: '&bull; <strong>Email</strong> &mdash; Google email of the person you want to invite.',
+            s6_step2_p3: '&bull; <strong>Role</strong> (Family Type) &mdash; Choose <strong>Parent</strong> (full access, can manage members) or <strong>Child</strong> (limited access, can only record own transactions).',
+            s6_step2_p4: '&bull; <strong>Gender</strong> (Child only) &mdash; Choose male (\uD83D\uDC66) or female (\uD83D\uDC67) for the avatar icon.',
+            s6_step2_p5: 'After inviting, the spreadsheet will be automatically shared to that email. The invited person just needs to install the app, login, and choose <strong>\u201cJoin Budget\u201d</strong>.',
+            s6_step2_p6: '&bull; <strong>Name</strong> &mdash; Nickname for the member (max 20 characters).',
+            s6_step2_tip: 'For <strong>Peer Type</strong>, there is no role selection &mdash; all members are automatically equal (Peer). Just fill in email and name.',
+            s6_step2_title: 'Invite New Member',
+            s6_step3_p1: 'If you want to remove someone\'s access, tap that member then select "Revoke"',
+            s6_step3_title: 'Remove / Revoke Member',
+            s6_step3_warn: 'Revoke is permanent. If you want to invite them back, you need to send a new invite from scratch.',
+            s6_title: 'Manage Family / Group',
+            s7_cap1: 'Budget list per category',
+            s7_cap2: 'Set budget amount for category',
+            s7_cap3: 'Monitor budget progress vs actual spending',
+            s7_intro: 'Set monthly spending targets per category for better financial control.',
+            s7_step1_p1: 'Go to Settings &rarr; Set Budget',
+            s7_step1_p2: 'Categories without a budget will show "Not set yet".',
+            s7_step1_title: 'View Budget List',
+            s7_step2_p1: 'Tap the category you want to configure, then enter the monthly budget amount',
+            s7_step2_p2: 'Budget applies per month and resets automatically at the beginning of each month.',
+            s7_step2_tip: 'Start with the largest categories first (Food, Transportation, Bills). You don\'t need to set budget for all categories at once.',
+            s7_step2_title: 'Set Budget per Category',
+            s7_step3_p1: 'After budget is set, you can monitor progress in Reports',
+            s7_step3_p2: '&bull; Progress bar',
+            s7_step3_p3: '&bull; Color indicator',
+            s7_step3_p4: '&bull; Remaining budget',
+            s7_step3_title: 'Monitor Budget vs Actual',
+            s7_title: 'Set Budget',
+            s8_cap1: 'Savings goals list',
+            s8_cap2: 'Create new savings goal form',
+            s8_cap3: 'Savings goal progress bar',
+            s8_intro: 'Create savings targets and track their progress until achieved.',
+            s8_step1_p1: 'Go to Settings &rarr; Savings Goals',
+            s8_step1_title: 'View Goals List',
+            s8_step2_p1: 'Tap the (+) button',
+            s8_step2_p2: '&bull; Name',
+            s8_step2_p3: '&bull; Target Amount',
+            s8_step2_p4: '&bull; Currency',
+            s8_step2_p5: '&bull; Target Date',
+            s8_step2_title: 'Create New Goal',
+            s8_step3_p1: 'Each goal displays a progress bar',
+            s8_step3_p2: 'When a goal reaches 100%, you can mark it as "Complete"',
+            s8_step3_tip: 'Completing a savings goal also grants an Achievement',
+            s8_step3_title: 'Monitor Progress',
+            s8_title: 'Savings Goals',
+            sw_intro: 'Track your e-wallet balance (GoPay, OVO, ShopeePay, DANA) with auto-adjust when making transactions. Top ups are not expenses!',
+            sw_step1_p1: 'Go to <strong>Settings &rarr; E-Wallet</strong>, then tap the <strong>(+)</strong> button to add a new wallet.',
+            sw_step1_p2: 'Enter a <strong>name</strong> (e.g., &ldquo;GoPay&rdquo;), choose an <strong>icon</strong>, and set the <strong>initial balance</strong>.',
+            sw_step1_p3: 'Optional: <strong>Link to Payment Method</strong> &mdash; Connect the wallet to an existing payment method. The balance will automatically decrease when you use that payment method for transactions.',
+            sw_step1_tip: 'Each payment method can only be linked to <strong>one wallet</strong>. If a payment method is already connected to another wallet, it cannot be selected.',
+            sw_step1_title: 'Add Wallet',
+            sw_step2_p1: 'Tap <strong>&ldquo;Top Up&rdquo;</strong> to add balance to the wallet (e.g., after transferring from a bank account to GoPay).',
+            sw_step2_p2: 'Tap <strong>&ldquo;Withdraw&rdquo;</strong> to reduce the wallet balance (e.g., withdraw GoPay balance to a bank account).',
+            sw_step2_title: 'Top Up &amp; Withdraw',
+            sw_step2_warn: '<strong>Important:</strong> Top ups and withdrawals are <strong>not</strong> expense/income transactions. They only adjust the internal wallet balance and do not affect your financial reports.',
+            sw_step3_p1: 'If a wallet is linked to a payment method, the balance auto-adjusts during transactions:',
+            sw_step3_p2: '&bull; <strong>Expense</strong> &mdash; Wallet balance decreases by the transaction amount.',
+            sw_step3_p3: '&bull; <strong>Income</strong> &mdash; Wallet balance increases by the transaction amount.',
+            sw_step3_p4: '&bull; <strong>Delete Transaction</strong> &mdash; Wallet balance is reversed.',
+            sw_step3_p5: 'This applies to both manual transactions and <strong>auto-input from notifications</strong>.',
+            sw_step3_tip: 'When adding a transaction, the <strong>wallet balance is shown</strong> below the selected payment method. If the balance is negative, a <strong>red warning</strong> appears as a reminder to top up.',
+            sw_step3_title: 'Auto-Adjust Balance',
+            sw_title: 'E-Wallet',
+            s9_cap1: 'Achievements page &mdash; view all achievements',
+            s9_cap2: 'Achievement detail with progress',
+            s9_cap3: 'Streak counter and level badge on Home',
+            s9_cap4: 'Family leaderboard &mdash; who\'s the most diligent?',
+            s9_intro: 'Make budgeting more fun! Unlock achievements, collect XP, level up, and compete on the family leaderboard.',
+            s9_step1_p1: 'Go to Home &rarr; trophy icon',
+            s9_step1_p2: '&bull; Tracker',
+            s9_step1_p3: '&bull; Streak',
+            s9_step1_p4: '&bull; Budget',
+            s9_step1_p5: '&bull; Savings',
+            s9_step1_p6: '&bull; Automation',
+            s9_step1_p7: '&bull; Debt',
+            s9_step1_p8: '&bull; Special',
+            s9_step1_title: 'Achievements',
+            s9_step2_p1: 'Every activity you do grants XP (Experience Points)',
+            s9_step2_p2: '&bull; Record transaction = XP.',
+            s9_step2_p3: '&bull; Unlock achievement = big XP bonus.',
+            s9_step2_p4: '&bull; Daily streak = XP multiplier.',
+            s9_step2_p5: 'The more XP, the higher your level',
+            s9_step2_tip: 'Keep your daily streak going!',
+            s9_step2_title: 'XP, Level &amp; Streak',
+            s9_step3_info: 'Leaderboard is only available for Family budget type',
+            s9_step3_p1: 'In the Leaderboard tab',
+            s9_step3_p2: 'Who records the most? Who has the longest streak? Healthy competition to motivate all members!',
+            s9_step3_title: 'Family Leaderboard',
+            s9_title: 'Gamification',
+            toc_1: '1. Start',
+            toc_10: '10. Settings',
+            toc_2: '2. Home',
+            toc_3: '3. Transactions',
+            toc_4: '4. Auto-Input',
+            toc_5: '5. Reports',
+            toc_6: '6. Family',
+            toc_7: '7. Budget',
+            toc_8: '8. Savings',
+            toc_9: '10. Gamification',
+            toc_wallet: '9. E-Wallet',
+            type_family_desc: 'For husband, wife, and children. Has Parent',
+            type_family_tag: 'Parent-Child Hierarchy',
+            type_family_title: 'Family',
+            type_peer_desc: 'For roommates or friends. All members are equal',
+            type_peer_tag: 'All Equal',
+            type_peer_title: 'With Friends',
+            type_personal_desc: 'Personal budget for yourself only. Single user, no need to invite anyone.',
+            type_personal_tag: 'Single User',
+            type_personal_title: 'Personal'
+        }
+    };
+    
+    function setLanguage(lang) {
+        const elements = document.querySelectorAll('[data-i18n]');
+        elements.forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (i18n[lang] && i18n[lang][key]) {
+                el.innerHTML = i18n[lang][key];
+            }
+        });
+    
+        // Update lang attribute & page title
+        document.documentElement.lang = lang;
+        document.title = lang === 'id'
+            ? 'Panduan Pengguna \u2014 Family Budget Tracker'
+            : 'User Guide \u2014 Family Budget Tracker';
+    
+        // Update toggle button text
+        const toggleBtn = document.getElementById('langToggle');
+        if (toggleBtn) {
+            toggleBtn.textContent = lang === 'id' ? 'EN' : 'ID';
+        }
+    
+        // Save to localStorage
+        localStorage.setItem('fbt-lang', lang);
+    }
+    
+    function toggleLanguage() {
+        const currentLang = document.documentElement.lang || 'id';
+        const newLang = currentLang === 'id' ? 'en' : 'id';
+        setLanguage(newLang);
+    }
+    
+    // Init language on load
+    (function() {
+        const savedLang = localStorage.getItem('fbt-lang') || 'id';
+        setLanguage(savedLang);
+    })();
+</script>
+
+</body>
+</html>

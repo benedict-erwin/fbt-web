@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bantuan & FAQ — Family Budget Tracker</title>
+    <meta name="theme-color" content="#6B4DFF">
+    <meta name="description" content="FAQ dan bantuan untuk aplikasi Family Budget Tracker. Cara memulai, keamanan data, auto-input notifikasi, dan troubleshooting.">
+    <meta name="keywords" content="FAQ, bantuan, help, family budget tracker, troubleshooting, cara pakai">
+    <link rel="canonical" href="https://benedict-erwin.github.io/fbt-web/support.html">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Help & FAQ — Family Budget Tracker">
+    <meta property="og:description" content="Frequently asked questions and support for Family Budget Tracker app.">
+    <meta property="og:url" content="https://benedict-erwin.github.io/fbt-web/support.html">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Help & FAQ — Family Budget Tracker">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💰</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/common.css">
+    <style>
+        .faq-item {
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            margin-bottom: 12px;
+            overflow: hidden;
+            background: var(--bg-card);
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 16px 20px;
+            background: none;
+            border: none;
+            text-align: left;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: inherit;
+            line-height: 1.5;
+        }
+
+        .faq-question:hover { background: var(--primary-bg); }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 20px;
+            font-weight: 400;
+            color: var(--primary);
+            flex-shrink: 0;
+            margin-left: 16px;
+            transition: transform 0.2s;
+        }
+
+        .faq-item.open .faq-question::after {
+            content: '-';
+        }
+
+        .faq-answer {
+            display: none;
+            padding: 0 20px 16px;
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .faq-item.open .faq-answer { display: block; }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 24px;
+        }
+
+        .contact-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            text-align: center;
+        }
+
+        .contact-icon { font-size: 32px; margin-bottom: 12px; }
+        .contact-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+        .contact-card p { font-size: 14px; color: var(--text-secondary); }
+
+        @media (max-width: 768px) {
+            .contact-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+    <a href="index.html" class="navbar-logo"><span>💰</span> Family Budget Tracker</a>
+    <ul class="navbar-links">
+        <li><a href="index.html" data-i18n="nav_home">Beranda</a></li>
+        <li><a href="user-guide.html" data-i18n="nav_guide">Panduan</a></li>
+        <li><a href="privacy-policy.html" data-i18n="nav_privacy">Privasi</a></li>
+        <li><a href="terms-of-service.html" data-i18n="nav_tos">Ketentuan</a></li>
+        <li><a href="support.html" class="active" data-i18n="nav_support">Bantuan</a></li>
+    </ul>
+    <div class="navbar-actions">
+        <button class="lang-toggle" id="langToggle" onclick="toggleLanguage()">EN</button>
+    </div>
+    <button class="navbar-burger" onclick="toggleNav()" aria-label="Menu">&#9776;</button>
+</nav>
+
+<main class="main-content">
+
+    <div class="page-header">
+        <h1 data-i18n="sup_title">Bantuan & FAQ</h1>
+        <p data-i18n="sup_subtitle">Pertanyaan yang sering diajukan dan cara menghubungi kami</p>
+    </div>
+
+    <div class="container">
+
+        <!-- FAQ Section -->
+        <h2 style="font-size:24px;font-weight:700;margin-bottom:20px;" data-i18n="faq_h">Pertanyaan Umum</h2>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)" data-i18n="faq1_q">Bagaimana cara memulai menggunakan aplikasi?</button>
+            <div class="faq-answer" data-i18n="faq1_a">Download aplikasi dari Google Play Store, lalu login dengan akun Google Anda. Aplikasi akan otomatis membuat spreadsheet di Google Drive Anda untuk menyimpan data keuangan. Baca <a href="user-guide.html">Panduan Pengguna</a> untuk langkah lengkap.</div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)" data-i18n="faq2_q">Apakah data saya aman?</button>
+            <div class="faq-answer" data-i18n="faq2_a">Ya, sangat aman. Data keuangan Anda disimpan di Google Sheets milik Anda sendiri, bukan di server kami. Kami tidak memiliki akses ke data Anda tanpa izin. Baca <a href="privacy-policy.html">Kebijakan Privasi</a> untuk detail lengkap.</div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)" data-i18n="faq3_q">Bagaimana cara kerja Auto-Input dari notifikasi?</button>
+            <div class="faq-answer" data-i18n="faq3_a">Setelah Anda mengizinkan akses notifikasi, aplikasi akan membaca notifikasi dari bank dan e-wallet (BCA, GoPay, OVO, DANA, dll). Transaksi terdeteksi secara otomatis dan masuk sebagai pending. Anda bisa review dan confirm sebelum disimpan. Semua proses dilakukan lokal di perangkat.</div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)" data-i18n="faq4_q">Mengapa Google Sign-In gagal?</button>
+            <div class="faq-answer" data-i18n="faq4_a">Pastikan: (1) Google Play Services sudah terupdate, (2) Koneksi internet stabil, (3) Coba tutup dan buka ulang aplikasi. Jika masih gagal, coba clear data aplikasi dari Settings &rarr; Apps &rarr; Family Budget Tracker &rarr; Clear Data, lalu login ulang.</div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)" data-i18n="faq5_q">Bagaimana cara mengundang anggota keluarga?</button>
+            <div class="faq-answer" data-i18n="faq5_a">Buka Settings &rarr; Kelola Keluarga &rarr; Undang Anggota. Masukkan email Google anggota keluarga. Mereka akan mendapat akses ke spreadsheet yang sama. Setiap anggota bisa mencatat pengeluaran masing-masing.</div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)" data-i18n="faq6_q">Bagaimana cara menghapus data saya?</button>
+            <div class="faq-answer" data-i18n="faq6_a">Anda bisa: (1) Hapus spreadsheet langsung dari Google Drive, (2) Clear data aplikasi dari Settings Android, (3) Cabut akses aplikasi dari Google Account &rarr; Security &rarr; Third-party apps. Data di Google Sheets sepenuhnya milik Anda.</div>
+        </div>
+
+        <!-- Contact Section -->
+        <h2 style="font-size:24px;font-weight:700;margin-top:48px;margin-bottom:8px;" data-i18n="contact_h">Hubungi Kami</h2>
+        <p style="color:var(--text-secondary);margin-bottom:20px;" data-i18n="contact_subtitle">Masih butuh bantuan? Hubungi kami melalui:</p>
+
+        <div class="contact-grid">
+            <div class="contact-card">
+                <div class="contact-icon">📱</div>
+                <h3 data-i18n="contact_inapp_h">Dalam Aplikasi</h3>
+                <p data-i18n="contact_inapp">Gunakan fitur "Laporkan Bug" di Settings untuk mengirim laporan langsung ke developer.</p>
+            </div>
+            <div class="contact-card">
+                <div class="contact-icon">📖</div>
+                <h3 data-i18n="contact_guide_h">Panduan Pengguna</h3>
+                <p data-i18n="contact_guide">Baca <a href="user-guide.html">panduan lengkap</a> untuk mempelajari semua fitur aplikasi.</p>
+            </div>
+        </div>
+
+    </div>
+
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-content">
+        <div>
+            <h3>Family Budget Tracker</h3>
+            <p data-i18n="footer_desc">Aplikasi pencatatan keuangan keluarga yang mengutamakan privasi. Data Anda disimpan di Google Sheets milik Anda sendiri.</p>
+        </div>
+        <div>
+            <h3 data-i18n="footer_links">Tautan</h3>
+            <ul class="footer-links">
+                <li><a href="user-guide.html" data-i18n="nav_guide">Panduan</a></li>
+                <li><a href="privacy-policy.html" data-i18n="nav_privacy">Privasi</a></li>
+                <li><a href="terms-of-service.html" data-i18n="nav_tos">Ketentuan</a></li>
+                <li><a href="support.html" data-i18n="nav_support">Bantuan</a></li>
+            </ul>
+        </div>
+        <div>
+            <h3 data-i18n="footer_download">Unduh</h3>
+            <ul class="footer-links">
+                <li><a href="https://play.google.com/store/apps/details?id=com.familybudget.app">Google Play Store</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        &copy; 2026 Family Budget Tracker. All rights reserved.
+    </div>
+</footer>
+
+<!-- i18n Data -->
+<script>
+window.i18n = {
+    id: {
+        nav_home: 'Beranda', nav_guide: 'Panduan', nav_privacy: 'Privasi', nav_tos: 'Ketentuan', nav_support: 'Bantuan',
+        sup_title: 'Bantuan & FAQ',
+        sup_subtitle: 'Pertanyaan yang sering diajukan dan cara menghubungi kami',
+        faq_h: 'Pertanyaan Umum',
+        faq1_q: 'Bagaimana cara memulai menggunakan aplikasi?',
+        faq1_a: 'Download aplikasi dari Google Play Store, lalu login dengan akun Google Anda. Aplikasi akan otomatis membuat spreadsheet di Google Drive Anda untuk menyimpan data keuangan. Baca <a href="user-guide.html">Panduan Pengguna</a> untuk langkah lengkap.',
+        faq2_q: 'Apakah data saya aman?',
+        faq2_a: 'Ya, sangat aman. Data keuangan Anda disimpan di Google Sheets milik Anda sendiri, bukan di server kami. Kami tidak memiliki akses ke data Anda tanpa izin. Baca <a href="privacy-policy.html">Kebijakan Privasi</a> untuk detail lengkap.',
+        faq3_q: 'Bagaimana cara kerja Auto-Input dari notifikasi?',
+        faq3_a: 'Setelah Anda mengizinkan akses notifikasi, aplikasi akan membaca notifikasi dari bank dan e-wallet (BCA, GoPay, OVO, DANA, dll). Transaksi terdeteksi secara otomatis dan masuk sebagai pending. Anda bisa review dan confirm sebelum disimpan. Semua proses dilakukan lokal di perangkat.',
+        faq4_q: 'Mengapa Google Sign-In gagal?',
+        faq4_a: 'Pastikan: (1) Google Play Services sudah terupdate, (2) Koneksi internet stabil, (3) Coba tutup dan buka ulang aplikasi. Jika masih gagal, coba clear data aplikasi dari Settings &rarr; Apps &rarr; Family Budget Tracker &rarr; Clear Data, lalu login ulang.',
+        faq5_q: 'Bagaimana cara mengundang anggota keluarga?',
+        faq5_a: 'Buka Settings &rarr; Kelola Keluarga &rarr; Undang Anggota. Masukkan email Google anggota keluarga. Mereka akan mendapat akses ke spreadsheet yang sama. Setiap anggota bisa mencatat pengeluaran masing-masing.',
+        faq6_q: 'Bagaimana cara menghapus data saya?',
+        faq6_a: 'Anda bisa: (1) Hapus spreadsheet langsung dari Google Drive, (2) Clear data aplikasi dari Settings Android, (3) Cabut akses aplikasi dari Google Account &rarr; Security &rarr; Third-party apps. Data di Google Sheets sepenuhnya milik Anda.',
+        contact_h: 'Hubungi Kami',
+        contact_subtitle: 'Masih butuh bantuan? Hubungi kami melalui:',
+        contact_inapp_h: 'Dalam Aplikasi',
+        contact_inapp: 'Gunakan fitur "Laporkan Bug" di Settings untuk mengirim laporan langsung ke developer.',
+        contact_guide_h: 'Panduan Pengguna',
+        contact_guide: 'Baca <a href="user-guide.html">panduan lengkap</a> untuk mempelajari semua fitur aplikasi.',
+        footer_desc: 'Aplikasi pencatatan keuangan keluarga yang mengutamakan privasi. Data Anda disimpan di Google Sheets milik Anda sendiri.',
+        footer_links: 'Tautan', footer_download: 'Unduh'
+    },
+    en: {
+        nav_home: 'Home', nav_guide: 'User Guide', nav_privacy: 'Privacy', nav_tos: 'Terms', nav_support: 'Support',
+        sup_title: 'Help & FAQ',
+        sup_subtitle: 'Frequently asked questions and how to contact us',
+        faq_h: 'Frequently Asked Questions',
+        faq1_q: 'How do I get started with the app?',
+        faq1_a: 'Download the app from Google Play Store, then sign in with your Google account. The app will automatically create a spreadsheet in your Google Drive to store your financial data. Read the <a href="user-guide.html">User Guide</a> for complete steps.',
+        faq2_q: 'Is my data safe?',
+        faq2_a: 'Yes, very safe. Your financial data is stored in your own Google Sheets, not on our servers. We do not have access to your data without permission. Read the <a href="privacy-policy.html">Privacy Policy</a> for full details.',
+        faq3_q: 'How does Auto-Input from notifications work?',
+        faq3_a: 'After you allow notification access, the app reads notifications from banks and e-wallets (BCA, GoPay, OVO, DANA, etc.). Transactions are automatically detected and added as pending. You can review and confirm before saving. All processing is done locally on your device.',
+        faq4_q: 'Why is Google Sign-In failing?',
+        faq4_a: 'Make sure: (1) Google Play Services is updated, (2) Internet connection is stable, (3) Try closing and reopening the app. If it still fails, try clearing app data from Settings &rarr; Apps &rarr; Family Budget Tracker &rarr; Clear Data, then sign in again.',
+        faq5_q: 'How do I invite family members?',
+        faq5_a: 'Go to Settings &rarr; Manage Family &rarr; Invite Member. Enter the Google email of your family member. They will get access to the same spreadsheet. Each member can record their own expenses.',
+        faq6_q: 'How do I delete my data?',
+        faq6_a: 'You can: (1) Delete the spreadsheet directly from Google Drive, (2) Clear app data from Android Settings, (3) Revoke app access from Google Account &rarr; Security &rarr; Third-party apps. Data in Google Sheets is entirely yours.',
+        contact_h: 'Contact Us',
+        contact_subtitle: 'Still need help? Reach us through:',
+        contact_inapp_h: 'In-App',
+        contact_inapp: 'Use the "Report Bug" feature in Settings to send a report directly to the developer.',
+        contact_guide_h: 'User Guide',
+        contact_guide: 'Read the <a href="user-guide.html">complete guide</a> to learn all app features.',
+        footer_desc: 'A privacy-first family financial tracking app. Your data is stored in your own Google Sheets.',
+        footer_links: 'Links', footer_download: 'Download'
+    }
+};
+</script>
+<script src="js/common.js"></script>
+<!-- FAQ Structured Data -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+        {
+            "@type": "Question",
+            "name": "How do I get started with Family Budget Tracker?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Download the app from Google Play Store, then sign in with your Google account. The app will automatically create a spreadsheet in your Google Drive to store your financial data." }
+        },
+        {
+            "@type": "Question",
+            "name": "Is my data safe?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Yes. Your financial data is stored in your own Google Sheets, not on our servers. We do not have access to your data without permission." }
+        },
+        {
+            "@type": "Question",
+            "name": "How does Auto-Input from notifications work?",
+            "acceptedAnswer": { "@type": "Answer", "text": "After you allow notification access, the app reads notifications from banks and e-wallets (BCA, GoPay, OVO, DANA, etc.). Transactions are detected automatically and processed locally on your device." }
+        },
+        {
+            "@type": "Question",
+            "name": "Why is Google Sign-In failing?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Make sure Google Play Services is updated, internet connection is stable, and try restarting the app. If it still fails, clear app data and sign in again." }
+        },
+        {
+            "@type": "Question",
+            "name": "How do I invite family members?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Go to Settings, Manage Family, Invite Member. Enter the Google email of your family member. They will get access to the same spreadsheet." }
+        },
+        {
+            "@type": "Question",
+            "name": "How do I delete my data?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Delete the spreadsheet from Google Drive, clear app data from Android Settings, or revoke app access from Google Account Security settings." }
+        }
+    ]
+}
+</script>
+<script>
+function toggleFaq(btn) {
+    var item = btn.parentElement;
+    item.classList.toggle('open');
+}
+</script>
+
+</body>
+</html>

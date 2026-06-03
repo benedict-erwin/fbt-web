@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Family Budget Tracker — Atur keuangan keluarga, datanya tetap milikmu</title>
+<meta name="description" content="Catat keuangan keluarga otomatis dari notifikasi GoPay, OVO, DANA & bank. Data tersimpan di Google Sheets-mu sendiri — bukan server kami. Gratis, privat, offline-first.">
+<meta name="theme-color" content="#6541E8">
+<meta name="author" content="Family Budget Tracker">
+<link rel="canonical" href="https://benedict-erwin.github.io/fbt-web/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Family Budget Tracker">
+<meta property="og:locale" content="id_ID">
+<meta property="og:title" content="Family Budget Tracker — Atur keuangan keluarga, datanya tetap milikmu">
+<meta property="og:description" content="Catat keuangan keluarga otomatis dari notifikasi e-wallet & bank. Data di Google Sheets-mu sendiri. Gratis, privat, offline-first.">
+<meta property="og:url" content="https://benedict-erwin.github.io/fbt-web/">
+<meta property="og:image" content="https://benedict-erwin.github.io/fbt-web/screenshots/guide_07_home_dashboard_phone_large_light.png">
+<meta property="og:image:alt" content="Tampilan Beranda Family Budget Tracker">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Family Budget Tracker — datanya tetap milikmu">
+<meta name="twitter:description" content="Catat keuangan keluarga otomatis dari notifikasi e-wallet & bank. Data di Google Sheets-mu sendiri. Gratis & privat.">
+<meta name="twitter:image" content="https://benedict-erwin.github.io/fbt-web/screenshots/guide_07_home_dashboard_phone_large_light.png">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%236541E8'/%3E%3Ctext x='50' y='68' font-size='56' text-anchor='middle'%3E%F0%9F%92%B0%3C/text%3E%3C/svg%3E">
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"MobileApplication","name":"Family Budget Tracker","operatingSystem":"Android","applicationCategory":"FinanceApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"IDR"},"description":"Aplikasi pencatatan keuangan keluarga privacy-first. Data di Google Sheets milik pengguna.","inLanguage":["id","en"]}
+</script>
+
+<style>
+:root{
+  --primary:#6541E8; --primary-dark:#4f2fd0; --primary-soft:#efeaff; --primary-10:rgba(101,65,232,.08);
+  --income:#1FBA8F; --income-soft:#e3f6ee; --expense:#E5484D; --expense-soft:#fce7e8;
+  --bg:#faf9f5; --surface:#ffffff; --surface-2:#f4f2ef;
+  --text:#1a1a2e; --muted:#6b6b80; --line:#e9e6e1;
+  --radius:18px; --radius-lg:28px; --shadow:0 8px 30px rgba(40,30,80,.08); --shadow-lg:0 24px 60px rgba(40,30,80,.16);
+  --maxw:1120px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:76px;-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:var(--primary);text-decoration:none}
+h1,h2,h3{line-height:1.15;letter-spacing:-.02em;font-weight:800}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+.section{padding:84px 0}
+.eyebrow{color:var(--primary);font-weight:700;font-size:14px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+.section-title{font-size:clamp(26px,4vw,40px);margin-bottom:14px}
+.section-sub{color:var(--muted);font-size:18px;max-width:640px}
+.center{text-align:center;margin-inline:auto}
+.skip{position:absolute;left:-999px}.skip:focus{left:12px;top:12px;background:#fff;padding:8px 14px;border-radius:8px;z-index:1000}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:16px;padding:14px 24px;border-radius:999px;border:2px solid transparent;cursor:pointer;transition:transform .15s,box-shadow .15s,background .15s}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--primary);color:#fff;box-shadow:0 8px 22px rgba(101,65,232,.32)}
+.btn-primary:hover{background:var(--primary-dark)}
+.btn-ghost{background:transparent;color:var(--primary);border-color:var(--primary-soft)}
+.btn-ghost:hover{background:var(--primary-10)}
+.btn-lg{padding:16px 30px;font-size:17px}
+
+/* header */
+header{position:sticky;top:0;z-index:100;background:rgba(250,249,245,.85);backdrop-filter:saturate(180%) blur(12px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;color:var(--text)}
+.brand .logo{width:34px;height:34px;border-radius:10px;background:var(--primary);display:grid;place-items:center;font-size:18px}
+.nav-links{display:flex;align-items:center;gap:26px;list-style:none}
+.nav-links a{color:var(--text);font-weight:600;font-size:15px;opacity:.85}
+.nav-links a:hover{opacity:1;color:var(--primary)}
+.nav-cta{display:flex;align-items:center;gap:12px}
+#nav-toggle,.hamburger{display:none}
+.hamburger{font-size:24px;cursor:pointer;background:none;border:0;color:var(--text);padding:6px}
+
+/* hero */
+.hero{padding:72px 0 40px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(1000px 500px at 78% -10%,rgba(101,65,232,.14),transparent 60%);z-index:-1}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
+.hero h1{font-size:clamp(34px,5.4vw,58px)}
+.hero h1 .accent{color:var(--primary)}
+.hero p.lead{font-size:20px;color:var(--muted);margin:20px 0 28px;max-width:520px}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px}
+.trust{display:flex;flex-wrap:wrap;gap:18px;margin-top:24px;color:var(--muted);font-size:14px;font-weight:600}
+.trust span{display:inline-flex;align-items:center;gap:6px}
+
+/* phone mockup */
+.phone{position:relative;width:280px;max-width:78vw;margin:0 auto;border-radius:42px;background:#1a1a2e;padding:10px;box-shadow:var(--shadow-lg)}
+.phone::before{content:"";position:absolute;top:18px;left:50%;transform:translateX(-50%);width:90px;height:6px;border-radius:6px;background:rgba(255,255,255,.25);z-index:2}
+.phone img{border-radius:32px;width:100%;aspect-ratio:1080/2340;object-fit:cover;background:#fff}
+.phone-tilt{transform:rotate(2deg)}
+.hero-phones{display:flex;justify-content:center;gap:18px}
+.hero-phones .phone:first-child{transform:rotate(-4deg) translateY(10px);z-index:1}
+.hero-phones .phone:last-child{transform:rotate(4deg);width:240px}
+
+/* problem cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;margin-top:36px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow)}
+.card .ic{font-size:30px;margin-bottom:12px}
+.card h3{font-size:18px;margin-bottom:8px}
+.card p{color:var(--muted);font-size:15px}
+
+/* marquee feature rows */
+.feature-row{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;padding:56px 0;border-bottom:1px dashed var(--line)}
+.feature-row:nth-child(even) .feat-media{order:-1}
+.feat-text .tag{display:inline-block;background:var(--primary-soft);color:var(--primary);font-weight:700;font-size:13px;padding:6px 12px;border-radius:999px;margin-bottom:14px}
+.feature-row h3{font-size:clamp(22px,3vw,30px);margin-bottom:14px}
+.feature-row p{color:var(--muted);font-size:17px;margin-bottom:16px}
+.feat-list{list-style:none;display:grid;gap:10px}
+.feat-list li{display:flex;gap:10px;font-size:15px}
+.feat-list li::before{content:"✓";color:var(--income);font-weight:800;flex:0 0 auto}
+.feat-media{display:flex;justify-content:center}
+
+/* feature grid */
+.grid-feats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:36px}
+.gf{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 20px;display:flex;gap:12px;align-items:flex-start}
+.gf .ic{font-size:22px}
+.gf b{display:block;font-size:15px;margin-bottom:2px}
+.gf span{color:var(--muted);font-size:13.5px}
+
+/* security */
+.security{background:linear-gradient(160deg,#211a3a,#3a2a6e);color:#fff;border-radius:var(--radius-lg);padding:56px 40px}
+.security .section-title{color:#fff}
+.security .section-sub{color:rgba(255,255,255,.78)}
+.sec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:32px}
+.sec-item{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:18px 20px}
+.sec-item b{display:block;margin-bottom:4px}
+.sec-item span{color:rgba(255,255,255,.72);font-size:14px}
+
+/* why-us badges */
+.badges{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-top:36px}
+.badge{text-align:center;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:26px 18px;box-shadow:var(--shadow)}
+.badge .ic{font-size:34px}
+.badge b{display:block;margin:10px 0 4px;font-size:17px}
+.badge span{color:var(--muted);font-size:14px}
+
+/* gallery */
+.gallery{display:flex;gap:22px;overflow-x:auto;padding:30px 4px 10px;scroll-snap-type:x mandatory}
+.gallery .phone{scroll-snap-align:center;flex:0 0 auto;width:230px}
+
+/* FAQ */
+.faq{max-width:780px;margin:36px auto 0}
+.faq details{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden}
+.faq summary{cursor:pointer;padding:18px 22px;font-weight:700;font-size:16px;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-size:22px;color:var(--primary);font-weight:400;flex:0 0 auto}
+.faq details[open] summary::after{content:"−"}
+.faq .ans{padding:0 22px 20px;color:var(--muted);font-size:15.5px}
+.faq .ans a{font-weight:600}
+
+/* CTA band */
+.cta-band{text-align:center;background:var(--primary);color:#fff;border-radius:var(--radius-lg);padding:64px 30px;margin:40px 0}
+.cta-band h2{font-size:clamp(26px,4vw,40px);margin-bottom:14px}
+.cta-band p{color:rgba(255,255,255,.85);font-size:18px;margin-bottom:26px}
+.cta-band .btn-primary{background:#fff;color:var(--primary);box-shadow:0 10px 30px rgba(0,0,0,.2)}
+
+/* legal / support */
+.legal{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:34px;margin-top:24px}
+.legal h2{font-size:24px;margin-bottom:6px}
+.legal .updated{color:var(--muted);font-size:13px;margin-bottom:18px}
+.legal h3{font-size:17px;margin:22px 0 8px;color:var(--primary)}
+.legal p,.legal li{color:var(--text);font-size:15px}
+.legal ul{margin:8px 0 8px 22px}
+.legal li{margin-bottom:4px}
+.contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:14px}
+.contact-grid .card{box-shadow:none}
+
+/* footer */
+footer{background:#16132a;color:#cfcae6;padding:54px 0 30px;margin-top:60px}
+.foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:30px}
+.foot-grid h4{color:#fff;font-size:15px;margin-bottom:14px;letter-spacing:.04em;text-transform:uppercase}
+.foot-grid ul{list-style:none}
+.foot-grid li{margin-bottom:9px}
+.foot-grid a{color:#cfcae6;font-size:14.5px;opacity:.85}
+.foot-grid a:hover{opacity:1;color:#fff}
+.foot-brand p{color:#9a93c0;font-size:14px;max-width:340px;margin-top:10px}
+.foot-bottom{border-top:1px solid rgba(255,255,255,.1);margin-top:34px;padding-top:20px;color:#7d76a8;font-size:13px;text-align:center}
+
+/* responsive */
+@media(max-width:880px){
+  .hero-grid{grid-template-columns:1fr;text-align:center}
+  .hero p.lead{margin-inline:auto}.hero-cta,.trust{justify-content:center}
+  .hero-phones{margin-top:24px}
+  .feature-row{grid-template-columns:1fr;gap:28px;text-align:center}
+  .feature-row:nth-child(even) .feat-media{order:0}
+  .feat-list{display:inline-grid;text-align:left}
+  .foot-grid{grid-template-columns:1fr}
+}
+@media(max-width:760px){
+  .nav-links{position:fixed;inset:64px 0 auto 0;background:var(--bg);flex-direction:column;gap:0;padding:8px 0;border-bottom:1px solid var(--line);box-shadow:var(--shadow);transform:translateY(-130%);transition:transform .25s;height:auto}
+  .nav-links li{width:100%}.nav-links a{display:block;padding:14px 20px}
+  #nav-toggle:checked ~ .nav-links{transform:translateY(0)}
+  .hamburger{display:block}
+  .nav-cta .btn{display:none}
+  .section{padding:60px 0}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Lewati ke konten</a>
+
+<header>
+  <nav class="wrap nav">
+    <a class="brand" href="#top"><span class="logo">💰</span> Family Budget Tracker</a>
+    <input type="checkbox" id="nav-toggle" hidden>
+    <ul class="nav-links">
+      <li><a href="#fitur">Fitur</a></li>
+      <li><a href="#keamanan">Keamanan</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="user-guide.html">Panduan</a></li>
+      <li><a href="#bantuan">Bantuan</a></li>
+      <li><a href="#privasi">Privasi</a></li>
+      <li><a href="#ketentuan">Ketentuan</a></li>
+    </ul>
+    <div class="nav-cta">
+      <label class="hamburger" for="nav-toggle" aria-label="Buka menu">☰</label>
+      <a class="btn btn-primary" href="https://play.google.com/store/apps/details?id=com.familybudget.app" rel="noopener">Download</a>
+    </div>
+  </nav>
+</header>
+
+<main id="main">
+<span id="top"></span>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-text">
+      <h1>Notif masuk, <span class="accent">transaksi tercatat.</span></h1>
+      <p class="lead">Catat keuangan keluarga otomatis dari notifikasi GoPay, OVO, DANA & bank. Tersimpan aman di Google Sheets-mu sendiri — bukan di server kami. Gratis, tanpa langganan.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary btn-lg" href="https://play.google.com/store/apps/details?id=com.familybudget.app" rel="noopener">▶ Download di Play Store</a>
+        <a class="btn btn-ghost btn-lg" href="#fitur">Lihat fitur</a>
+      </div>
+      <div class="trust">
+        <span>🔒 Privacy-first</span>
+        <span>📴 Bisa offline</span>
+        <span>🇮🇩 Indonesia &amp; English</span>
+        <span>🆓 Gratis</span>
+      </div>
+    </div>
+    <div class="hero-media">
+      <div class="hero-phones">
+        <div class="phone"><img src="screenshots/guide_07_home_dashboard_phone_large_light.png" width="1080" height="2340" alt="Beranda Family Budget Tracker menampilkan saldo, pemasukan, dan pengeluaran"></div>
+        <div class="phone"><img src="screenshots/guide_19_pending_list_phone_large_light.png" width="1080" height="2340" alt="Daftar transaksi terdeteksi otomatis dari notifikasi" loading="lazy"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="section">
+  <div class="wrap">
+    <div class="center">
+      <p class="eyebrow">Kenapa app ini</p>
+      <h2 class="section-title">Dibikin buat yang capek ribet nyatat duit</h2>
+      <p class="section-sub center">Bukan aplikasi finance "pro" yang bikin pusing. Fokus satu hal: bikin kamu &amp; keluarga konsisten mencatat — sampai jadi kebiasaan.</p>
+    </div>
+    <div class="cards">
+      <div class="card"><div class="ic">😮‍💨</div><h3>Males nyatat, lupa terus</h3><p>Auto-catat dari notifikasi — kamu nggak perlu ngetik.</p></div>
+      <div class="card"><div class="ic">🛡️</div><h3>Takut data bocor</h3><p>Data 100% di Google Sheets-mu sendiri. Kami nggak nyimpen apa-apa.</p></div>
+      <div class="card"><div class="ic">👨‍👩‍👧</div><h3>Susah atur bareng keluarga</h3><p>Satu budget, sekeluarga — semua tersinkron.</p></div>
+      <div class="card"><div class="ic">🎮</div><h3>Nyatat itu membosankan</h3><p>Streak, pencapaian, &amp; rekap tahunan bikin nagih.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE FEATURES -->
+<section class="section" id="fitur" style="padding-top:20px">
+  <div class="wrap">
+    <div class="center"><p class="eyebrow">Fitur unggulan</p><h2 class="section-title">Semua yang kamu butuh buat disiplin keuangan</h2></div>
+
+    <div class="feature-row">
+      <div class="feat-text">
+        <span class="tag">🔔 Otomatis</span>
+        <h3>Catat otomatis dari notifikasi</h3>
+        <p>Notif pembayaran masuk → transaksi langsung tercatat. Berhenti ngetik manual.</p>
+        <ul class="feat-list">
+          <li>Baca notif e-wallet &amp; bank (GoPay, OVO, DANA, ShopeePay, BCA, BRI, Mandiri…)</li>
+          <li>Pintar bedakan transaksi vs promo — iklan/diskon otomatis diabaikan</li>
+          <li>Yang belum yakin masuk daftar "Pending" untuk review sekali geser</li>
+        </ul>
+      </div>
+      <div class="feat-media"><div class="phone phone-tilt"><img src="screenshots/guide_19_pending_list_phone_large_light.png" width="1080" height="2340" alt="Notifikasi pembayaran terdeteksi jadi transaksi pending" loading="lazy"></div></div>
+    </div>
+
+    <div class="feature-row">
+      <div class="feat-text">
+        <span class="tag">🔒 Privasi</span>
+        <h3>Data keuangan = milikmu sepenuhnya</h3>
+        <p>Privacy-first. Tersimpan di Google Sheets-mu, bukan server kami.</p>
+        <ul class="feat-list">
+          <li>Tidak ada server developer yang menyimpan keuanganmu</li>
+          <li>Database di HP dienkripsi (AES-256)</li>
+          <li>Izin Google seminimal mungkin (hanya file yang dibuat app)</li>
+          <li>Buka spreadsheet-nya kapan saja dari Google Drive</li>
+        </ul>
+      </div>
+      <div class="feat-media"><div class="phone phone-tilt"><img src="screenshots/guide_44_about_phone_large_light.png" width="1080" height="2340" alt="Halaman tentang &amp; privasi aplikasi" loading="lazy"></div></div>
+    </div>
+
+    <div class="feature-row">
+      <div class="feat-text">
+        <span class="tag">👨‍👩‍👧 Keluarga</span>
+        <h3>Satu budget, sekeluarga</h3>
+        <p>Suami, istri, anak — catat bareng, lihat bareng.</p>
+        <ul class="feat-list">
+          <li>Mode Keluarga, Personal, atau Grup</li>
+          <li>Undang anggota cukup bagikan link</li>
+          <li>Peran berbeda: orang tua akses penuh, anak terbatas</li>
+          <li>Semua tersinkron otomatis lewat satu spreadsheet</li>
+        </ul>
+      </div>
+      <div class="feat-media"><div class="phone phone-tilt"><img src="screenshots/guide_26_family_invite_phone_large_light.png" width="1080" height="2340" alt="Undang anggota keluarga via link" loading="lazy"></div></div>
+    </div>
+
+    <div class="feature-row">
+      <div class="feat-text">
+        <span class="tag">🎮 Habit</span>
+        <h3>Nyatat duit jadi nagih</h3>
+        <p>Habit-building lewat gamifikasi yang beneran fun.</p>
+        <ul class="feat-list">
+          <li>Streak harian (ada grace 1 hari biar nggak gampang putus)</li>
+          <li>29 pencapaian + level (Budget Beginner → Budget Legend)</li>
+          <li>Leaderboard keluarga — siapa paling rajin?</li>
+          <li>Budget Wrap akhir tahun — rekap ala Spotify Wrapped, 14 slide</li>
+        </ul>
+      </div>
+      <div class="feat-media"><div class="phone phone-tilt"><img src="screenshots/guide_37_streak_phone_large_light.png" width="1080" height="2340" alt="Streak dan progres gamifikasi di Beranda" loading="lazy"></div></div>
+    </div>
+
+    <div class="feature-row">
+      <div class="feat-text">
+        <span class="tag">🎯 All-in-one</span>
+        <h3>Semua keuangan dalam satu app</h3>
+        <p>Lebih dari sekadar catat — kelola seluruhnya.</p>
+        <ul class="feat-list">
+          <li>Budget per kategori dengan alert kalau mau jebol</li>
+          <li>Target Tabungan dengan progress &amp; deadline</li>
+          <li>Dompet &amp; saldo e-wallet yang auto-update</li>
+          <li>Utang/piutang &amp; cicilan dengan pengingat jatuh tempo</li>
+          <li>Transaksi rutin (gaji, tagihan) — otomatis atau diingatkan</li>
+        </ul>
+      </div>
+      <div class="feat-media"><div class="phone phone-tilt"><img src="screenshots/guide_28_budget_list_phone_large_light.png" width="1080" height="2340" alt="Budget per kategori dengan progress bar" loading="lazy"></div></div>
+    </div>
+
+    <div class="feature-row">
+      <div class="feat-text">
+        <span class="tag">📊 Laporan</span>
+        <h3>Lihat ke mana uangmu pergi</h3>
+        <p>Laporan visual yang gampang dimengerti.</p>
+        <ul class="feat-list">
+          <li>Grafik kategori (pie), tren bulanan, perbandingan bulan</li>
+          <li>Budget vs realisasi</li>
+          <li>Multi-currency (IDR, USD, SGD, dll)</li>
+          <li>Export ke CSV kapan pun butuh</li>
+        </ul>
+      </div>
+      <div class="feat-media"><div class="phone phone-tilt"><img src="screenshots/guide_23_reports_overview_phone_large_light.png" width="1080" height="2340" alt="Laporan keuangan dengan grafik" loading="lazy"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURE GRID -->
+<section class="section" style="padding-top:0">
+  <div class="wrap">
+    <div class="center"><h2 class="section-title">Detail-detail kecil yang bikin betah</h2></div>
+    <div class="grid-feats">
+      <div class="gf"><span class="ic">📴</span><div><b>Offline-first</b><span>Catat tanpa internet, sync otomatis saat online</span></div></div>
+      <div class="gf"><span class="ic">🌗</span><div><b>Tema terang/gelap</b><span>Atau ikuti sistem</span></div></div>
+      <div class="gf"><span class="ic">🇮🇩</span><div><b>Bilingual</b><span>Indonesia &amp; English</span></div></div>
+      <div class="gf"><span class="ic">⏰</span><div><b>Pengingat harian</b><span>Biar nggak lupa nyatat</span></div></div>
+      <div class="gf"><span class="ic">♻️</span><div><b>Recovery otomatis</b><span>Ganti HP, data balik dari Sheets</span></div></div>
+      <div class="gf"><span class="ic">🗂️</span><div><b>Kategori custom</b><span>Parent + sub-kategori &amp; emoji</span></div></div>
+      <div class="gf"><span class="ic">🔁</span><div><b>Transaksi rutin</b><span>Mode auto / reminder</span></div></div>
+      <div class="gf"><span class="ic">🔎</span><div><b>Riwayat &amp; filter</b><span>Search + filter canggih</span></div></div>
+      <div class="gf"><span class="ic">🧾</span><div><b>Audit log</b><span>Semua perubahan tercatat</span></div></div>
+      <div class="gf"><span class="ic">💸</span><div><b>Multi-currency</b><span>20 mata uang</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SECURITY -->
+<section class="section" id="keamanan" style="padding-top:0">
+  <div class="wrap">
+    <div class="security">
+      <p class="eyebrow" style="color:#c9b8ff">Aman &amp; privat</p>
+      <h2 class="section-title">Keuanganmu terlalu penting buat dititip ke server orang</h2>
+      <p class="section-sub">Privacy bukan fitur tambahan — itu fondasi aplikasi ini.</p>
+      <div class="sec-grid">
+        <div class="sec-item"><b>🔐 Database terenkripsi</b><span>AES-256 (SQLCipher), kunci di Android Keystore</span></div>
+        <div class="sec-item"><b>☁️ Data di Drive-mu</b><span>Google Sheets milikmu — bukan server developer</span></div>
+        <div class="sec-item"><b>🎫 Izin Google minimal</b><span>Hanya file yang dibuat app ini (drive.file)</span></div>
+        <div class="sec-item"><b>🚫 Tanpa iklan &amp; tracking</b><span>Tidak ada analytics, tidak jual data</span></div>
+        <div class="sec-item"><b>🧹 Sign-out = hapus tuntas</b><span>Semua data lokal dibersihkan saat keluar</span></div>
+        <div class="sec-item"><b>📦 Anti-bocor backup</b><span>Dikecualikan dari backup otomatis Android</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section class="section" style="padding-top:0">
+  <div class="wrap">
+    <div class="center"><h2 class="section-title">Kenapa pilih kami?</h2></div>
+    <div class="badges">
+      <div class="badge"><div class="ic">🆓</div><b>Gratis</b><span>Tanpa langganan, tanpa biaya tersembunyi</span></div>
+      <div class="badge"><div class="ic">🗄️</div><b>Tanpa server</b><span>Datamu di Google Sheets-mu sendiri</span></div>
+      <div class="badge"><div class="ic">🔔</div><b>Auto-catat</b><span>Dari notifikasi, nggak perlu ngetik</span></div>
+      <div class="badge"><div class="ic">👨‍👩‍👧</div><b>Buat keluarga</b><span>Multi-role, satu budget bersama</span></div>
+      <div class="badge"><div class="ic">🔒</div><b>Privat &amp; aman</b><span>Terenkripsi, scope minimal</span></div>
+      <div class="badge"><div class="ic">🎉</div><b>Bikin habit</b><span>Gamifikasi + rekap tahunan</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="section" style="padding-top:0">
+  <div class="wrap center"><h2 class="section-title">Lihat langsung</h2><p class="section-sub center">Geser untuk jelajahi.</p></div>
+  <div class="wrap">
+    <div class="gallery">
+      <div class="phone"><img src="screenshots/guide_11_add_expense_phone_large_light.png" width="1080" height="2340" alt="Form tambah transaksi" loading="lazy"></div>
+      <div class="phone"><img src="screenshots/guide_21_history_phone_large_light.png" width="1080" height="2340" alt="Riwayat transaksi" loading="lazy"></div>
+      <div class="phone"><img src="screenshots/guide_31_savings_list_phone_large_light.png" width="1080" height="2340" alt="Target tabungan" loading="lazy"></div>
+      <div class="phone"><img src="screenshots/guide_34_achievements_phone_large_light.png" width="1080" height="2340" alt="Pencapaian &amp; level" loading="lazy"></div>
+      <div class="phone"><img src="screenshots/guide_23_reports_overview_phone_large_light.png" width="1080" height="2340" alt="Laporan keuangan" loading="lazy"></div>
+      <div class="phone"><img src="screenshots/guide_42_recurring_add_phone_large_light.png" width="1080" height="2340" alt="Transaksi rutin" loading="lazy"></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq" style="padding-top:0">
+  <div class="wrap">
+    <div class="center"><p class="eyebrow">FAQ</p><h2 class="section-title">Masih ragu? Ini jawabannya</h2></div>
+    <div class="faq">
+      <details open><summary>Bagaimana cara memulai?</summary><div class="ans">Download dari Google Play Store, lalu login dengan akun Google. Aplikasi otomatis membuat spreadsheet di Google Drive-mu untuk menyimpan data. Baca <a href="user-guide.html">Panduan Pengguna</a> untuk langkah lengkap.</div></details>
+      <details><summary>Apakah data saya aman?</summary><div class="ans">Sangat aman. Data keuangan tersimpan di Google Sheets milikmu sendiri, bukan server kami. Database lokal dienkripsi AES-256, izin Google minimal, tanpa tracking. Lihat <a href="#privasi">Kebijakan Privasi</a>.</div></details>
+      <details><summary>Gimana Auto-Input dari notifikasi bekerja?</summary><div class="ans">Setelah kamu izinkan akses notifikasi, app membaca notifikasi dari bank &amp; e-wallet (BCA, GoPay, OVO, DANA, dll), mengenali transaksi, dan mencatatnya. Notif promo otomatis diabaikan. Semua diproses lokal di perangkat — kamu selalu bisa review dulu.</div></details>
+      <details><summary>Gratis beneran?</summary><div class="ans">Ya. Tanpa langganan, tanpa iklan, tanpa biaya tersembunyi.</div></details>
+      <details><summary>Bisa dipakai sekeluarga?</summary><div class="ans">Bisa. Owner bikin budget lalu bagikan link undangan; anggota gabung &amp; punya sheet masing-masing dalam satu spreadsheet.</div></details>
+      <details><summary>Kalau ganti HP / hapus data?</summary><div class="ans">Login lagi dengan akun Google yang sama — data otomatis kembali dari spreadsheet.</div></details>
+      <details><summary>Kenapa Google Sign-In gagal?</summary><div class="ans">Pastikan Google Play Services terupdate &amp; koneksi stabil. Jika masih gagal, clear data app dari Settings → Apps → Family Budget Tracker → Clear Data, lalu login ulang.</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<section class="wrap">
+  <div class="cta-band">
+    <h2>Mulai nyatat hari ini.</h2>
+    <p>Gratis, privat, dan bikin nagih. Keuangan keluargamu — datanya tetap milikmu.</p>
+    <a class="btn btn-primary btn-lg" href="https://play.google.com/store/apps/details?id=com.familybudget.app" rel="noopener">▶ Download di Play Store</a>
+  </div>
+</section>
+
+<!-- SUPPORT -->
+<section class="section" id="bantuan" style="padding-top:0">
+  <div class="wrap">
+    <div class="center"><p class="eyebrow">Bantuan</p><h2 class="section-title">Butuh bantuan?</h2></div>
+    <div class="contact-grid">
+      <div class="card"><div class="ic">📱</div><h3>Dalam Aplikasi</h3><p>Gunakan fitur "Laporkan Bug" di Settings untuk mengirim laporan langsung ke developer (data sensitif di-redact).</p></div>
+      <div class="card"><div class="ic">📖</div><h3>Panduan Pengguna</h3><p>Baca <a href="user-guide.html">panduan lengkap bergambar</a> untuk mempelajari semua fitur.</p></div>
+      <div class="card"><div class="ic">⭐</div><h3>Feature Request</h3><p>Punya ide fitur? Kirim lewat menu "Bug Report / Feature Request" di Settings → Tentang.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRIVACY -->
+<section class="section" id="privasi" style="padding-top:0">
+  <div class="wrap">
+    <div class="legal">
+      <h2>Kebijakan Privasi</h2>
+      <p class="updated">Terakhir diperbarui: Juni 2026</p>
+      <p><b>Ringkasan.</b> Family Budget Tracker mengutamakan privasi. Data keuanganmu disimpan di Google Sheets milikmu sendiri, bukan di server kami.</p>
+      <h3>Data yang Kami Akses</h3>
+      <ul>
+        <li><b>Google Account</b> — Google Sign-In untuk autentikasi; hanya akses nama, email, dan foto profil.</li>
+        <li><b>Google Sheets</b> — app membuat &amp; mengakses spreadsheet di Drive-mu (transaksi, kategori, budget). Data ini sepenuhnya milikmu.</li>
+        <li><b>Notifikasi perangkat</b> — jika diizinkan, app membaca notifikasi aplikasi pembayaran untuk mendeteksi transaksi. Diproses lokal; <b>TIDAK</b> dikirim ke server manapun.</li>
+      </ul>
+      <h3>Yang Kami TIDAK Kumpulkan</h3>
+      <ul>
+        <li>Tidak ada server yang menyimpan data keuanganmu</li>
+        <li>Tidak menggunakan analytics atau tracking</li>
+        <li>Tidak menampilkan iklan</li>
+        <li>Tidak menjual data ke pihak ketiga</li>
+      </ul>
+      <h3>Laporan Bug (Opsional)</h3>
+      <p>Jika kamu mengirim laporan via "Laporkan Bug": deskripsi masalah, info perangkat (model, versi Android), screenshot (jika dilampirkan), dan log app (jika dicentang). Data sensitif di-redact. Dikirim ke Discord developer hanya untuk perbaikan bug.</p>
+      <h3>Keamanan Data</h3>
+      <ul>
+        <li>Database lokal dienkripsi AES-256 (SQLCipher), kunci di Android Keystore</li>
+        <li>Akses spreadsheet dikontrol pengaturan berbagi Google Drive-mu</li>
+        <li>Kami tidak dapat mengakses datamu tanpa izin eksplisit</li>
+      </ul>
+      <h3>Hak Anda</h3>
+      <ul>
+        <li>Hapus data kapan saja dengan menghapus spreadsheet dari Google Drive</li>
+        <li>Cabut akses app melalui pengaturan Google Account</li>
+        <li>Hapus app tanpa kehilangan data (data tetap di Google Sheets)</li>
+      </ul>
+      <h3>Kontak</h3>
+      <p>Pertanyaan tentang kebijakan ini? Hubungi developer via fitur "Laporkan Bug" di aplikasi.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TERMS -->
+<section class="section" id="ketentuan" style="padding-top:0">
+  <div class="wrap">
+    <div class="legal">
+      <h2>Syarat dan Ketentuan</h2>
+      <p class="updated">Terakhir diperbarui: Juni 2026</p>
+      <h3>1. Penerimaan Syarat</h3><p>Dengan mengunduh, menginstal, atau menggunakan Family Budget Tracker, kamu menyetujui syarat ini. Jika tidak setuju, mohon jangan gunakan aplikasi ini.</p>
+      <h3>2. Deskripsi Layanan</h3><p>Aplikasi pencatatan keuangan keluarga yang menyimpan data di Google Sheets milik pengguna, membantu melacak pemasukan/pengeluaran, mendukung penggunaan bersama keluarga, dan membaca notifikasi pembayaran untuk pencatatan otomatis (jika diizinkan).</p>
+      <h3>3. Akun dan Keamanan</h3><ul><li>Kamu bertanggung jawab menjaga keamanan akun Google-mu</li><li>Bertanggung jawab atas semua aktivitas melalui akunmu</li><li>Jangan bagikan akses Google Sheets ke pihak yang tidak dipercaya</li></ul>
+      <h3>4. Penggunaan yang Diperbolehkan</h3><ul><li>Mencatat keuangan pribadi atau keluarga</li><li>Melacak budget dan pengeluaran</li><li>Berbagi akses dengan anggota keluarga yang dipercaya</li></ul>
+      <h3>5. Penggunaan yang Dilarang</h3><ul><li>Aktivitas ilegal</li><li>Merusak atau mengeksploitasi aplikasi</li><li>Menyalahgunakan fitur laporan bug untuk spam</li><li>Mendistribusikan ulang aplikasi tanpa izin</li></ul>
+      <h3>6. Data dan Privasi</h3><p>Data keuanganmu disimpan di Google Sheets milikmu sendiri. Kami tidak punya akses tanpa izin. Lihat <a href="#privasi">Kebijakan Privasi</a> untuk detail.</p>
+      <h3>7. Ketersediaan Layanan</h3><ul><li>Aplikasi disediakan "sebagaimana adanya"</li><li>Tidak ada jaminan selalu tersedia tanpa gangguan</li><li>Fitur dapat berubah atau dihentikan sewaktu-waktu</li></ul>
+      <h3>8. Batasan Tanggung Jawab</h3><ul><li>Tidak bertanggung jawab atas kerugian dari penggunaan aplikasi</li><li>Tidak bertanggung jawab atas keakuratan data yang kamu masukkan</li><li>Tidak bertanggung jawab atas kehilangan data di Google Sheets-mu</li></ul>
+      <h3>9. Perubahan Syarat</h3><p>Kami dapat mengubah syarat ini sewaktu-waktu. Perubahan berlaku setelah diperbarui dalam aplikasi.</p>
+      <h3>10. Hukum yang Berlaku</h3><p>Syarat ini diatur oleh hukum Republik Indonesia.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div class="foot-brand">
+      <a class="brand" href="#top" style="color:#fff"><span class="logo">💰</span> Family Budget Tracker</a>
+      <p>Aplikasi pencatatan keuangan keluarga yang mengutamakan privasi. Datamu disimpan di Google Sheets milikmu sendiri.</p>
+    </div>
+    <div>
+      <h4>Tautan</h4>
+      <ul>
+        <li><a href="#fitur">Fitur</a></li>
+        <li><a href="user-guide.html">Panduan</a></li>
+        <li><a href="#privasi">Privasi</a></li>
+        <li><a href="#ketentuan">Ketentuan</a></li>
+        <li><a href="#bantuan">Bantuan</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Unduh</h4>
+      <ul>
+        <li><a href="https://play.google.com/store/apps/details?id=com.familybudget.app" rel="noopener">Google Play Store</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap foot-bottom">© 2026 Family Budget Tracker. All rights reserved.</div>
+</footer>
+</body>
+</html>
