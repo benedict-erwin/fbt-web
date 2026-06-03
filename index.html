@@ -89,9 +89,10 @@ header{position:sticky;top:0;z-index:100;background:rgba(250,249,245,.85);backdr
 /* phone mockup */
 .phone{position:relative;width:280px;max-width:78vw;margin:0 auto;border-radius:42px;background:#1a1a2e;padding:10px;box-shadow:var(--shadow-lg)}
 .phone::before{content:"";position:absolute;top:18px;left:50%;transform:translateX(-50%);width:90px;height:6px;border-radius:6px;background:rgba(255,255,255,.25);z-index:2}
-.phone img{border-radius:32px;width:100%;aspect-ratio:1080/2340;object-fit:cover;background:#fff}
+.phone img{display:block;width:100%;height:auto;border-radius:32px;background:#fff}
 .phone-tilt{transform:rotate(2deg)}
-.hero-phones{display:flex;justify-content:center;gap:18px}
+.hero-phones{display:flex;justify-content:center;align-items:flex-start;gap:18px;flex-wrap:wrap}
+.hero-phones .phone{flex:0 0 auto}
 .hero-phones .phone:first-child{transform:rotate(-4deg) translateY(10px);z-index:1}
 .hero-phones .phone:last-child{transform:rotate(4deg);width:240px}
 
