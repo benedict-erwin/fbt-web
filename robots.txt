@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://benedict-erwin.github.io/fbt-web/sitemap.xml
+Sitemap: https://familybudgettracker.app/sitemap.xml
