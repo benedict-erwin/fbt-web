@@ -42,7 +42,7 @@
 
     <div class="page-header">
         <h1 data-i18n="pp_title">Kebijakan Privasi</h1>
-        <p data-i18n="pp_updated">Terakhir diperbarui: Januari 2026</p>
+        <p data-i18n="pp_updated">Terakhir diperbarui: Juni 2026</p>
     </div>
 
     <div class="container">
@@ -92,11 +92,23 @@
             </ul>
             <p data-i18n="pp_bug_note">Laporan dikirim ke Discord developer dan hanya digunakan untuk memperbaiki bug.</p>
 
-            <h2 data-i18n="pp_security_h">Keamanan Data</h2>
+            <h2 data-i18n="pp_share_h">Pembagian, Transfer, dan Pengungkapan Data Google</h2>
+            <p data-i18n="pp_share_intro">Kami <strong>tidak membagikan, menjual, menyewakan, mentransfer, atau mengungkapkan</strong> data Google Anda (informasi Google Account, Google Sheets, maupun Google Drive) kepada pihak mana pun:</p>
             <ul>
-                <li data-i18n="pp_security_1">Data tersimpan di infrastruktur Google yang aman</li>
-                <li data-i18n="pp_security_2">Akses ke spreadsheet dikontrol oleh pengaturan berbagi Google Drive Anda</li>
-                <li data-i18n="pp_security_3">Kami tidak dapat mengakses data Anda tanpa izin eksplisit dari Anda</li>
+                <li data-i18n="pp_share_1"><strong>Tidak ke developer</strong> — kami tidak punya server yang menerima atau menyimpan data Google/keuangan Anda.</li>
+                <li data-i18n="pp_share_2"><strong>Tidak ke pihak ketiga</strong> — tidak ke pengiklan, broker data, layanan analytics, maupun penyedia AI/ML. Data Google Anda tidak digunakan untuk melatih model AI/ML apa pun.</li>
+                <li data-i18n="pp_share_3"><strong>Tidak ke layanan lain</strong> — data Google Anda hanya berpindah antara perangkat Anda dan Google API (Sheets/Drive) di akun Google Anda sendiri.</li>
+            </ul>
+            <p data-i18n="pp_share_family">Pembagian antar anggota keluarga (fitur keluarga) hanya terjadi ketika <strong>Anda sendiri</strong> membagikan spreadsheet Anda melalui pengaturan berbagi Google Drive (lewat tautan undangan). Itu sepenuhnya kendali Anda; aplikasi tidak membagikan data Anda atas nama Anda.</p>
+            <p data-i18n="pp_share_legal">Kami hanya akan mengungkapkan data jika diwajibkan secara hukum — namun karena kami tidak menyimpan data keuangan/Google Anda di server kami, tidak ada data semacam itu pada kami untuk diungkapkan.</p>
+
+            <h2 data-i18n="pp_security_h">Keamanan dan Perlindungan Data</h2>
+            <ul>
+                <li data-i18n="pp_security_1"><strong>Enkripsi di perangkat:</strong> basis data lokal aplikasi dienkripsi dengan SQLCipher (AES-256). Kunci enkripsi disimpan di penyimpanan aman Android (Android Keystore).</li>
+                <li data-i18n="pp_security_2"><strong>Enkripsi saat transit:</strong> semua komunikasi ke Google API menggunakan HTTPS/TLS.</li>
+                <li data-i18n="pp_security_3"><strong>Token akses:</strong> token OAuth Google Anda disimpan secara aman di perangkat dan tidak pernah dikirim ke server kami.</li>
+                <li data-i18n="pp_security_4"><strong>Penyimpanan data:</strong> data keuangan sensitif Anda tersimpan di Google Sheets/Drive milik Anda sendiri (infrastruktur Google yang aman), bukan di server kami.</li>
+                <li data-i18n="pp_security_5"><strong>Akses minimal:</strong> aplikasi meminta cakupan (scope) Google seminimal mungkin, dan akses dikontrol oleh pengaturan berbagi Google Drive Anda. Anda dapat mencabut akses kapan saja.</li>
             </ul>
 
             <h2 data-i18n="pp_rights_h">Hak Anda</h2>
