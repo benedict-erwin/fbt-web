@@ -2,7 +2,7 @@
   // Cloudflare Workers Static Assets — serves the static landing page
   // (no Worker script, assets-only). Equivalent to Pages for a static site:
   // custom domain + automatic HTTPS. Deployed via `npx wrangler deploy`.
-  "name": "familybudgettrackerweb",
+  "name": "fbt-web",
   "compatibility_date": "2024-11-01",
   "assets": {
     "directory": "./"
